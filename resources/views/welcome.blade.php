@@ -8,7 +8,10 @@
 
     </head>
     <body>
-       App IS LIVE!!!!
+       App : LIVE!
+       DATABASE : OKAY
        <?php echo env('DATABASE_URL'); ?>
+       <?php echo (env('APP_NAME') == null ? 'NULL': 'NOT NULL') ?>
+       <?php echo (env('APP_NAMES') == null ? 'NULL': 'NOT NULL') ?>
     </body>
 </html>
