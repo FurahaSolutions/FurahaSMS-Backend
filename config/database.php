@@ -2,6 +2,19 @@
 
 use Illuminate\Support\Str;
 
+$default = env('DB_CONNECTION', 'mysql');
+$DATABASE_URL = [
+    'host' => env('DB_HOST', '127.0.0.1'),
+    'port' => env('DB_PORT', '5432'),
+    'database' => env('DB_DATABASE', 'forge'),
+    'user' => env('DB_USERNAME', 'forge'),
+    'pass' => env('DB_PASSWORD', '')
+];
+if (env('HEROKU_POSTGRES') != null) {
+    $default = env('DB_CONNECTION', 'pgsql');
+    $DATABASE_URL = parse_url(env('DATABASE_URL'));
+    $DATABASE_URL['database'] = ltrim($DATABASE_URL['path'], '/');
+}
 return [
 
     /*
@@ -15,7 +28,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => $default,
 
     /*
     |--------------------------------------------------------------------------
@@ -66,11 +79,11 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => $DATABASE_URL['host'],
+            'port' => $DATABASE_URL['port'],
+            'database' => $DATABASE_URL['database'],
+            'username' => $DATABASE_URL['user'],
+            'password' => $DATABASE_URL['pass'],
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

@@ -8,6 +8,7 @@
 
     </head>
     <body>
-       App IS LIVE!!!!
+       App : LIVE!<br />
+       DATABASE : OKAY
     </body>
 </html>
