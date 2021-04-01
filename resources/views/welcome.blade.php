@@ -9,5 +9,6 @@
     </head>
     <body>
        App IS LIVE!!!!
+       <?php echo env('DATABASE_URL'); ?>
     </body>
 </html>
