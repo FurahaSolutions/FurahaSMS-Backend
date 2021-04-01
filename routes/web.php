@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-  return view('welcome');
+  return view('welcome', ['users' => App\Models\Setting::first()->id]);
 });
 
 Route::name('login')->get('login', function () {
