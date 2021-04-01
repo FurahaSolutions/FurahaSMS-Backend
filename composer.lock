@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5a7546136efe30a3f455f7d53a587b3",
+    "content-hash": "6e5afc6b0fd58d71588b6c2ed0e4db06",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -527,6 +527,63 @@
             "time": "2020-12-29T14:50:06+00:00"
         },
         {
+            "name": "fakerphp/faker",
+            "version": "v1.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FakerPHP/Faker.git",
+                "reference": "84220cf137a9344acffb10374e781fed785ff307"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/84220cf137a9344acffb10374e781fed785ff307",
+                "reference": "84220cf137a9344acffb10374e781fed785ff307",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "conflict": {
+                "ergebnis/faker": "!=1.9.2",
+                "fzaninotto/faker": "!=1.9.2"
+            },
+            "replace": {
+                "ergebnis/faker": "1.9.2",
+                "fzaninotto/faker": "1.9.2"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "squizlabs/php_codesniffer": "^2.9.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "support": {
+                "issues": "https://github.com/FakerPHP/Faker/issues",
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.9.2"
+            },
+            "time": "2020-12-11T14:32:13+00:00"
+        },
+        {
             "name": "fideloper/proxy",
             "version": "4.4.1",
             "source": {
@@ -1016,16 +1073,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.34.0",
+            "version": "v8.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "81892ca110795a9c46c7e198cba7763bfd2af0bf"
+                "reference": "d118c0df39e7524131176aaf76493eae63a8a602"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/81892ca110795a9c46c7e198cba7763bfd2af0bf",
-                "reference": "81892ca110795a9c46c7e198cba7763bfd2af0bf",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d118c0df39e7524131176aaf76493eae63a8a602",
+                "reference": "d118c0df39e7524131176aaf76493eae63a8a602",
                 "shasum": ""
             },
             "require": {
@@ -1180,7 +1237,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-03-23T15:12:51+00:00"
+            "time": "2021-03-30T21:34:17+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5994,16 +6051,16 @@
         },
         {
             "name": "facade/flare-client-php",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/flare-client-php.git",
-                "reference": "ef0f5bce23b30b32d98fd9bb49c6fa37b40eb546"
+                "reference": "9dd6f2b56486d939c4467b3f35475d44af57cf17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/ef0f5bce23b30b32d98fd9bb49c6fa37b40eb546",
-                "reference": "ef0f5bce23b30b32d98fd9bb49c6fa37b40eb546",
+                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/9dd6f2b56486d939c4467b3f35475d44af57cf17",
+                "reference": "9dd6f2b56486d939c4467b3f35475d44af57cf17",
                 "shasum": ""
             },
             "require": {
@@ -6047,7 +6104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/facade/flare-client-php/issues",
-                "source": "https://github.com/facade/flare-client-php/tree/1.4.0"
+                "source": "https://github.com/facade/flare-client-php/tree/1.5.0"
             },
             "funding": [
                 {
@@ -6055,20 +6112,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-16T12:42:06+00:00"
+            "time": "2021-03-31T07:32:54+00:00"
         },
         {
             "name": "facade/ignition",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "4be10a998815f77952b9eb983fb0b64c8a4defbb"
+                "reference": "bdc8b0b32c888f6edc838ca641358322b3d9506d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/4be10a998815f77952b9eb983fb0b64c8a4defbb",
-                "reference": "4be10a998815f77952b9eb983fb0b64c8a4defbb",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/bdc8b0b32c888f6edc838ca641358322b3d9506d",
+                "reference": "bdc8b0b32c888f6edc838ca641358322b3d9506d",
                 "shasum": ""
             },
             "require": {
@@ -6132,7 +6189,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-03-24T18:58:31+00:00"
+            "time": "2021-03-30T15:55:38+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -6188,77 +6245,17 @@
             "time": "2020-10-16T08:27:54+00:00"
         },
         {
-            "name": "fakerphp/faker",
-            "version": "v1.14.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "cd46398f42c2ab191ffb0b57c07e911c7c28eb25"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/cd46398f42c2ab191ffb0b57c07e911c7c28eb25",
-                "reference": "cd46398f42c2ab191ffb0b57c07e911c7c28eb25",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0",
-                "psr/container": "^1.0",
-                "symfony/deprecation-contracts": "^2.2"
-            },
-            "conflict": {
-                "fzaninotto/faker": "*"
-            },
-            "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4.1",
-                "ext-intl": "*",
-                "symfony/phpunit-bridge": "^4.4 || ^5.2"
-            },
-            "suggest": {
-                "ext-curl": "Required by Faker\\Provider\\Image to download images.",
-                "ext-dom": "Required by Faker\\Provider\\HtmlLorem for generating random HTML.",
-                "ext-iconv": "Required by Faker\\Provider\\ru_RU\\Text::realText() for generating real Russian text.",
-                "ext-mbstring": "Required for multibyte Unicode string functionality."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "support": {
-                "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.14.0"
-            },
-            "time": "2021-03-29T08:56:34+00:00"
-        },
-        {
             "name": "filp/whoops",
-            "version": "2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "f6e14679f948d8a5cfb866fa7065a30c66bd64d3"
+                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/f6e14679f948d8a5cfb866fa7065a30c66bd64d3",
-                "reference": "f6e14679f948d8a5cfb866fa7065a30c66bd64d3",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/d501fd2658d55491a2295ff600ae5978eaad7403",
+                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403",
                 "shasum": ""
             },
             "require": {
@@ -6308,7 +6305,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.11.0"
+                "source": "https://github.com/filp/whoops/tree/2.12.0"
             },
             "funding": [
                 {
@@ -6316,7 +6313,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-19T12:00:00+00:00"
+            "time": "2021-03-30T12:00:00+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -6371,16 +6368,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.4.9",
+            "version": "v1.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "935b453bf536b284d6fef7c1b5dd2ea52bca34c0"
+                "reference": "4f0b2bac128ee60a11d9758651f103f78157474a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/935b453bf536b284d6fef7c1b5dd2ea52bca34c0",
-                "reference": "935b453bf536b284d6fef7c1b5dd2ea52bca34c0",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/4f0b2bac128ee60a11d9758651f103f78157474a",
+                "reference": "4f0b2bac128ee60a11d9758651f103f78157474a",
                 "shasum": ""
             },
             "require": {
@@ -6427,7 +6424,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2021-03-23T17:29:26+00:00"
+            "time": "2021-03-30T21:26:44+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -8425,7 +8422,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.4|^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
