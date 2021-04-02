@@ -988,6 +988,15 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'create holiday',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
         'permission' => 'access academic year',
         'roles' => [
 

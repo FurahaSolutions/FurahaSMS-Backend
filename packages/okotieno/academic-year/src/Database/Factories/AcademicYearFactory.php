@@ -1,13 +1,10 @@
 <?php
 
-
 namespace Okotieno\AcademicYear\Database\Factories;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Okotieno\AcademicYear\Models\AcademicYear;
-use Okotieno\ELearning\Models\ELearningCourse;
-use Okotieno\ELearning\Models\ELearningTopic;
 
 class AcademicYearFactory extends Factory
 {
@@ -18,7 +15,7 @@ class AcademicYearFactory extends Factory
   {
 
     return [
-       'name' => $this->faker->year,
-     ];
+      'name' => $this->faker->year,
+    ];
   }
 }

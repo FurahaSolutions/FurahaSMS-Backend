@@ -37,8 +37,9 @@ class AcademicYearController extends Controller
    */
   public function store(CreateAcademicYearRequest $request): JsonResponse
   {
-    return response()->json(AcademicYear::createAcademicYear($request));
+    return response()->json(AcademicYear::createAcademicYear($request))->setStatusCode(201);
   }
+
 
   /**
    * Display the specified resource.
