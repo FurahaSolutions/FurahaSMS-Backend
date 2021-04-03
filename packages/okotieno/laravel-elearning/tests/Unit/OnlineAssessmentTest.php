@@ -13,15 +13,11 @@ class OnlineAssessmentTest extends TestCase
 
   use WithFaker;
   use DatabaseTransactions;
-
-
-  private $user;
   private $name;
 
   protected function setUp(): void
   {
     parent::setUp();
-    $this->user = User::factory()->create(['email' => $this->faker->email]);
     $this->name = $this->faker->name;
   }
 

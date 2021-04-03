@@ -2,7 +2,6 @@
 
 namespace Okotieno\holiday\Tests\Unit;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\AcademicYear\Models\Holiday;
@@ -14,7 +13,6 @@ class HolidayTest extends TestCase
   use WithFaker;
   use DatabaseTransactions;
 
-  private $user;
   private $holiday;
 
 
@@ -22,8 +20,6 @@ class HolidayTest extends TestCase
   {
     parent::setUp();
     $this->holiday = Holiday::factory()->make()->toArray();
-
-    $this->user = User::factory()->create();
   }
 
   /**
@@ -311,7 +307,7 @@ class HolidayTest extends TestCase
     $this->user->permissions()->create(['name' => 'delete holiday']);
     $res = $this->actingAs($this->user, 'api')
       ->deleteJson('/api/academic-years/holidays/' . $holiday->id);
-      $res->assertStatus(200)
+    $res->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(Holiday::find($holiday->id));
   }

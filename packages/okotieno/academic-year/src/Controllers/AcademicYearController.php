@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Okotieno\AcademicYear\Models\AcademicYear;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
+use Okotieno\AcademicYear\Requests\DeleteAcademicYearRequest;
+use Okotieno\AcademicYear\Requests\UpdateAcademicYearRequest;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
 
@@ -91,20 +93,31 @@ class AcademicYearController extends Controller
    * @param AcademicYear $academicYear
    * @return jsonResponse
    */
-  public function update(Request $request, AcademicYear $academicYear): JsonResponse
+  public function update(UpdateAcademicYearRequest $request, AcademicYear $academicYear): JsonResponse
   {
-    return response()->json($academicYear->updateClassLevelCategory($academicYear, $request));
+    $academicYear->update($request->toArray());
+    return response()->json([
+      'saved' => true,
+      'message' => 'Academic year successfully updated',
+      'data' => $academicYear
+    ]);
+    // return response()->json($academicYear->updateClassLevelCategory($academicYear, $request));
   }
 
   /**
    * Remove the specified resource from storage.
    *
    * @param AcademicYear $academicYear
-   * @return void
+   * @return JsonResponse
    * @throws \Exception
    */
-  public function destroy(AcademicYear $academicYear)
+  public function destroy(DeleteAcademicYearRequest $request, AcademicYear $academicYear)
   {
     $academicYear->delete();
+    return response()->json([
+      'saved' => true,
+      'message' => 'Successfully deleted Academic Year'
+    ]);
+
   }
 }
