@@ -15,7 +15,7 @@ class AcademicYearFactory extends Factory
   public function definition()
   {
     $startDate = Carbon::createFromFormat('Y', $this->faker->year);
-    $endDate = $startDate->addYear();
+    $endDate = Carbon::createFromFormat('Y',$startDate->year + 1);
 
     return [
       'name' => $startDate->year,

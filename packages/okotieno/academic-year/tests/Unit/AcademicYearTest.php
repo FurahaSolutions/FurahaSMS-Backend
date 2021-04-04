@@ -27,10 +27,8 @@ class AcademicYearTest extends TestCase
    */
   public function unauthenticated_users_cannot_create_academic_year()
   {
-
     $this->postJson('/api/academic-years', ['name' => $this->faker->year])
       ->assertStatus(401);
-
   }
 
   /**
@@ -327,5 +325,24 @@ class AcademicYearTest extends TestCase
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(AcademicYear::find($academicYear->id));
   }
+
+  /**
+   * POST/academic-years/{id}
+   * @group academic-year
+   * @test
+   * @group post-request
+   * @return void
+   */
+  public function after_successfull_call_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->user->permissions()->create(['name' => 'delete academic year']);
+    $res = $this->actingAs($this->user, 'api')
+      ->deleteJson('/api/academic-years/' . $academicYear->id);
+    $res->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+    $this->assertNull(AcademicYear::find($academicYear->id));
+  }
+
 
 }

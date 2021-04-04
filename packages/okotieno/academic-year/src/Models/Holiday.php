@@ -9,7 +9,7 @@ use Okotieno\AcademicYear\Database\Factories\HolidayFactory;
 
 class Holiday extends Model
 {
-  protected $fillable = ['name', 'occurs_on'];
+  protected $fillable = ['name', 'occurs_on', 'confirmation_variance'];
   use HasFactory, SoftDeletes;
 
   protected static function newFactory()

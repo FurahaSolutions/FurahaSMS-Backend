@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Okotieno\AcademicYear\Database\Factories\AcademicYearFactory;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
-use Okotieno\AcademicYear\Requests\UpdateAcademicYearRequest;
+use Okotieno\AcademicYear\Traits\HasHoliday;
 use Okotieno\SchoolAccounts\Traits\hasFinancialYearPlans;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\TimeTable\Traits\HasTimeTables;
@@ -18,7 +18,7 @@ use Okotieno\TimeTable\Traits\HasTimeTables;
  */
 class AcademicYear extends Model
 {
-  use hasFinancialYearPlans, HasTimeTables, HasFactory;
+  use hasFinancialYearPlans, HasTimeTables, HasHoliday, HasFactory;
 
   public $timestamps = false;
   protected $fillable = ['name', 'start_date', 'end_date'];
@@ -42,6 +42,24 @@ class AcademicYear extends Model
 
       }
     }
+
+    $academicYearStartDate = $academicYear->start_date;
+    $academicYearEndDate = $academicYear->end_date;
+    $years = range($academicYearStartDate->year, $academicYearEndDate->year);
+    foreach (Holiday::all() as $holiday) {
+      $holidayCarbonDate = Carbon::createFromDate($holiday->occurs_on);
+      $month = $holidayCarbonDate->month;
+      $date = $holidayCarbonDate->month;
+      foreach ($years as $year) {
+        $holidayDate = Carbon::createFromDate($year, $month, $date);
+        if ($holidayDate >= $academicYearStartDate && $holidayDate <= $academicYearEndDate) {
+          $academicYear->holidays()->save($holiday, [
+            'confirmed' => true,
+            'date' => $holidayDate
+          ]);
+        }
+      }
+    }
     return $academicYear;
   }
 
@@ -63,7 +81,8 @@ class AcademicYear extends Model
     return AcademicYearFactory::new();
   }
 
-  public function updateClassLevelCategory() {
+  public function updateClassLevelCategory()
+  {
 
   }
 
