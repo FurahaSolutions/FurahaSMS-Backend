@@ -10,7 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property mixed end_date
  * @property mixed class_levels
  */
-class CreateAcademicYearRequest extends FormRequest
+class UpdateAcademicYearRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -19,7 +19,7 @@ class CreateAcademicYearRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    return auth()->user()->can('create academic year');
+    return auth()->user()->can('update academic year');
   }
 
   /**
@@ -29,8 +29,9 @@ class CreateAcademicYearRequest extends FormRequest
    */
   public function rules()
   {
+    echo request()->id;
     return [
-      'name' => 'required|unique:academic_years',
+      'name' => 'required|unique:academic_years,name,'.request()->id,
       'start_date' => 'required|date_format:Y-m-d|before_or_equal:end_date',
       'end_date' => 'required|date_format:Y-m-d',
     ];

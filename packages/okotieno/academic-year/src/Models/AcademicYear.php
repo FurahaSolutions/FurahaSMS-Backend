@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Okotieno\AcademicYear\Database\Factories\AcademicYearFactory;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
+use Okotieno\AcademicYear\Traits\HasHoliday;
 use Okotieno\SchoolAccounts\Traits\hasFinancialYearPlans;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\TimeTable\Traits\HasTimeTables;
@@ -17,7 +18,7 @@ use Okotieno\TimeTable\Traits\HasTimeTables;
  */
 class AcademicYear extends Model
 {
-  use hasFinancialYearPlans, HasTimeTables, HasFactory;
+  use hasFinancialYearPlans, HasTimeTables, HasHoliday, HasFactory;
 
   public $timestamps = false;
   protected $fillable = ['name', 'start_date', 'end_date'];
@@ -41,15 +42,25 @@ class AcademicYear extends Model
 
       }
     }
-    return $academicYear;
-  }
 
-  public function updateAcademicYear(CreateAcademicYearRequest $request)
-  {
-    $this->name = $request->name;
-    $this->start_date = $request->start_date;
-    $this->end_date = $request->end_date;
-    $this->save();
+    $academicYearStartDate = $academicYear->start_date;
+    $academicYearEndDate = $academicYear->end_date;
+    $years = range($academicYearStartDate->year, $academicYearEndDate->year);
+    foreach (Holiday::all() as $holiday) {
+      $holidayCarbonDate = Carbon::createFromDate($holiday->occurs_on);
+      $month = $holidayCarbonDate->month;
+      $date = $holidayCarbonDate->month;
+      foreach ($years as $year) {
+        $holidayDate = Carbon::createFromDate($year, $month, $date);
+        if ($holidayDate >= $academicYearStartDate && $holidayDate <= $academicYearEndDate) {
+          $academicYear->holidays()->save($holiday, [
+            'confirmed' => $holiday->confirmation_variance === 0,
+            'date' => $holidayDate
+          ]);
+        }
+      }
+    }
+    return $academicYear;
   }
 
   public function classLevels()
@@ -65,9 +76,14 @@ class AcademicYear extends Model
     return $this->hasMany(AcademicYearUnitAllocation::class);
   }
 
-  public static function newFactory() : Factory
+  public static function newFactory(): Factory
   {
     return AcademicYearFactory::new();
+  }
+
+  public function updateClassLevelCategory()
+  {
+
   }
 
 }

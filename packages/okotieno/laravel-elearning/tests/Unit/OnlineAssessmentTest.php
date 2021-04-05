@@ -13,15 +13,11 @@ class OnlineAssessmentTest extends TestCase
 
   use WithFaker;
   use DatabaseTransactions;
-
-
-  private $user;
   private $name;
 
   protected function setUp(): void
   {
     parent::setUp();
-    $this->user = User::factory()->create(['email' => $this->faker->email]);
     $this->name = $this->faker->name;
   }
 
@@ -35,7 +31,7 @@ class OnlineAssessmentTest extends TestCase
    * */
   public function unauthenticated_users_should_not_create_new_online_assessment()
   {
-    $this->post('api/e-learning/course-content/topics/1/online-assessments', [])
+    $this->postJson('api/e-learning/course-content/topics/1/online-assessments', [])
       ->assertStatus(401);
   }
 
@@ -51,7 +47,7 @@ class OnlineAssessmentTest extends TestCase
   {
     $topic = ELearningTopic::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->post('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [])
+      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [])
       ->assertStatus(403);
   }
 
@@ -70,7 +66,7 @@ class OnlineAssessmentTest extends TestCase
     $topic = ELearningTopic::factory()->create();
     $this->user->permissions()->create(['name' => 'create online assessment']);
     $response = $this->actingAs($this->user, 'api')
-      ->post('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [
+      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [
         'description' => $this->name
       ]);
     $response->assertStatus(201);
@@ -90,7 +86,7 @@ class OnlineAssessmentTest extends TestCase
     $this->user->permissions()->create(['name' => 'create online assessment']);
     $response = $this->actingAs($this->user, 'api')
       ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', []);
-     echo $response->content();
+//     echo $response->content();
     $response->assertStatus(422);
   }
 
@@ -107,7 +103,7 @@ class OnlineAssessmentTest extends TestCase
     $topic = ELearningTopic::factory()->create();
     $this->user->permissions()->create(['name' => 'create online assessment']);
     $response = $this->actingAs($this->user, 'api')
-      ->post('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [
+      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [
         'description' => $this->name
       ]);
     echo $response->content();
