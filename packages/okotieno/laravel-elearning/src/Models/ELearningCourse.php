@@ -2,16 +2,18 @@
 
 namespace Okotieno\ELearning\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Okotieno\AcademicYear\Models\AcademicYear;
+use Okotieno\ELearning\Database\Factories\ELearningCourseFactory;
 use Okotieno\ELearning\Traits\hasTopicNumbers;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\Unit;
 
 class ELearningCourse extends Model
 {
-  use softDeletes, hasTopicNumbers;
+  use softDeletes, hasTopicNumbers, HasFactory;
 
   protected $appends = ['topic_number_style_name'];
 
@@ -67,7 +69,7 @@ class ELearningCourse extends Model
 
       foreach ($topic['sub_topics'] as $sub_topic) {
         if ($sub_topic && key_exists('description', $sub_topic)) {
-          if($sub_topic['id'] > 0) {
+          if ($sub_topic['id'] > 0) {
             $newTopic->subTopics()->find($sub_topic['id'])->update([
               'description' => $sub_topic['description'],
             ]);
@@ -131,5 +133,8 @@ class ELearningCourse extends Model
     return $this->topicNumberingStyle ? $this->topicNumberingStyle->name : null;
   }
 
-
+  protected static function newFactory()
+  {
+    return ELearningCourseFactory::new();
+  }
 }

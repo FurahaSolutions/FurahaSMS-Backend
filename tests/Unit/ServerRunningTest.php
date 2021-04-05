@@ -122,7 +122,7 @@ class ServerRunningTest extends TestCase
       'password' => 'Invalid password',
       'scope' => '',
     ]);
-    $response->assertStatus(400);
+    $response->assertStatus(401);
   }
 
   /**

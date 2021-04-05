@@ -3,19 +3,26 @@
 namespace Okotieno\SchoolCurriculum\Models;
 
 use App\Traits\canBeActive;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Request;
+use Okotieno\SchoolCurriculum\Database\Factories\UnitCategoryFactory;
 use Okotieno\SchoolCurriculum\Requests\CreateUnitCategoryRequest;
 
 class UnitCategory extends Model
 {
     protected $hidden = ['deleted_at'];
-    use canBeActive, softDeletes;
+    use canBeActive, softDeletes, HasFactory;
     public $timestamps = false;
     protected $fillable = ['name', 'active', 'description'];
 
-    public function units()
+    protected static function newFactory()
+    {
+      return UnitCategoryFactory::new();
+    }
+
+  public function units()
     {
         return $this->hasMany(Unit::class);
     }

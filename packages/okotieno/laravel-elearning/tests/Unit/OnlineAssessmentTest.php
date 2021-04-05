@@ -2,10 +2,11 @@
 
 namespace Okotieno\ELearning\Tests\Unit;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\ELearning\Models\ELearningTopic;
+use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\SchoolExams\Models\OnlineAssessment;
 use Tests\TestCase;
 
 class OnlineAssessmentTest extends TestCase
@@ -13,6 +14,7 @@ class OnlineAssessmentTest extends TestCase
 
   use WithFaker;
   use DatabaseTransactions;
+
   private $name;
 
   protected function setUp(): void
@@ -57,19 +59,24 @@ class OnlineAssessmentTest extends TestCase
    * @group academic
    * @group e-learning
    * @group online-assessment
+   * @group current
    * @test
    * */
 
   public function with_permission_user_can_create_online_assessment()
   {
-
+    Permission::factory()->state(['name' => 'create online assessment'])->create();
     $topic = ELearningTopic::factory()->create();
-    $this->user->permissions()->create(['name' => 'create online assessment']);
-    $response = $this->actingAs($this->user, 'api')
-      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [
-        'description' => $this->name
-      ]);
-    $response->assertStatus(201);
+    $this->user->givePermissionTo('create online assessment');
+    $onlineAssessment = OnlineAssessment::factory()->state([
+      'exam_paper_id' => null,
+      'e_learning_topic_id' => null,
+      'name' => $this->faker->name
+    ])->make()->toArray();
+
+    $this->actingAs($this->user, 'api')
+      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', $onlineAssessment)
+      ->assertStatus(201);
   }
 
   /**
@@ -80,14 +87,14 @@ class OnlineAssessmentTest extends TestCase
    * @group online-assessment
    * @test
    * */
-  public function throws_error_if_description_is_not_provided()
+  public function throws_error_if_name_is_not_provided()
   {
+    Permission::factory()->state(['name' => 'create online assessment'])->create();
     $topic = ELearningTopic::factory()->create();
-    $this->user->permissions()->create(['name' => 'create online assessment']);
-    $response = $this->actingAs($this->user, 'api')
-      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', []);
-//     echo $response->content();
-    $response->assertStatus(422);
+    $this->user->givePermissionTo('create online assessment');
+    $this->actingAs($this->user, 'api')
+      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [])
+      ->assertStatus(422);
   }
 
   /**
@@ -100,14 +107,22 @@ class OnlineAssessmentTest extends TestCase
    * */
   public function should_create_online_assessment()
   {
+    $assessmentName = $this->faker->name;
+    $onlineAssessment = OnlineAssessment::factory()->state([
+      'exam_paper_id' => null,
+      'e_learning_topic_id' => null,
+      'name' => $assessmentName
+    ])->make()->toArray();
+    Permission::factory()->state(['name' => 'create online assessment'])->create();
     $topic = ELearningTopic::factory()->create();
+    $this->user->givePermissionTo('create online assessment');
     $this->user->permissions()->create(['name' => 'create online assessment']);
-    $response = $this->actingAs($this->user, 'api')
-      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', [
-        'description' => $this->name
-      ]);
-    echo $response->content();
-    $response->assertStatus(201);
+    $this->actingAs($this->user, 'api')
+      ->postJson('api/e-learning/course-content/topics/' . $topic->id . '/online-assessments', $onlineAssessment)
+      ->assertStatus(201)
+      ->assertJsonStructure(['saved', 'message', 'data' => ['id']]);
+
+    $this->assertNotEmpty($topic->onlineAssessments->toArray());
   }
 
 }

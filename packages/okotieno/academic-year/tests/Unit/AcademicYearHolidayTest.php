@@ -26,13 +26,12 @@ class AcademicYearHolidayTest extends TestCase
 
   public function should_create_academic_years_holiday()
   {
-    Permission::factory()->state(['name' => 'create academic year']);
+    Permission::factory()->state(['name' => 'create academic year'])->create();
     Holiday::factory()->count(10)->create();
     $academicYear = AcademicYear::factory()->make()->toArray();
     $this->user->givePermissionTo('create academic year');
-    $res = $this->actingAs($this->user,'api')
+    $this->actingAs($this->user,'api')
       ->postJson('/api/academic-years', $academicYear);
-    echo $res->content();
      $this->assertNotEmpty(
        AcademicYear::where('name', $academicYear['name'])->first()->holidays->toArray());
   }

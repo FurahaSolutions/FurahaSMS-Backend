@@ -20,7 +20,7 @@ class CreateExamPapersTable extends Migration
             $table->boolean('available')->default(false);
             $table->boolean('private')->default(false);
             $table->boolean('access_by_key')->default(false);
-            $table->boolean('created_by');
+            $table->foreignId('created_by');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -10,7 +10,8 @@ cache:
     - vendor
 before_script:
   - cp .env.travis .env
-  - sudo mysql -e 'create database homestead;'
+  - cp .env.testing.travis .env.testing
+  - sudo mysql -e 'create database furahasms_testing;'
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - php artisan key:generate

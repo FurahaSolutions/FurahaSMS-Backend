@@ -35,11 +35,10 @@ class TopicOnlineAssessmentController extends Controller
 
   public function store(ELearningTopic $eLearningTopic, StoreTopicOnlineAssessmentRequest $request)
   {
-
     return response()->json([
       'saved' => true,
       'message' => 'Successfully Created online Assessment',
-      $eLearningTopic->saveOnlineAssessment($eLearningTopic, $request->all())
+      'data' => $eLearningTopic->saveOnlineAssessment($eLearningTopic, $request->all())
     ])->setStatusCode(201);
   }
 
