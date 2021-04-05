@@ -3,9 +3,11 @@
 use Okotieno\AcademicYear\Controllers\AcademicYearApiController;
 use Okotieno\AcademicYear\Controllers\AcademicYearController;
 use Okotieno\AcademicYear\Controllers\AcademicYearUnitLevelController;
+use Okotieno\AcademicYear\Controllers\HolidayController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::prefix('api')->group(function () {
+    Route::resource('/academic-years/holidays', HolidayController::class);
     Route::resource('/academic-years', AcademicYearController::class);
   });
 
@@ -13,3 +15,4 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::resource('/api/academic-years/{academicYear}/unit-levels', AcademicYearUnitLevelController::class);
   Route::get('/api/academic-years/{academicYear}/semesters', [AcademicYearApiController::class, 'semesters']);
 });
+

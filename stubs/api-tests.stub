@@ -1,0 +1,198 @@
+ /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @group patch-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_update_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->make()->toArray();
+    $res = $this->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate);
+    $res->assertStatus(401);
+
+  }
+
+  /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @test
+   * @return void
+   */
+  public function authenticated_users_without_permission_cannot_update_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->make()->toArray();
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+      ->assertStatus(403);
+  }
+
+  /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @group patch-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_with_permission_can_update_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->make()->toArray();
+    $this->user->permissions()->create(['name' => 'update academic_year']);
+    $response = $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate);
+    $response->assertStatus(200);
+  }
+
+  /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @group patch-request
+   * @test
+   * @return void
+   */
+  public function should_return_error_422_if_name_not_provided_on_update()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->state(['name' => ''])->make()->toArray();
+    $this->user->permissions()->create(['name' => 'update academic_year']);
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+      ->assertStatus(422);
+  }
+
+  /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @group patch-request
+   * @test
+   * @return void
+   */
+  public function should_return_error_422_if_start_date_not_provided_on_update()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->state(['start_date' => ''])->make()->toArray();
+    $this->user->permissions()->create(['name' => 'update academic_year']);
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+      ->assertStatus(422);
+  }
+
+    /**
+     * PATCH /academic-years/{id}
+     * @group academic-year
+     * @group patch-request
+     * @test
+     * @return void
+     */
+    public function should_return_error_422_if_end_date_not_provided_on_update()
+    {
+      $academicYear = AcademicYear::factory()->create();
+      $academicYearUpdate = AcademicYear::factory()->state(['end_date' => ''])->make()->toArray();
+      $this->user->permissions()->create(['name' => 'update academic_year']);
+      $this->actingAs($this->user, 'api')
+        ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+        ->assertStatus(422);
+    }
+
+
+  /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @group patch-request
+   * @test
+   * @return void
+   */
+  public function should_throw_error_if_date_format_is_invalid_on_update()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->state(['occurs_on' => '01-01-2017'])->make()->toArray();
+    $this->academicYear['occurs_on'] = '01-01-2017';
+    $this->user->permissions()->create(['name' => 'update academic_year']);
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+      ->assertStatus(422);
+  }
+
+  /**
+   * PATCH /academic-years/{id}
+   * @group academic-year
+   * @test
+   * @group patch-request
+   * @return void
+   */
+  public function academicYear_should_be_updated_after_successful_call()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $academicYearUpdate = AcademicYear::factory()->make()->toArray();
+    $this->user->permissions()->create(['name' => 'update academic_year']);
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'name', 'occurs_on']]);
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @group delete-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_delete_academicYear()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->deleteJson('/api/academic-years/' . $academicYear->id)
+      ->assertStatus(401);
+
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @test
+   * @return void
+   */
+  public function authenticate_users_without_permission_cannot_delete_academicYear()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->deleteJson('/api/academic-years/' . $academicYear->id)
+      ->assertStatus(403);
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @group delete-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_with_permission_can_delete_academicYear()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->user->permissions()->create(['name' => 'delete academic_year']);
+    $this->actingAs($this->user, 'api')
+      ->deleteJson('/api/academic-years/' . $academicYear->id)
+      ->assertStatus(200);
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @test
+   * @group delete-request
+   * @return void
+   */
+  public function academicYear_should_be_deleted_after_successful_call()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->user->permissions()->create(['name' => 'delete academic_year']);
+    $res = $this->actingAs($this->user, 'api')
+      ->deleteJson('/api/academic-years/' . $academicYear->id);
+      $res->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+    $this->assertNull(AcademicYear::find($academicYear->id));
+  }

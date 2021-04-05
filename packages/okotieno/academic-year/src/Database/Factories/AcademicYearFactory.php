@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Okotieno\AcademicYear\Database\Factories;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Okotieno\AcademicYear\Models\AcademicYear;
-use Okotieno\ELearning\Models\ELearningCourse;
-use Okotieno\ELearning\Models\ELearningTopic;
 
 class AcademicYearFactory extends Factory
 {
@@ -16,9 +14,13 @@ class AcademicYearFactory extends Factory
 
   public function definition()
   {
+    $startDate = Carbon::createFromFormat('Y', $this->faker->year);
+    $endDate = Carbon::createFromFormat('Y',$startDate->year + 1);
 
     return [
-       'name' => $this->faker->year,
-     ];
+      'name' => $startDate->year,
+      'start_date' => $startDate->format('Y-m-d'),
+      'end_date' => $endDate->format('Y-m-d'),
+    ];
   }
 }

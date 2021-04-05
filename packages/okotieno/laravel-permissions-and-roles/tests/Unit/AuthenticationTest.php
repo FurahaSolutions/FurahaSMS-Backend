@@ -16,12 +16,10 @@ class AuthenticationTest extends TestCase
   use WithFaker;
   use DatabaseTransactions;
 
-  private $user;
 
   protected function setUp(): void
   {
     parent::setUp();
-    $this->user = User::factory()->create(['email' => $this->faker->email]);
   }
 
   /**
