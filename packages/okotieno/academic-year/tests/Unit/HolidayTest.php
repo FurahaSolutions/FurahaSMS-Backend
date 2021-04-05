@@ -60,7 +60,7 @@ class HolidayTest extends TestCase
    */
   public function authenticated_users_with_permission_can_create_holiday()
   {
-    Permission::factory()->state(['name' => 'create holiday']);
+    Permission::factory()->state(['name' => 'create holiday'])->create();
     $this->user->givePermissionTo('create holiday');
     $response = $this->actingAs($this->user, 'api')->postJson('/api/academic-years/holidays', $this->holiday);
     $response->assertStatus(201);
@@ -76,7 +76,7 @@ class HolidayTest extends TestCase
   public function should_return_error_422_if_name_not_provided()
   {
     $this->holiday['name'] = '';
-    Permission::factory()->state(['name' => 'create holiday']);
+    Permission::factory()->state(['name' => 'create holiday'])->create();
     $this->user->givePermissionTo('create holiday');
     $this->actingAs($this->user, 'api')->postJson('/api/academic-years/holidays', $this->holiday)
       ->assertStatus(422);
@@ -92,7 +92,7 @@ class HolidayTest extends TestCase
   public function should_return_error_422_if_occurs_on_not_provided()
   {
     $this->holiday['occurs_on'] = '';
-    Permission::factory()->state(['name' => 'create holiday']);
+    Permission::factory()->state(['name' => 'create holiday'])->create();
     $this->user->givePermissionTo('create holiday');
     $this->actingAs($this->user, 'api')->postJson('/api/academic-years/holidays', $this->holiday)
       ->assertStatus(422);
@@ -109,7 +109,7 @@ class HolidayTest extends TestCase
   public function should_throw_error_if_date_format_is_invalid()
   {
     $this->holiday['occurs_on'] = '01-01-2017';
-    Permission::factory()->state(['name' => 'create holiday']);
+    Permission::factory()->state(['name' => 'create holiday'])->create();
     $this->user->givePermissionTo('create holiday');
     $this->actingAs($this->user, 'api')
       ->postJson('/api/academic-years/holidays', $this->holiday)
@@ -125,7 +125,7 @@ class HolidayTest extends TestCase
    */
   public function holiday_should_exist_after_successful_call()
   {
-    Permission::factory()->state(['name' => 'create holiday']);
+    Permission::factory()->state(['name' => 'create holiday'])->create();
     $this->user->givePermissionTo('create holiday');
     $this->actingAs($this->user, 'api')->postJson('/api/academic-years/holidays', $this->holiday)
       ->assertStatus(201)

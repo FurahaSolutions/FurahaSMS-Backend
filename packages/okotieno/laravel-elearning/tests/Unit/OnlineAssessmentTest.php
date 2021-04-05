@@ -65,7 +65,7 @@ class OnlineAssessmentTest extends TestCase
 
   public function with_permission_user_can_create_online_assessment()
   {
-    Permission::factory()->state(['name' => 'create online assessment']);
+    Permission::factory()->state(['name' => 'create online assessment'])->create();
     $topic = ELearningTopic::factory()->create();
     $this->user->givePermissionTo('create online assessment');
     $onlineAssessment = OnlineAssessment::factory()->state([
@@ -89,7 +89,7 @@ class OnlineAssessmentTest extends TestCase
    * */
   public function throws_error_if_name_is_not_provided()
   {
-    Permission::factory()->state(['name' => 'create online assessment']);
+    Permission::factory()->state(['name' => 'create online assessment'])->create();
     $topic = ELearningTopic::factory()->create();
     $this->user->givePermissionTo('create online assessment');
     $this->actingAs($this->user, 'api')
@@ -113,7 +113,7 @@ class OnlineAssessmentTest extends TestCase
       'e_learning_topic_id' => null,
       'name' => $assessmentName
     ])->make()->toArray();
-    Permission::factory()->state(['name' => 'create online assessment']);
+    Permission::factory()->state(['name' => 'create online assessment'])->create();
     $topic = ELearningTopic::factory()->create();
     $this->user->givePermissionTo('create online assessment');
     $this->user->permissions()->create(['name' => 'create online assessment']);
