@@ -161,13 +161,12 @@ class AcademicYearTest extends TestCase
    */
   public function authenticated_users_with_permission_can_update_academic_year()
   {
-
+    $this->user->permissions()->create(['name' => 'update academic year']);
     $academicYear = AcademicYear::factory()->create();
     $academicYearUpdate = AcademicYear::factory()->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update academic year']);
-    $response = $this->actingAs($this->user, 'api')
-      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate);
-    $response->assertStatus(200);
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
+      ->assertStatus(200);
   }
 
   /**
@@ -243,16 +242,19 @@ class AcademicYearTest extends TestCase
 
   /**
    * PATCH /academic-years/{id}
-   * @group academic-year
+   * @group academic-year-current
    * @test
    * @group patch-request
    * @return void
    */
   public function academic_year_should_be_updated_after_successful_call()
   {
-    $academicYear = AcademicYear::factory()->create();
     $academicYearUpdate = AcademicYear::factory()->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update academic year']);
+    $academicYear = AcademicYear::factory()->create();
+
+    Permission::factory()->state(['name' => 'update academic year'])->create();
+    $this->user->givePermissionTo('update academic year');
+
     $this->actingAs($this->user, 'api')
       ->patchJson('/api/academic-years/' . $academicYear->id, $academicYearUpdate)
       ->assertStatus(200)
