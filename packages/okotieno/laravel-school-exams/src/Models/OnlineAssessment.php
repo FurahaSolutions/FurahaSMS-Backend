@@ -9,13 +9,19 @@
 namespace Okotieno\SchoolExams\Models;
 
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Okotieno\SchoolCurriculum\Models\UnitLevel;
+use Okotieno\SchoolExams\Database\Factories\OnlineAssessmentFactory;
 
 class OnlineAssessment extends Model
 {
-  use softDeletes;
+  use softDeletes, HasFactory;
+
+  protected static function newFactory()
+  {
+    return OnlineAssessmentFactory::new();
+  }
 
   protected $fillable = [
     'title',
@@ -25,10 +31,14 @@ class OnlineAssessment extends Model
     'exam_paper_id'
   ];
   protected $appends = ['exam_paper_name'];
-  public function examPaper() {
+
+  public function examPaper()
+  {
     return $this->belongsTo(ExamPaper::class);
   }
-  public function getExamPaperNameAttribute() {
-    return $this->examPaper->name;
+
+  public function getExamPaperNameAttribute()
+  {
+    return $this->examPaper ? $this->examPaper->name : "";
   }
 }

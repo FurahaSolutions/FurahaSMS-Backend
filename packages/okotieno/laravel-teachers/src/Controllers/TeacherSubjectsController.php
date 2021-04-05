@@ -11,12 +11,8 @@ namespace Okotieno\Teachers\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-
 use Illuminate\Http\Request;
-use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
-use Okotieno\GuardianAdmissions\Requests\User\CreateGuardianRequest;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
-use Okotieno\StudentAdmissions\Models\Student;
 
 class TeacherSubjectsController extends Controller
 {
