@@ -15,8 +15,8 @@ class CreateAcademicYearHolidayTable extends Migration
     {
         Schema::create('academic_year_holiday', function (Blueprint $table) {
             $table->id();
-            $table->integer('academic_year_id');
-            $table->integer('holiday_id');
+            $table->foreignId('academic_year_id');
+            $table->foreignId('holiday_id');
             $table->boolean('confirmed');
             $table->date('date');
             $table->timestamps();

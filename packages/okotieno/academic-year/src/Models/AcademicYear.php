@@ -54,7 +54,7 @@ class AcademicYear extends Model
         $holidayDate = Carbon::createFromDate($year, $month, $date);
         if ($holidayDate >= $academicYearStartDate && $holidayDate <= $academicYearEndDate) {
           $academicYear->holidays()->save($holiday, [
-            'confirmed' => true,
+            'confirmed' => $holiday->confirmation_variance === 0,
             'date' => $holidayDate
           ]);
         }
