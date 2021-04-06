@@ -5,7 +5,7 @@ namespace Okotieno\ELearning\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLearningOutcomeRequest extends FormRequest
+class DeleteLearningOutcomeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreLearningOutcomeRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create learning outcome');
+        return auth()->user()->can('delete learning outcome');
     }
 
     /**
@@ -25,19 +25,19 @@ class StoreLearningOutcomeRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required',
+
         ];
     }
     public function messages()
     {
         return [
-            'description.required' => 'Learning Outcome Description field is required',
+
         ];
     }
     protected function failedAuthorization()
     {
         throw new AuthorizationException(
-            'You are not authorised to create a learning Outcome'
+            'You are not authorised to delete a Learning Outcome'
         );
     }
 }
