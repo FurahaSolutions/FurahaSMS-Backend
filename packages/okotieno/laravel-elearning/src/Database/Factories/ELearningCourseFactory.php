@@ -18,7 +18,7 @@ class ELearningCourseFactory extends Factory
   public function definition()
   {
     $academicYearId = AcademicYear::factory()->create()->id;
-    $numberStyleId = TopicNumberStyle::factory()->create()->id;
+    $numberStyle = TopicNumberStyle::factory()->create();
     $classLevelId = ClassLevel::factory()->create()->id;
     $unitLevel = UnitLevel::factory()->create();
     return [
@@ -28,7 +28,7 @@ class ELearningCourseFactory extends Factory
       'class_level_id' => $classLevelId,
       'unit_level_id' => $unitLevel->id,
       'unit_id' => $unitLevel->unit_id,
-      'topic_number_style_id' => $numberStyleId,
+      'topic_number_style_id' => $numberStyle->id
     ];
   }
 }

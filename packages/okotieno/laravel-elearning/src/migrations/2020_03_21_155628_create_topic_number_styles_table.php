@@ -16,7 +16,7 @@ class CreateTopicNumberStylesTable extends Migration
         Schema::create('topic_number_styles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->boolean('default');
+            $table->boolean('default')->default(false);
             $table->boolean('active')->default(true);
             $table->softDeletes();
 //            $table->timestamps();
