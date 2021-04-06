@@ -20,11 +20,11 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     TopicNumberingController::class
   );
   Route::resource(
-    '/api/e-learning/course-content/topics/{eLearningTopic}/learning-outcomes',
+    '/api/e-learning/course-content/topics/{eLearningTopic:id}/learning-outcomes',
     TopicLearningOutcomeController::class
   );
   Route::resource(
-    '/api/e-learning/course-content/topics/{eLearningTopic}/online-assessments',
+    '/api/e-learning/course-content/topics/{eLearningTopic:id}/online-assessments',
     TopicOnlineAssessmentController::class
   );
 });

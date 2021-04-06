@@ -10,36 +10,47 @@ namespace Okotieno\ELearning\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Okotieno\ELearning\Models\ELearningTopic;
-use Okotieno\ELearning\Requests\StoreTopicOnlineAssessmentRequest;
+use Okotieno\ELearning\Requests\DeleteLearningOutcomeRequest;
+use Okotieno\ELearning\Requests\StoreLearningOutcomeRequest;
+use Okotieno\ELearning\Requests\UpdateLearningOutcomeRequest;
 
 
 class TopicLearningOutcomeController extends Controller
 {
-  public function store(StoreTopicOnlineAssessmentRequest $request, ELearningTopic $eLearningTopic)
+  public function store(StoreLearningOutcomeRequest $request, ELearningTopic $eLearningTopic)
   {
     return response()->json([
       'saved' => true,
       'message' => 'Successfully saved Learning Outcome',
       'data' => $eLearningTopic->saveLearningOutcome($request)
-    ]);
+    ])->setStatusCode(201);
   }
 
-  public function update(Request $request, ELearningTopic $eLearningTopic, $id)
+  public function update(UpdateLearningOutcomeRequest $request, ELearningTopic $eLearningTopic, $id)
   {
+    $topicLearningOutcome = $eLearningTopic->learningOutcomes()->find($id);
+    if ($topicLearningOutcome === null) {
+      abort(404, 'Resource not found to topic');
+    }
+    $topicLearningOutcome->update([
+      'description' => $request->description
+    ]);
+
     return response()->json([
       'saved' => true,
       'message' => 'Successfully updated Learning Outcome',
-      'data' => $eLearningTopic->learningOutcomes()->find($id)->update([
-        'description' => $request->description
-      ])
+      'data' => $topicLearningOutcome
     ]);
   }
 
-  public function destroy(ELearningTopic $eLearningTopic, $id)
+  public function destroy(DeleteLearningOutcomeRequest $request, ELearningTopic $eLearningTopic, $id)
   {
-    $eLearningTopic->learningOutcomes()->find($id)->delete();
+    $topicLearningOutcome = $eLearningTopic->learningOutcomes()->find($id);
+    if ($topicLearningOutcome === null) {
+      abort(404, 'Resource not found to topic');
+    }
+    $topicLearningOutcome->delete();
     return response()->json([
       'saved' => true,
       'message' => 'Successfully deleted Learning Outcome'

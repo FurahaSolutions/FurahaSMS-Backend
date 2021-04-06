@@ -1,5 +1,7 @@
 # Furaha School Management Backend
 
+[![Build Status](https://travis-ci.com/FurahaSolutions/FurahaSMS-Backend.svg?branch=develop)](https://travis-ci.com/FurahaSolutions/FurahaSMS-Backend)
+
 ## About FSMS
 
 Build on Laravel Framework
