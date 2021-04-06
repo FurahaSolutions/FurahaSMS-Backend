@@ -103,7 +103,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access library account',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -148,7 +147,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'add student to stream',
         'roles' => [
-
           'admin',
           'maker admissions',
           'dean of students',
@@ -158,7 +156,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access synchronize data',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -168,7 +165,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access county sync',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -178,7 +174,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'sync to county',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -188,7 +183,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view management',
         'roles' => [
-
           'admin',
           'dean of students',
         ]
@@ -196,7 +190,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view teacher management',
         'roles' => [
-
           'admin',
           'dean of students',
         ]
@@ -204,7 +197,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create teacher management',
         'roles' => [
-
           'admin',
           'dean of students',
         ]
@@ -212,7 +204,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'edit teacher management',
         'roles' => [
-
           'admin',
           'dean of students',
         ]
@@ -220,7 +211,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view student management',
         'roles' => [
-
           'admin',
           'dean of students',
           'class teacher',
@@ -229,7 +219,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create student management',
         'roles' => [
-
           'admin',
           'dean of students',
           'class teacher',
@@ -240,7 +229,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'edit student management',
         'roles' => [
-
           'admin',
           'dean of students',
           'class teacher',
@@ -249,7 +237,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view management',
         'roles' => [
-
           'admin',
           'dean of students',
           'class teacher',
@@ -258,7 +245,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'enter scores',
         'roles' => [
-
           'admin',
           'teacher',
           'class teacher',
@@ -267,7 +253,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view subject registrations',
         'roles' => [
-
           'admin',
           'dean of students',
           'teacher',
@@ -277,7 +262,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'edit subject registrations',
         'roles' => [
-
           'admin',
           'dean of students',
           'class teacher',
@@ -288,7 +272,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create school department',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -298,7 +281,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'edit school department',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -308,7 +290,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view scores',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -322,7 +303,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access student scores',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -336,7 +316,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view student scores reports',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -352,7 +331,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access student academic reports',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -368,7 +346,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view student subject registration',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -385,7 +362,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view student class list',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -408,7 +384,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access student list report',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -431,7 +406,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access reports',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -454,7 +428,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access reports',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -477,7 +450,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create financial plan',
         'roles' => [
-
           'admin',
           'accountant',
           'head accountant',
@@ -488,7 +460,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access financial plan',
         'roles' => [
-
           'admin',
           'accountant',
           'head accountant',
@@ -500,7 +471,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'receive student payment',
         'roles' => [
-
           'admin',
           'accountant',
           'head accountant',
@@ -512,7 +482,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access student payment',
         'roles' => [
-
           'admin',
           'accountant',
           'head accountant',
@@ -523,7 +492,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access accounting',
         'roles' => [
-
           'admin',
           'accountant',
           'head accountant',
@@ -536,7 +504,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create time table schedule',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -548,7 +515,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update time table schedule',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -560,7 +526,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create time table',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -572,7 +537,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update time table',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -584,7 +548,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'assign subject to teacher',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -596,7 +559,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create timetable plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -607,7 +569,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access timetable plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -618,7 +579,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create exam plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -629,7 +589,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access exam plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -640,7 +599,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update term',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -650,7 +608,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create term',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -660,7 +617,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update fee plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -674,7 +630,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create fee plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -688,7 +643,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access fee plan',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -703,7 +657,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'receive student fee payment',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -718,7 +671,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'send message',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -741,7 +693,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create course outline topic',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -754,7 +705,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update course outline topic',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -766,7 +716,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view study materials',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -778,7 +727,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'upload curriculum content',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -790,7 +738,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update curriculum content',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -802,7 +749,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create course outline',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -814,7 +760,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access academics',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -826,7 +771,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view subject curriculum',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -840,7 +784,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'edit subject curriculum',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -852,7 +795,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create subject curriculum',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -864,7 +806,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access curriculum management',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -876,7 +817,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update medical condition',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -887,7 +827,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create medical condition',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -898,7 +837,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update class level',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -908,7 +846,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create class level',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -918,7 +855,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view student class level',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -929,7 +865,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update student class level',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -940,7 +875,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create time table type',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -950,7 +884,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update time table type',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -960,7 +893,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create stream',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -970,7 +902,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view academic year',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -980,10 +911,26 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create academic year',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'update academic year',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'delete academic year',
+        'roles' => [
+          'admin',
+          'head teacher',
           'dean of students',
         ]
       ],
@@ -997,9 +944,26 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'update holiday',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'delete holiday',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
         'permission' => 'access academic year',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1009,7 +973,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access academic year management',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1019,7 +982,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update subject',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1030,7 +992,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create subject',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1040,7 +1001,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update subject category',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1051,7 +1011,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create subject category',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1061,7 +1020,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update school level',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1070,7 +1028,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create school level',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1080,7 +1037,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update curriculum system',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1089,7 +1045,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create curriculum system',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1098,7 +1053,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'access teacher admission',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions'
@@ -1107,7 +1061,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create student',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions'
@@ -1116,7 +1069,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'read student',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1140,7 +1092,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view admissions',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions'
@@ -1149,7 +1100,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view student admissions',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1173,7 +1123,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update student subjects',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1185,7 +1134,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update student',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1194,7 +1142,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'delete student',
         'roles' => [
-
           'admin',
           'verifier admissions',
           'deputy head teacher',
@@ -1205,7 +1152,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'verify student',
         'roles' => [
-
           'admin',
           'verifier admissions',
         ]
@@ -1213,7 +1159,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create student bulk',
         'roles' => [
-
           'admin',
           'maker admissions',
         ]
@@ -1221,7 +1166,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create teacher',
         'roles' => [
-
           'admin',
           'maker admissions',
         ]
@@ -1229,7 +1173,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create support staff',
         'roles' => [
-
           'admin',
           'maker admissions',
           'hr admissions maker',
@@ -1238,7 +1181,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'read teacher',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1256,7 +1198,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update teacher',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1266,7 +1207,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'delete teacher',
         'roles' => [
-
           'admin',
           'verifier admissions',
           'head teacher',
@@ -1275,7 +1215,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'verify teacher',
         'roles' => [
-
           'admin',
           'verifier admissions',
           'dean of students',
@@ -1284,7 +1223,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create guardian',
         'roles' => [
-
           'admin',
           'maker admissions',
         ]
@@ -1292,7 +1230,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'read guardian',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1310,7 +1247,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'update guardian',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1320,7 +1256,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'delete guardian',
         'roles' => [
-
           'admin',
           'verifier admissions',
           'head teacher',
@@ -1329,7 +1264,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'verify guardian',
         'roles' => [
-
           'admin',
           'verifier admissions',
           'dean of students',
@@ -1338,7 +1272,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'make procurement request',
         'roles' => [
-
           'admin',
           'maker admissions',
           'verifier admissions',
@@ -1361,7 +1294,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'approve procurement request',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1372,7 +1304,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create procurement vendor',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1384,7 +1315,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create procurement tender',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1398,7 +1328,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'approve procurement tender',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1408,7 +1337,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create procurement bid',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1422,7 +1350,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'upload study materials',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1435,7 +1362,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create e-learning course',
         'roles' => [
-
           'admin',
           'head teacher',
           'deputy head teacher',
@@ -1448,7 +1374,6 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'view my dependants',
         'roles' => [
-
           'admin',
           'guardian',
         ]
@@ -1456,7 +1381,25 @@ class PermissionAndRolesSeeder extends Seeder
       [
         'permission' => 'create online assessment',
         'roles' => [
+          'admin',
           'teacher',
+          'class teacher',
+          'dean of students'
+        ]
+      ],
+      [
+        'permission' => 'update online assessment',
+        'roles' => [
+          'admin',
+          'teacher',
+          'class teacher',
+          'dean of students'
+        ]
+      ],
+      [
+        'permission' => 'delete online assessment',
+        'roles' => [
+          'admin',
           'class teacher',
           'dean of students'
         ]
