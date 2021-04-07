@@ -221,10 +221,7 @@ class ELearningCourseTest extends TestCase
   public function unauthenticated_user_cannot_delete_course()
   {
     $eLearningId = ELearningCourse::factory()->create()->id;
-    $eLearningUpdate = ELearningCourse::factory()
-      ->state(['numbering' => $this->faker->name, 'topics' => []])
-      ->make()->toArray();
-    $this->deleteJson('/api/e-learning/courses/' . $eLearningId, $eLearningUpdate)
+    $this->deleteJson('/api/e-learning/courses/' . $eLearningId)
       ->assertStatus(401);
   }
 
@@ -238,10 +235,7 @@ class ELearningCourseTest extends TestCase
   public function unauthorised_user_cannot_delete_course()
   {
     $eLearningId = ELearningCourse::factory()->create()->id;
-    $eLearningUpdate = ELearningCourse::factory()
-      ->state(['numbering' => $this->faker->name, 'topics' => []])
-      ->make()->toArray();
-    $this->actingAs($this->user, 'api')->deleteJson('/api/e-learning/courses/' . $eLearningId, $eLearningUpdate)
+    $this->actingAs($this->user, 'api')->deleteJson('/api/e-learning/courses/' . $eLearningId)
       ->assertStatus(403);
   }
 
@@ -257,12 +251,11 @@ class ELearningCourseTest extends TestCase
     Permission::factory()->state(['name' => 'delete e-learning course'])->create();
     $this->user->givePermissionTo('delete e-learning course');
     $eLearningId = ELearningCourse::factory()->create()->id;
-    $eLearningUpdate = ELearningCourse::factory()
-      ->state(['numbering' => $this->faker->name, 'topics' => []])
-      ->make()->toArray();
-    $this->actingAs($this->user, 'api')->deleteJson('/api/e-learning/courses/' . $eLearningId, $eLearningUpdate)
+    $this->actingAs($this->user, 'api')->deleteJson('/api/e-learning/courses/' . $eLearningId)
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
+
+    $this->assertNull(ELearningCourse::find($eLearningId));
   }
 
 }
