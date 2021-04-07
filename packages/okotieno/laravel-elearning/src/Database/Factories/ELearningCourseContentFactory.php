@@ -5,30 +5,20 @@ namespace Okotieno\ELearning\Database\Factories;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Okotieno\AcademicYear\Models\AcademicYear;
-use Okotieno\ELearning\Models\ELearningCourse;
-use Okotieno\ELearning\Models\TopicNumberStyle;
-use Okotieno\SchoolCurriculum\Models\ClassLevel;
-use Okotieno\SchoolCurriculum\Models\UnitLevel;
+use Okotieno\ELearning\Models\ELearningCourseContent;
+use Okotieno\ELearning\Models\ELearningTopic;
+use Okotieno\StudyMaterials\Models\StudyMaterial;
 
-class ELearningCourseFactory extends Factory
+class ELearningCourseContentFactory extends Factory
 {
-  protected $model = ELearningCourse::class;
+  protected $model = ELearningCourseContent::class;
 
   public function definition()
   {
-    $academicYearId = AcademicYear::factory()->create()->id;
-    $numberStyle = TopicNumberStyle::factory()->create();
-    $classLevelId = ClassLevel::factory()->create()->id;
-    $unitLevel = UnitLevel::factory()->create();
     return [
-      'name' => $this->faker->sentence,
-      'description' => $this->faker->sentence,
-      'academic_year_id' => $academicYearId,
-      'class_level_id' => $classLevelId,
-      'unit_level_id' => $unitLevel->id,
-      'unit_id' => $unitLevel->unit_id,
-      'topic_number_style_id' => $numberStyle->id
+      'study_material_id' => StudyMaterial::factory()->create()->id,
+      'e_learning_topic_id' => ELearningTopic::factory()->create()->id
     ];
+
   }
 }

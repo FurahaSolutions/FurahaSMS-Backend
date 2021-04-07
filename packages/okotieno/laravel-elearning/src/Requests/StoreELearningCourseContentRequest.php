@@ -2,6 +2,7 @@
 
 namespace Okotieno\ELearning\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreELearningCourseContentRequest extends FormRequest
@@ -13,7 +14,7 @@ class StoreELearningCourseContentRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create e-learning course');
+        return auth()->user()->can('upload curriculum content');
     }
 
     /**
@@ -37,7 +38,7 @@ class StoreELearningCourseContentRequest extends FormRequest
     }
     protected function failedAuthorization()
     {
-        throw new \Illuminate\Auth\Access\AuthorizationException(
+        throw new AuthorizationException(
             'You are not authorised to Create a an E - Learning Course'
         );
     }

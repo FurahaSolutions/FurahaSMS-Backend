@@ -16,6 +16,7 @@ class CreateStudyMaterialsTable extends Migration
         Schema::create('study_materials', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('active')->default(true);
+            $table->boolean('public')->default(true);
             $table->integer('study_material_doc_id');
             $table->string('title');
             $table->timestamps();
