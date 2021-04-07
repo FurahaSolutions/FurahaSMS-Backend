@@ -131,4 +131,17 @@ class ELearningCourseTest extends TestCase
       ->assertStatus(422);
   }
 
+  /**
+   * POST /api/e-learning/courses
+   * @group post-request
+   * @group course
+   * @group e-learning
+   * @test
+   * */
+  public function unauthenticated_user_cannot_update_course()
+  {
+    $this->patchJson('/api/e-learning/courses', $this->eLearningCourse)
+      ->assertStatus(401);
+  }
+
 }
