@@ -15,7 +15,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\ELearning\Models\ELearningCourse;
 use Okotieno\ELearning\Models\TopicNumberStyle;
+use Okotieno\ELearning\Requests\DeleteELearningCourseRequest;
 use Okotieno\ELearning\Requests\StoreELearningCourseRequest;
+use Okotieno\ELearning\Requests\UpdateELearningCourseRequest;
 
 class ELearningCourseController extends Controller
 {
@@ -142,7 +144,7 @@ class ELearningCourseController extends Controller
    * @param Request $request
    * @return JsonResponse
    */
-  public function update($eLearningCourse, Request $request)
+  public function update($eLearningCourse, UpdateELearningCourseRequest $request)
   {
 
     $eLearningCourse = ELearningCourse::find($eLearningCourse);
@@ -167,10 +169,11 @@ class ELearningCourseController extends Controller
   /**
    * Remove the specified resource from storage.
    *
+   * @param DeleteELearningCourseRequest $request
    * @param $eLearningCourse
    * @return JsonResponse
    */
-  public function destroy($eLearningCourse)
+  public function destroy(DeleteELearningCourseRequest $request, $eLearningCourse)
   {
     $eLearningCourse = ELearningCourse::find($eLearningCourse);
     $eLearningCourse->delete();
