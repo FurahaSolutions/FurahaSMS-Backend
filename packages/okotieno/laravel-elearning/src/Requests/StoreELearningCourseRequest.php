@@ -32,7 +32,7 @@ class StoreELearningCourseRequest extends FormRequest
           'unit_level_id' => 'required',
           'unit_id' => 'required',
           'numbering' => 'required',
-          'topics' => 'array',
+          'topics' => 'present|array',
         ];
     }
     public function messages()

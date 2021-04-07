@@ -80,9 +80,7 @@ class ELearningCourseController extends Controller
       'unit_id' => $request->unit_id,
       'topic_number_style_id' => $topicNumberStyle->id
     ]);
-    if ($request->topics !== null) {
-      $newCourse->saveTopics($request->topics);
-    }
+    $newCourse->saveTopics($request->topics);
 
     return response()->json([
       'saved' => true,
