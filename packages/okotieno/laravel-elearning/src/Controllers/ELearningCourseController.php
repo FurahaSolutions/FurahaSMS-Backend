@@ -69,6 +69,7 @@ class ELearningCourseController extends Controller
    */
   public function store(StoreELearningCourseRequest $request)
   {
+    $topicNumberStyle = TopicNumberStyle::firstOrCreate(['name' => $request->numbering]);
     $newCourse = ELearningCourse::create([
 
       'name' => $request->name,
@@ -77,9 +78,10 @@ class ELearningCourseController extends Controller
       'unit_level_id' => $request->unit_level_id,
       'academic_year_id' => $request->academic_year_id,
       'unit_id' => $request->unit_id,
-      'topic_number_style_id' => TopicNumberStyle::firstOrCreate(['name' => $request->numbering])->id
+      'topic_number_style_id' => $topicNumberStyle->id
     ]);
     $newCourse->saveTopics($request->topics);
+
     return response()->json([
       'saved' => true,
       'message' => 'Successfully saved Course',
