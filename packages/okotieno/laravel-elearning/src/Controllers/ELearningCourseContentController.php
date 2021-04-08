@@ -12,7 +12,7 @@ namespace Okotieno\ELearning\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Okotieno\ELearning\Models\ELearningCourseContent;
-use Okotieno\ELearningStoreELearningCourseContentRequest;
+use Okotieno\ELearning\Requests\StoreELearningCourseContentRequest;
 use Okotieno\StudyMaterials\Models\StudyMaterial;
 
 class ELearningCourseContentController extends Controller
@@ -25,7 +25,7 @@ class ELearningCourseContentController extends Controller
       'saved' => true,
       'message' => 'Successfully saved Course Contents',
       'data' => []
-    ]);
+    ])->setStatusCode(201);
   }
 
   /**
