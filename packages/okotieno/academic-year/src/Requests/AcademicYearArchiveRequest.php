@@ -4,6 +4,7 @@ namespace Okotieno\AcademicYear\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Okotieno\AcademicYear\Models\ArchivableItem;
 
 /**
@@ -21,12 +22,19 @@ class AcademicYearArchiveRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    $closeItem = Route::current()->parameters()['closeItem'];
-
-    $permission = ArchivableItem::where('slug', $closeItem)->first()->permission->name;
-
-    return auth()->user()->can($permission);
-
+    $routeParams =  Route::current()->parameters();
+    $closeItem = null;
+    if(key_exists('closeItem', $routeParams)){
+      $closeItem = $routeParams['closeItem'];
+      $permission = ArchivableItem::where('slug', $closeItem)->first()->permission->name;
+      return auth()->user()->can($permission);
+    }
+    if(key_exists('openItem', $routeParams)){
+      $openItem = $routeParams['openItem'];
+      $permission = Str::replaceFirst('close', 'open', ArchivableItem::where('slug', $openItem)->first()->permission->name);
+      return auth()->user()->can($permission);
+    }
+    return auth()->user()->can('archive academic year');
   }
 
   /**

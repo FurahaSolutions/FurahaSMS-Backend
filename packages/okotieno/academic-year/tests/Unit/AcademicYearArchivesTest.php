@@ -317,4 +317,420 @@ class AcademicYearArchivesTest extends TestCase
       ->toArray();
     $this->assertNotEmpty($archivableItem);
   }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function unauthenticated_user_cannot_archive_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/archive')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_archive_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/archive')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_archive_academic_year()
+  {
+    Permission::factory()->state(['name' => 'archive academic year'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+    $this->user->givePermissionTo('archive academic year');
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/archive')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+    $this->assertTrue(AcademicYear::find($academicYear->id)->archived);
+  }
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function unauthenticated_user_cannot_open_academic_year_admissions()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/open/admissions')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_open_academic_year_admissions()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/admissions')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_open_academic_year_admissions()
+  {
+    Permission::factory()->state(['name' => 'open academic year admissions'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+      $academicYear->archivableItems()->save(ArchivableItem::admissions()->first());
+    $this->user->givePermissionTo('open academic year admissions');
+
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/admissions')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+
+    $archivableItem = AcademicYear::find($academicYear->id)
+      ->archivableItems()
+      ->wherePivot('archivable_item_id', ArchivableItem::admissions()->first()->id)
+      ->get()
+      ->toArray();
+    $this->assertEmpty($archivableItem);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function unauthenticated_user_cannot_open_academic_year_financial_plan()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/open/financial-plan')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_open_academic_year_financial_plan()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/financial-plan')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_open_academic_year_financial_plan()
+  {
+    Permission::factory()->state(['name' => 'open academic year financial plan'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+    $academicYear->archivableItems()->save(ArchivableItem::financialPlans()->first());
+    $this->user->givePermissionTo('open academic year financial plan');
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/financial-plan')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+
+    $archivableItem = AcademicYear::find($academicYear->id)
+      ->archivableItems()
+      ->wherePivot('archivable_item_id', ArchivableItem::financialPlans()->first()->id)
+      ->get()
+      ->toArray();
+    $this->assertEmpty($archivableItem);
+  }
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthenticated_user_cannot_open_academic_year_subject_creation()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/open/subject-creation')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_open_academic_year_subject_creation()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/subject-creation')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_open_academic_year_subject_creation()
+  {
+    Permission::factory()->state(['name' => 'open academic year subject creation'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+    $academicYear->archivableItems()->save(ArchivableItem::subjectCreations()->first());
+    $this->user->givePermissionTo('open academic year subject creation');
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/subject-creation')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+
+    $archivableItem = AcademicYear::find($academicYear->id)
+      ->archivableItems()
+      ->wherePivot('archivable_item_id', ArchivableItem::subjectCreations()->first()->id)
+      ->get()
+      ->toArray();
+    $this->assertEmpty($archivableItem);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthenticated_user_cannot_open_academic_year_score_amendment()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/open/score-amendment')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_open_academic_year_score_amendment()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/score-amendment')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_open_academic_year_score_amendment()
+  {
+    Permission::factory()->state(['name' => 'open academic year score amendment'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+    $academicYear->archivableItems()->save(ArchivableItem::scoreAmendments()->first());
+    $this->user->givePermissionTo('open academic year score amendment');
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/score-amendment')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+
+    $archivableItem = AcademicYear::find($academicYear->id)
+      ->archivableItems()
+      ->wherePivot('archivable_item_id', ArchivableItem::scoreAmendments()->first()->id)
+      ->get()
+      ->toArray();
+    $this->assertEmpty($archivableItem);
+  }
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthenticated_user_cannot_open_academic_year_timetable_amendment()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/open/timetable-amendment')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_open_academic_year_timetable_amendment()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/timetable-amendment')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_open_academic_year_timetable_amendment()
+  {
+    Permission::factory()->state(['name' => 'open academic year timetable amendment'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+    $academicYear->archivableItems()->save(ArchivableItem::timetableAmendments()->first());
+    $this->user->givePermissionTo('open academic year timetable amendment');
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/open/timetable-amendment')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+
+    $archivableItem = AcademicYear::find($academicYear->id)
+      ->archivableItems()
+      ->wherePivot('archivable_item_id', ArchivableItem::timetableAmendments()->first()->id)
+      ->get()
+      ->toArray();
+    $this->assertEmpty($archivableItem);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function unauthenticated_user_cannot_unarchive_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/unarchive')
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+
+  public function unauthorised_user_cannot_unarchive_academic_year()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/unarchive')
+      ->assertStatus(403);
+  }
+
+  /**
+   * POST /academic-years
+   *
+   * @test
+   * @group post-request
+   * @group academic-year-archives
+   */
+
+  public function authorised_user_can_unarchive_academic_year()
+  {
+    Permission::factory()->state(['name' => 'unarchive academic year'])->create();
+
+    $academicYear = AcademicYear::factory()->create();
+    $this->user->givePermissionTo('unarchive academic year');
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/unarchive')
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+    $this->assertFalse(AcademicYear::find($academicYear->id)->archived);
+  }
 }
