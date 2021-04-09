@@ -891,6 +891,16 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'create timetable lesson',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+          'class teacher'
+        ]
+      ],
+      [
         'permission' => 'create stream',
         'roles' => [
           'admin',
