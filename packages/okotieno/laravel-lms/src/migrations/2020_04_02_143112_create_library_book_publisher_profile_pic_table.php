@@ -14,8 +14,8 @@ class CreateLibraryBookPublisherProfilePicTable extends Migration
     public function up()
     {
         Schema::create('library_book_publisher_profile_pic', function (Blueprint $table) {
-            $table->integer('library_book_publisher_id');
-            $table->integer('profile_pic_id');
+            $table->foreignId('library_book_publisher_id');
+            $table->foreignId('profile_pic_id');
             $table->timestamps();
         });
     }

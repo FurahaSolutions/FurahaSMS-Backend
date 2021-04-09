@@ -14,9 +14,9 @@ class CreateOnlineAssessmentsTable extends Migration
   public function up()
   {
     Schema::create('online_assessments', function (Blueprint $table) {
-      $table->bigIncrements('id');
-      $table->unsignedBigInteger('exam_paper_id')->unsigned();
-      $table->integer('e_learning_topic_id');
+      $table->id();
+      $table->foreignId('exam_paper_id');
+      $table->foreignId('e_learning_topic_id');
       $table->string('period');
       $table->dateTime('available_at');
       $table->dateTime('closing_at');

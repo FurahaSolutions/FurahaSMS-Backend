@@ -14,11 +14,11 @@ class CreateStreamStudentTable extends Migration
     public function up()
     {
         Schema::create('stream_student', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('stream_id')->unsigned();
-            $table->integer('student_id')->unsigned();
-            $table->integer('academic_year_id')->unsigned();
-            $table->integer('class_level_id')->unsigned();
+            $table->id();
+            $table->foreignId('stream_id');
+            $table->foreignId('student_id');
+            $table->foreignId('academic_year_id');
+            $table->foreignId('class_level_id');
             $table->timestamps();
             $table->foreign('academic_year_id')->references('id')->on('academic_years');
             $table->foreign('class_level_id')->references('id')->on('class_levels');

@@ -4,7 +4,13 @@
 namespace Okotieno\AcademicYear\Traits;
 
 
-class Archivable
+use Okotieno\AcademicYear\Models\ArchivableItem;
+
+trait Archivable
 {
+  public function archivableItems()
+  {
+    return $this->belongsToMany(ArchivableItem::class);
+  }
 
 }

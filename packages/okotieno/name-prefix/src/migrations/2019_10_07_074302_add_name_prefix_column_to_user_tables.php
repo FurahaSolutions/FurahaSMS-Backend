@@ -14,7 +14,7 @@ class AddNamePrefixColumnToUserTables extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('name_prefix_id')->nullable();
+            $table->foreignId('name_prefix_id')->nullable();
         });
     }
 
