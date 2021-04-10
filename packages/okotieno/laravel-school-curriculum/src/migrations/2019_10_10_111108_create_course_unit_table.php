@@ -14,8 +14,8 @@ class CreateCourseUnitTable extends Migration
     public function up()
     {
         Schema::create('course_unit', function (Blueprint $table) {
-            $table->integer('unit_id');
-            $table->integer('course_id');
+            $table->foreignId('unit_id');
+            $table->foreignId('course_id');
         });
     }
 

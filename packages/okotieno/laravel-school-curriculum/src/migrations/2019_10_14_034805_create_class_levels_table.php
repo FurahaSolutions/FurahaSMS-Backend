@@ -14,8 +14,8 @@ class CreateClassLevelsTable extends Migration
   public function up()
   {
     Schema::create('class_levels', function (Blueprint $table) {
-      $table->increments('id');
-      $table->integer('class_level_category_id');
+      $table->id();
+      $table->foreignId('class_level_category_id');
       $table->boolean('active');
       $table->longText('description')->nullable();
       $table->string('name');

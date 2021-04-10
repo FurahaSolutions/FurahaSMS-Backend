@@ -14,8 +14,8 @@ class CreateProcurementItemsCategoryProcurementVendorTable extends Migration
     public function up()
     {
         Schema::create('procurement_items_category_procurement_vendor', function (Blueprint $table) {
-            $table->integer('procurement_items_category_id');
-            $table->integer('procurement_vendor_id');
+            $table->foreignId('procurement_items_category_id');
+            $table->foreignId('procurement_vendor_id');
         });
     }
 

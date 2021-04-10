@@ -16,8 +16,8 @@ class CreateSemesterUnitLevelTable extends Migration
         Schema::create('semester_unit_level', function (Blueprint $table) {
 //            $table->increments('id');
 //            $table->timestamps();
-            $table->integer('semester_id');
-            $table->integer('unit_level_id');
+            $table->foreignId('semester_id');
+            $table->foreignId('unit_level_id');
         });
     }
 

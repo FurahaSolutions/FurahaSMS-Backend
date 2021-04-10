@@ -2,13 +2,18 @@
 
 use Okotieno\AcademicYear\Controllers\AcademicYearApiController;
 use Okotieno\AcademicYear\Controllers\AcademicYearController;
+use Okotieno\AcademicYear\Controllers\AcademicYearArchivesController;
 use Okotieno\AcademicYear\Controllers\AcademicYearUnitLevelController;
 use Okotieno\AcademicYear\Controllers\HolidayController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::prefix('api')->group(function () {
+    Route::post('/academic-years/{academicYear}/archive', [AcademicYearArchivesController::class, 'archive']);
+    Route::post('/academic-years/{academicYear}/unarchive', [AcademicYearArchivesController::class, 'unarchive']);
     Route::resource('/academic-years/holidays', HolidayController::class);
     Route::resource('/academic-years', AcademicYearController::class);
+    Route::post('/academic-years/{academicYear}/open/{openItem}', [AcademicYearArchivesController::class, 'open']);
+    Route::post('/academic-years/{academicYear}/close/{closeItem}', [AcademicYearArchivesController::class, 'close']);
   });
 
   Route::get('/api/academic-years/all', [AcademicYearApiController::class, 'getAll']);
