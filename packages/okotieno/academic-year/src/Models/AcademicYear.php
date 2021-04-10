@@ -82,9 +82,4 @@ class AcademicYear extends Model
     return AcademicYearFactory::new();
   }
 
-  public function updateClassLevelCategory()
-  {
-
-  }
-
 }

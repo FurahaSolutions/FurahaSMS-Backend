@@ -18,15 +18,32 @@
       <directory suffix="Test.php">./tests/Feature</directory>
     </testsuite>
   </testsuites>
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
+  <coverage>
+    <include>
       <directory suffix=".php">./app</directory>
-    </whitelist>
-  </filter>
+      <directory suffix=".php">./packages</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./packages/*/*/src/migrations</directory>
+    </exclude>
+    <report>
+      <clover outputFile="tests/coverage/clover.xml"/>
+      <crap4j outputFile="tests/coverage/crap4j.xml" threshold="50"/>
+      <html outputDirectory="tests/coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
+      <php outputFile="tests/coverage/coverage.php"/>
+      <text outputFile="tests/coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+      <xml outputDirectory="tests/coverage/xml-coverage"/>
+    </report>
+  </coverage>
   <logging>
-    <log type="coverage-html" target="tests/coverage" showUncoveredFiles="true"/>
-    <log type="coverage-clover" target="build/logs/clover.xml"/>
+    <junit outputFile="tests/logs/junit.xml"/>
+    <teamcity outputFile="tests/logs/teamcity.txt"/>
+    <testdoxHtml outputFile="tests/logs/testdox.html"/>
+    <testdoxText outputFile="tests/logs/testdox.txt"/>
+    <testdoxXml outputFile="tests/logs/testdox.xml"/>
+    <text outputFile="tests/logs/logfile.txt"/>
   </logging>
+
   <php>
     <env name="BCRYPT_ROUNDS" value="4"/>
     <env name="CACHE_DRIVER" value="array"/>
