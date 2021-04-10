@@ -1,6 +1,6 @@
 # Furaha School Management Backend
 
-[![Build Status](https://travis-ci.com/FurahaSolutions/FurahaSMS-Backend.svg?branch=develop)](https://travis-ci.com/FurahaSolutions/FurahaSMS-Backend)
+[![Build Status](https://travis-ci.com/FurahaSolutions/FurahaSMS-Backend.svg?branch=develop)](https://travis-ci.com/FurahaSolutions/FurahaSMS-Backend) [![Coverage Status](https://coveralls.io/repos/github/FurahaSolutions/FurahaSMS-Backend/badge.svg?branch=develop)](https://coveralls.io/github/FurahaSolutions/FurahaSMS-Backend?branch=develop)
 
 ## About FSMS
 
