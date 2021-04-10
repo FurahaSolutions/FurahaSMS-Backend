@@ -14,8 +14,8 @@ class CreateGuardianStudentTable extends Migration
     public function up()
     {
         Schema::create('guardian_student', function (Blueprint $table) {
-            $table->integer('student_id');
-            $table->integer('guardian_id');
+            $table->foreignId('student_id');
+            $table->foreignId('guardian_id');
             $table->string('relationship');
         });
     }

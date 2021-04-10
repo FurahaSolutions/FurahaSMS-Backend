@@ -1,3 +1,6 @@
+env:
+  global:
+    - XDEBUG_MODE=coverage
 dist: bionic
 language: php
 php:
@@ -16,6 +19,6 @@ before_script:
   - composer install --prefer-source --no-interaction --dev
   - php artisan key:generate
   - php artisan migrate
-  - php artisan test
+  - php artisan test --coverage-html reports
 script:
   - vendor/bin/phpunit

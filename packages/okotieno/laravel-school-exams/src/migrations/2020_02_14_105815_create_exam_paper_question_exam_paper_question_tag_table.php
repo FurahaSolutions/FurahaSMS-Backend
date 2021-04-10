@@ -15,8 +15,8 @@ class CreateExamPaperQuestionExamPaperQuestionTagTable extends Migration
     {
         Schema::create('exam_paper_question_exam_paper_question_tag', function (Blueprint $table) {
 //            $table->bigIncrements('id');
-            $table->integer('exam_paper_question_id');
-            $table->integer('exam_paper_question_tag_id');
+            $table->foreignId('exam_paper_question_id');
+            $table->foreignId('exam_paper_question_tag_id');
 //            $table->timestamps();
         });
     }

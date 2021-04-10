@@ -14,7 +14,7 @@ class AddReligionColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('religion_id')->nullable();
+            $table->foreignId('religion_id')->nullable();
         });
     }
 

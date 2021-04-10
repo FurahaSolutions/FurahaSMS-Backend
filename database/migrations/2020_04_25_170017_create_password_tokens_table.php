@@ -14,8 +14,8 @@ class CreatePasswordTokensTable extends Migration
     public function up()
     {
         Schema::create('password_tokens', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('user_id');
+            $table->id();
+            $table->foreignId('user_id');
             $table->string('token');
             $table->timestamps();
         });

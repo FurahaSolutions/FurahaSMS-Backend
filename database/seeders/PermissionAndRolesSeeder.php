@@ -1437,6 +1437,51 @@ class PermissionAndRolesSeeder extends Seeder
           'dean of students'
         ]
       ],
+      [
+        'permission' => 'close academic year admissions',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'close academic year subject creation',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'close academic year financial plan',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'close academic year score amendment',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
+      [
+        'permission' => 'close academic year timetable amendment',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+        ]
+      ],
     ];
 //
     foreach ($permissions as $index => $permission) {

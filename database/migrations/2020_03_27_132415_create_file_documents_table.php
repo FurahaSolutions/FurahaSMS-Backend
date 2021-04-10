@@ -14,14 +14,14 @@ class CreateFileDocumentsTable extends Migration
     public function up()
     {
         Schema::create('file_documents', function (Blueprint $table) {
-            $table->increments('id');
+          $table->id();
             $table->string('name');
             $table->string('type');
             $table->string('extension');
             $table->string('file_path')->unique();
             $table->string('mme_type');
             $table->string('size');
-            $table->integer('user_id')->unsigned();
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
