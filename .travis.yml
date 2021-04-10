@@ -17,8 +17,16 @@ before_script:
   - sudo mysql -e 'create database furahasms_testing;'
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - composer require --dev php-coveralls/php-coveralls
+  # Generate APP_KEY
   - php artisan key:generate
+  # Migrate Files
   - php artisan migrate
+  # Generate coverage report
   - php artisan test --coverage-html reports
 script:
   - vendor/bin/phpunit
+after_success:
+  - travis_retry php vendor/bin/php-coveralls
+  # or enable logging
+  - travis_retry php vendor/bin/php-coveralls -v
