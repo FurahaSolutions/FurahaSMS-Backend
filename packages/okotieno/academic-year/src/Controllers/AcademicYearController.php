@@ -12,16 +12,26 @@ use Okotieno\AcademicYear\Requests\DeleteAcademicYearRequest;
 use Okotieno\AcademicYear\Requests\UpdateAcademicYearRequest;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
+use Illuminate\Database\Eloquent\Builder;
 
 class AcademicYearController extends Controller
 {
   /**
    * Display a listing of the resource.
    *
+   * @param Request $request
    * @return \Illuminate\Http\jsonResponse
    */
-  public function index(): jsonResponse
+  public function index(Request $request): jsonResponse
   {
+
+    if (($request->archived == 1 )) {
+      return response()->json(AcademicYear::whereNotNull('archived_at')->get());
+    }
+    if (($request->archived == 0 )) {
+      return response()->json(AcademicYear::whereNull('archived_at')->get());
+    }
+
     return response()->json(AcademicYear::all());
   }
 

@@ -8,6 +8,8 @@ use Okotieno\AcademicYear\Controllers\HolidayController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::prefix('api')->group(function () {
+    Route::get('/academic-years/{academicYear}/archivable-items', [AcademicYearArchivesController::class, 'academicYearArchivableItems']);
+    Route::get('/academic-years/archivable-items', [AcademicYearArchivesController::class, 'archivableItems']);
     Route::post('/academic-years/{academicYear}/archive', [AcademicYearArchivesController::class, 'archive']);
     Route::post('/academic-years/{academicYear}/unarchive', [AcademicYearArchivesController::class, 'unarchive']);
     Route::resource('/academic-years/holidays', HolidayController::class);
