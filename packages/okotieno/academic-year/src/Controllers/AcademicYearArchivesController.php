@@ -6,12 +6,39 @@ namespace Okotieno\AcademicYear\Controllers;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Okotieno\AcademicYear\Models\AcademicYear;
 use Okotieno\AcademicYear\Models\ArchivableItem;
 use Okotieno\AcademicYear\Requests\AcademicYearArchiveRequest;
 
 class AcademicYearArchivesController extends Controller
 {
+  /**
+   * @param AcademicYear $academicYear
+   * @return JsonResponse
+   */
+  public function academicYearArchivableItems(AcademicYear $academicYear): JsonResponse
+  {
+
+    $res = [];
+    foreach (ArchivableItem::all() as $archivableItem) {
+      $archivableItem['closed'] = sizeof($academicYear->archivableItems()
+          ->where('archivable_item_id', $archivableItem->id)
+          ->get()
+          ->toArray()) > 0;
+      $res[] = $archivableItem;
+    }
+    return response()->json($res);
+  }
+
+  /**
+   * @return JsonResponse
+   */
+  public function archivableItems(): JsonResponse
+  {
+    return response()->json(ArchivableItem::all());
+  }
+
   public function open(AcademicYearArchiveRequest $request, AcademicYear $academicYear, $openItem)
   {
     $academicYear->archivableItems()
@@ -46,7 +73,7 @@ class AcademicYearArchivesController extends Controller
 
   public function unarchive(AcademicYear $academicYear)
   {
-    if(!auth()->user()->can('unarchive academic year')) {
+    if (!auth()->user()->can('unarchive academic year')) {
       abort(403, 'You are not authorised to unarchive an academic year');
     }
     $academicYear->archived_at = null;

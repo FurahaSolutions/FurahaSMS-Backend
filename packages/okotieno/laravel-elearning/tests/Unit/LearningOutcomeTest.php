@@ -156,11 +156,12 @@ class LearningOutcomeTest extends TestCase
    */
   public function authenticated_users_with_permission_can_update_learning_outcome()
   {
+    Permission::factory()->state(['name' => 'update learning outcome'])->create();
+    $this->user->givePermissionTo('update learning outcome');
     $topic = ELearningTopic::factory()->create();
     $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->for($topic)->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update learning outcome']);
     $this->actingAs($this->user, 'api')
       ->patchJson($url . $learningOutcome->id, $learningOutcomeUpdate)
       ->assertStatus(200);
