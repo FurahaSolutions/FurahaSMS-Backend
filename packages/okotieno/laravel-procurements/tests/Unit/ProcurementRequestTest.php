@@ -49,6 +49,7 @@ class ProcurementRequestTest extends TestCase
     $this->actingAs($this->user, 'api')->postJson('api/procurements/requests', $procurementRequest)
       ->assertStatus(200);
   }
+
   /**
    * @test
    * @group procurement
@@ -89,6 +90,126 @@ class ProcurementRequestTest extends TestCase
     $procurement = ProcurementRequest::factory()->create();
     $this->actingAs($this->user, 'api')
       ->postJson('/api/procurements/requests/pending-approval', ['approve' => true, 'procurement_request_id' => $procurement->id])
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+  }
+
+  /**
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function unauthenticated_users_cannot_create_procurement_tender()
+  {
+    $procurement = ProcurementRequest::factory()->create();
+    $this->postJson('/api/procurements/tenders', [
+      'description' => "Nicely done description",
+      'expiryDatetime' => "2021-04-17T12:00",
+      'expiry_datetime' => "2021-04-17T12:00",
+      'procurement_request_id' => $procurement->id
+    ])
+      ->assertStatus(401);
+  }
+
+  /**
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function unauthorised_users_cannot_create_procurement_tender()
+  {
+    $procurement = ProcurementRequest::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/procurements/tenders',[
+        'description' => "Nicely done description",
+        'expiryDatetime' => "2021-04-17T12:00",
+        'expiry_datetime' => "2021-04-17T12:00",
+        'procurement_request_id' => $procurement->id
+      ])
+      ->assertStatus(403);
+  }
+
+  /**
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function authorised_users_can_approve_create_procurement_tender()
+  {
+    Permission::factory()->state(['name' => 'create procurement tender'])->create();
+    $this->user->givePermissionTo('create procurement tender');
+    $procurement = ProcurementRequest::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/procurements/tenders', [
+        'description' => "Nicely done description",
+        'expiryDatetime' => "2021-04-17T12:00",
+        'expiry_datetime' => "2021-04-17T12:00",
+        'procurement_request_id' => $procurement->id
+      ])
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+  }
+
+
+  /**
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function unauthenticated_users_cannot_award_tender()
+  {
+
+    $procurement = ProcurementRequest::factory()->create();
+    $this->postJson('api/procurements/tenders/2/bids/2', [
+      'description' => "Nicely done description",
+      'expiryDatetime' => "2021-04-17T12:00",
+      'expiry_datetime' => "2021-04-17T12:00",
+      'procurement_request_id' => $procurement->id
+    ])
+      ->assertStatus(401);
+  }
+
+  /**
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function unauthorised_users_cannot_award_tender()
+  {
+    $procurement = ProcurementRequest::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/procurements/tenders',[
+        'description' => "Nicely done description",
+        'expiryDatetime' => "2021-04-17T12:00",
+        'expiry_datetime' => "2021-04-17T12:00",
+        'procurement_request_id' => $procurement->id
+      ])
+      ->assertStatus(403);
+  }
+
+  /**
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function authorised_users_can_award_tender()
+  {
+    Permission::factory()->state(['name' => 'create procurement tender'])->create();
+    $this->user->givePermissionTo('create procurement tender');
+    $procurement = ProcurementRequest::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/procurements/tenders', [
+        'description' => "Nicely done description",
+        'expiryDatetime' => "2021-04-17T12:00",
+        'expiry_datetime' => "2021-04-17T12:00",
+        'procurement_request_id' => $procurement->id
+      ])
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
   }
