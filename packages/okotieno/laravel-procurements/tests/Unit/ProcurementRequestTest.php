@@ -158,7 +158,7 @@ class ProcurementRequestTest extends TestCase
   /**
    * @test
    * @group procurement
-   * @group procurement-request-1
+   * @group procurement-request
    * @group post-request
    */
   public function unauthenticated_users_cannot_award_tender()
