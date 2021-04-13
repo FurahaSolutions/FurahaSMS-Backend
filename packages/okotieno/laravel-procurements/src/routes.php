@@ -14,7 +14,6 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     Route::prefix('api')->group(function (){
         Route::resource('/procurements/tenders/{procurementTender}/fulfilled', ProcurementTenderFulfillmentController::class);
         Route::resource('/procurements/tenders/{procurementTender}/bids', ProcurementTenderBidsController::class);
-//        Route::resource('/procurements/tender/bids', 'Okotieno\\Procurement\\Controllers\\ProcurementTenderBidsController');
         Route::resource('/procurements/tenders', ProcurementTenderController::class);
         Route::resource('/procurements/vendors', ProcurementVendorsController::class);
         Route::resource('/procurements/requests/pending-tendering', ProcurementRequestTenderController::class);

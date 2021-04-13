@@ -1323,6 +1323,28 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'update procurement vendor',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+          'head of finance',
+          'head accountant',
+        ]
+      ],
+      [
+        'permission' => 'delete procurement vendor',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+          'head of finance',
+          'head accountant',
+        ]
+      ],
+      [
         'permission' => 'create procurement tender',
         'roles' => [
           'admin',

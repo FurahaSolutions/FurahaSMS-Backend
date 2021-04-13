@@ -5,6 +5,7 @@ namespace Okotieno\Procurement\Tests\Unit;
 
 
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\Procurement\Models\ProcurementBid;
 use Okotieno\Procurement\Models\ProcurementRequest;
 use Tests\TestCase;
 
@@ -157,18 +158,15 @@ class ProcurementRequestTest extends TestCase
   /**
    * @test
    * @group procurement
-   * @group procurement-request
+   * @group procurement-request-1
    * @group post-request
    */
   public function unauthenticated_users_cannot_award_tender()
   {
-
-    $procurement = ProcurementRequest::factory()->create();
-    $this->postJson('api/procurements/tenders/2/bids/2', [
-      'description' => "Nicely done description",
-      'expiryDatetime' => "2021-04-17T12:00",
-      'expiry_datetime' => "2021-04-17T12:00",
-      'procurement_request_id' => $procurement->id
+    $bid = ProcurementBid::factory()->create();
+    $bid->tender_id;
+    $this->patchJson('api/procurements/tenders/'.$bid->tender_id.'/bids/'.$bid->id, [
+      'awarded' => $this->faker->boolean
     ])
       ->assertStatus(401);
   }
@@ -181,13 +179,11 @@ class ProcurementRequestTest extends TestCase
    */
   public function unauthorised_users_cannot_award_tender()
   {
-    $procurement = ProcurementRequest::factory()->create();
+    $bid = ProcurementBid::factory()->create();
+    $bid->tender_id;
     $this->actingAs($this->user, 'api')
-      ->postJson('/api/procurements/tenders',[
-        'description' => "Nicely done description",
-        'expiryDatetime' => "2021-04-17T12:00",
-        'expiry_datetime' => "2021-04-17T12:00",
-        'procurement_request_id' => $procurement->id
+      ->patchJson('api/procurements/tenders/'.$bid->tender_id.'/bids/'.$bid->id, [
+        'awarded' => $this->faker->boolean
       ])
       ->assertStatus(403);
   }
@@ -200,15 +196,13 @@ class ProcurementRequestTest extends TestCase
    */
   public function authorised_users_can_award_tender()
   {
-    Permission::factory()->state(['name' => 'create procurement tender'])->create();
-    $this->user->givePermissionTo('create procurement tender');
-    $procurement = ProcurementRequest::factory()->create();
+    $bid = ProcurementBid::factory()->create();
+    $bid->tender_id;
+    Permission::factory()->state(['name' => 'award procurement tender'])->create();
+    $this->user->givePermissionTo('award procurement tender');
     $this->actingAs($this->user, 'api')
-      ->postJson('/api/procurements/tenders', [
-        'description' => "Nicely done description",
-        'expiryDatetime' => "2021-04-17T12:00",
-        'expiry_datetime' => "2021-04-17T12:00",
-        'procurement_request_id' => $procurement->id
+      ->patchJson('api/procurements/tenders/'.$bid->tender_id.'/bids/'.$bid->id, [
+        'awarded' => $this->faker->boolean
       ])
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
