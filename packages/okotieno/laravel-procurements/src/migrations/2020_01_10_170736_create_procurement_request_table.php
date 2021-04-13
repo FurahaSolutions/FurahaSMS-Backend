@@ -19,9 +19,12 @@ class CreateProcurementRequestTable extends Migration
       $table->string('name');
       $table->foreignId('procurement_items_category_id');
       $table->string('quantity_description');
-      $table->string('description');
+      $table->text('description');
       $table->foreignId('requested_by');
       $table->foreignId('procurement_request_id')->nullable();
+      $table->foreign('requested_by')->references('id')->on('users');
+      $table->foreign('procurement_request_id')->references('id')->on('procurement_requests');
+      $table->foreign('procurement_items_category_id')->references('id')->on('procurement_items_categories');
     });
   }
 

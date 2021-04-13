@@ -176,9 +176,11 @@ class HolidayTest extends TestCase
    */
   public function authenticated_users_with_permission_can_update_holiday()
   {
+    Permission::factory()->state(['name' => 'update holiday'])->create();
+    $this->user->givePermissionTo('update holiday');
+
     $holiday = Holiday::factory()->create();
     $holidayUpdate = Holiday::factory()->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update holiday']);
     $response = $this->actingAs($this->user, 'api')
       ->patchJson('/api/academic-years/holidays/' . $holiday->id, $holidayUpdate);
     $response->assertStatus(200);
@@ -193,9 +195,10 @@ class HolidayTest extends TestCase
    */
   public function should_return_error_422_if_name_not_provided_on_update()
   {
+    Permission::factory()->state(['name' => 'update holiday'])->create();
+    $this->user->givePermissionTo('update holiday');
     $holiday = Holiday::factory()->create();
     $holidayUpdate = Holiday::factory()->state(['name' => ''])->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update holiday']);
     $this->actingAs($this->user, 'api')
       ->patchJson('/api/academic-years/holidays/' . $holiday->id, $holidayUpdate)
       ->assertStatus(422);
@@ -210,9 +213,10 @@ class HolidayTest extends TestCase
    */
   public function should_return_error_422_if_occurs_on_not_provided_on_update()
   {
+    Permission::factory()->state(['name' => 'update holiday'])->create();
+    $this->user->givePermissionTo('update holiday');
     $holiday = Holiday::factory()->create();
     $holidayUpdate = Holiday::factory()->state(['occurs_on' => ''])->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update holiday']);
     $this->actingAs($this->user, 'api')
       ->patchJson('/api/academic-years/holidays/' . $holiday->id, $holidayUpdate)
       ->assertStatus(422);
@@ -228,10 +232,11 @@ class HolidayTest extends TestCase
    */
   public function should_throw_error_if_date_format_is_invalid_on_update()
   {
+    Permission::factory()->state(['name' => 'update holiday'])->create();
+    $this->user->givePermissionTo('update holiday');
     $holiday = Holiday::factory()->create();
     $holidayUpdate = Holiday::factory()->state(['occurs_on' => '01-01-2017'])->make()->toArray();
     $this->holiday['occurs_on'] = '01-01-2017';
-    $this->user->permissions()->create(['name' => 'update holiday']);
     $this->actingAs($this->user, 'api')
       ->patchJson('/api/academic-years/holidays/' . $holiday->id, $holidayUpdate)
       ->assertStatus(422);
@@ -246,9 +251,10 @@ class HolidayTest extends TestCase
    */
   public function holiday_should_be_updated_after_successful_call()
   {
+    Permission::factory()->state(['name' => 'update holiday'])->create();
+    $this->user->givePermissionTo('update holiday');
     $holiday = Holiday::factory()->create();
     $holidayUpdate = Holiday::factory()->make()->toArray();
-    $this->user->permissions()->create(['name' => 'update holiday']);
     $this->actingAs($this->user, 'api')
       ->patchJson('/api/academic-years/holidays/' . $holiday->id, $holidayUpdate)
       ->assertStatus(200)
@@ -293,8 +299,9 @@ class HolidayTest extends TestCase
    */
   public function authenticated_users_with_permission_can_delete_holiday()
   {
+    Permission::factory()->state(['name' => 'delete holiday'])->create();
+    $this->user->givePermissionTo('delete holiday');
     $holiday = Holiday::factory()->create();
-    $this->user->permissions()->create(['name' => 'delete holiday']);
     $this->actingAs($this->user, 'api')
       ->deleteJson('/api/academic-years/holidays/' . $holiday->id)
       ->assertStatus(200);
@@ -309,8 +316,9 @@ class HolidayTest extends TestCase
    */
   public function holiday_should_be_deleted_after_successful_call()
   {
+    Permission::factory()->state(['name' => 'delete holiday'])->create();
+    $this->user->givePermissionTo('delete holiday');
     $holiday = Holiday::factory()->create();
-    $this->user->permissions()->create(['name' => 'delete holiday']);
     $res = $this->actingAs($this->user, 'api')
       ->deleteJson('/api/academic-years/holidays/' . $holiday->id);
     $res->assertStatus(200)

@@ -17,6 +17,38 @@ class AcademicYearArchivesTest extends TestCase
   }
 
   /**
+   * GET /academic-years/archivable-items
+   *
+   * @test
+   * @group get-request
+   * @group academic-year-archives
+   */
+
+  public function unauthenticated_user_cannot_retrieve_archivable_items()
+  {
+    $this->getJson('/api/academic-years/archivable-items')
+      ->assertStatus(401);
+  }
+
+  /**
+   * GET /academic-years/archivable-items
+   *
+   * @test
+   * @group get-request
+   * @group academic-year-archives
+   */
+
+  public function authenticated_user_can_retrieve_archivable_items()
+  {
+    ArchivableItem::factory()->count(4)->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years/archivable-items')
+      ->assertStatus(200)
+      ->assertJsonStructure(['0' => ['id', 'slug', 'id', 'permissionName', 'openPermissionName']]);
+  }
+
+
+  /**
    * POST /academic-years
    *
    * @test
@@ -29,6 +61,51 @@ class AcademicYearArchivesTest extends TestCase
     $academicYear = AcademicYear::factory()->create();
     $this->postJson('/api/academic-years/' . $academicYear->id . '/close/admissions')
       ->assertStatus(401);
+  }
+
+  /**
+   * GET /academic-years/archivable-items
+   *
+   * @test
+   * @group get-request
+   * @group academic-year-archives
+   */
+
+  public function unauthenticated_user_cannot_retrieve_academic_year_archivable_items()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    $this->getJson('/api/academic-years/' . $academicYear->id . '/archivable-items')
+      ->assertStatus(401);
+  }
+
+  /**
+   * GET /academic-years/archivable-items
+   *
+   * @test
+   * @group get-request
+   * @group academic-year-archives
+   */
+
+  public function authenticated_user_can_retrieve_academic_year_archivable_items()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    ArchivableItem::factory()->count(4)->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years/' . $academicYear->id . '/archivable-items')
+      ->assertStatus(200)
+      ->assertJsonStructure(['0' => ['id', 'slug', 'id', 'permissionName', 'closed']])
+      ->assertJsonFragment(['closed' => false])
+      ->assertJsonMissing(['closed' => true]);
+
+    $academicYear2 = AcademicYear::factory()->create();
+    $archivableItems = ArchivableItem::factory()->count(4)->create();
+    $academicYear2->archivableItems()->save($archivableItems[0]);
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years/' . $academicYear2->id . '/archivable-items')
+      ->assertStatus(200)
+      ->assertJsonStructure(['0' => ['id', 'slug', 'id', 'permissionName', 'closed']])
+      ->assertJsonFragment(['closed' => false])
+      ->assertJsonFragment(['closed' => true]);
   }
 
 
@@ -136,6 +213,7 @@ class AcademicYearArchivesTest extends TestCase
       ->toArray();
     $this->assertNotEmpty($archivableItem);
   }
+
   /**
    * POST /academic-years
    *
@@ -257,6 +335,7 @@ class AcademicYearArchivesTest extends TestCase
       ->toArray();
     $this->assertNotEmpty($archivableItem);
   }
+
   /**
    * POST /academic-years
    *
@@ -372,6 +451,7 @@ class AcademicYearArchivesTest extends TestCase
       ->assertJsonStructure(['saved', 'message']);
     $this->assertTrue(AcademicYear::find($academicYear->id)->archived);
   }
+
   /**
    * POST /academic-years
    *
@@ -418,7 +498,7 @@ class AcademicYearArchivesTest extends TestCase
     Permission::factory()->state(['name' => 'open academic year admissions'])->create();
 
     $academicYear = AcademicYear::factory()->create();
-      $academicYear->archivableItems()->save(ArchivableItem::admissions()->first());
+    $academicYear->archivableItems()->save(ArchivableItem::admissions()->first());
     $this->user->givePermissionTo('open academic year admissions');
 
     $this->actingAs($this->user, 'api')
@@ -494,6 +574,7 @@ class AcademicYearArchivesTest extends TestCase
       ->toArray();
     $this->assertEmpty($archivableItem);
   }
+
   /**
    * POST /academic-years
    *
@@ -617,6 +698,7 @@ class AcademicYearArchivesTest extends TestCase
       ->toArray();
     $this->assertEmpty($archivableItem);
   }
+
   /**
    * POST /academic-years
    *

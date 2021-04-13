@@ -2,6 +2,7 @@
 
 namespace Okotieno\AcademicYear\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -50,7 +51,7 @@ class CreateAcademicYearRequest extends FormRequest
 
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
+    throw new AuthorizationException(
       'You are not authorised to create an academic year'
     );
   }

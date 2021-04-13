@@ -20,35 +20,42 @@ class CreateArchivableItemsTable extends Migration
       $table->string('name');
       $table->string('slug');
       $table->foreignId('permission_id');
+      $table->foreignId('reopen_permission_id');
       $table->foreign('permission_id')->references('id')->on('permissions');
+      $table->foreign('reopen_permission_id')->references('id')->on('permissions');
     });
 
     DB::table('archivable_items')->insert([
       [
         'slug' => 'admissions',
         'name' => 'Student Admissions',
-        'permission_id' => Permission::create(['name' => 'close academic year admissions'])->id
+        'permission_id' => Permission::create(['name' => 'close academic year admissions'])->id,
+        'reopen_permission_id' => Permission::create(['name' => 'open academic year admissions'])->id
       ],
       [
         'slug' => 'subject-creation',
         'name' => 'Subject Creation',
-        'permission_id' => Permission::create(['name' => 'close academic year subject creation'])->id
+        'permission_id' => Permission::create(['name' => 'close academic year subject creation'])->id,
+        'reopen_permission_id' => Permission::create(['name' => 'open academic year subject creation'])->id
       ],
 
       [
         'slug' => 'financial-plan',
         'name' => 'Financial Plan',
-        'permission_id' => Permission::create(['name' => 'close academic year financial plan'])->id
+        'permission_id' => Permission::create(['name' => 'close academic year financial plan'])->id,
+        'reopen_permission_id' => Permission::create(['name' => 'open academic year financial plan'])->id
       ],
       [
         'slug' => 'score-amendment',
         'name' => 'Score Amendment',
-        'permission_id' => Permission::create(['name' => 'close academic year score amendment'])->id
+        'permission_id' => Permission::create(['name' => 'close academic year score amendment'])->id,
+        'reopen_permission_id' => Permission::create(['name' => 'open academic year score amendment'])->id
       ],
       [
         'slug' => 'timetable-amendment',
         'name' => 'Timetable Amendment',
-        'permission_id' => Permission::create(['name' => 'close academic year timetable amendment'])->id
+        'permission_id' => Permission::create(['name' => 'close academic year timetable amendment'])->id,
+        'reopen_permission_id' => Permission::create(['name' => 'open academic year timetable amendment'])->id
       ],
     ]);
   }

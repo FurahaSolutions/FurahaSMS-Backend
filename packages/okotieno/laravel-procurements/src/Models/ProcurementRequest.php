@@ -8,12 +8,23 @@
 
 namespace Okotieno\Procurement\Models;
 
-
+use Okotieno\Procurement\Database\Factories\ProcurementRequestFactory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static doesnthave(string $string)
+ * @method static has(string $string)
+ */
 class ProcurementRequest extends Model
 {
+  use HasFactory;
+  protected static function newFactory()
+  {
+    return ProcurementRequestFactory::new();
+  }
+
   protected $hidden = ['tendered', 'user'];
   protected $appends = ['requesting_user', 'tenders'];
   protected $fillable = [
