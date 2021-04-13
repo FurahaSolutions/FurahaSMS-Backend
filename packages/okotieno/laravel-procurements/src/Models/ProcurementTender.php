@@ -8,11 +8,18 @@
 
 namespace Okotieno\Procurement\Models;
 
-
+use Okotieno\Procurement\Database\Factories\ProcurementTenderFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProcurementTender extends Model
 {
+  use HasFactory;
+  protected static function newFactory()
+  {
+    return ProcurementTenderFactory::new();
+  }
+
   protected $appends = ['bids'];
   protected $fillable = [
     'expiry_datetime',
