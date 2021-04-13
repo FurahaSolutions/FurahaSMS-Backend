@@ -3,131 +3,142 @@
 namespace Okotieno\Procurement\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Okotieno\Procurement\Models\ProcurementItemsCategory;
 use Okotieno\Procurement\Models\ProcurementVendor;
-use Okotieno\Procurement\Requests\ProcurementRequestCreateRequest;
-//use Okotieno\Procurement\Requests\ProcurementProcurementVendorCreateRequest;
 use Okotieno\Procurement\Requests\ProcurementVendorCreateRequest;
+use Okotieno\Procurement\Requests\ProcurementVendorDeleteRequest;
+use Okotieno\Procurement\Requests\ProcurementVendorUpdateRequest;
+
 
 class ProcurementVendorsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index()
-    {
-        return response()->json(ProcurementVendor::all());
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return JsonResponse
+   */
+  public function index()
+  {
+    return response()->json(ProcurementVendor::all());
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param ProcurementRequestCreateRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(ProcurementVendorCreateRequest $request)
-    {
-        $created_request = ProcurementVendor::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'physical_address' => $request->physical_address,
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param ProcurementVendorCreateRequest $request
+   * @return JsonResponse
+   */
+  public function store(ProcurementVendorCreateRequest $request): JsonResponse
+  {
+    $created_request = ProcurementVendor::create([
+      'name' => $request->name,
+      'description' => $request->description,
+      'physical_address' => $request->physical_address,
+    ]);
+    if ($request->contactInfo) {
+      foreach ($request->contactInfo['emails'] as $email) {
+        $created_request->contacts()->create([
+          'name' => $email['name'],
+          'value' => $email['value'],
+          'is_email' => true,
+          'is_phone' => false,
         ]);
-        if ($request->contactInfo) {
-            foreach ($request->contactInfo['emails'] as $email) {
-                $created_request -> contacts() -> create([
-                    'name' => $email['name'],
-                    'value' => $email['value'],
-                    'is_email' => true,
-                    'is_phone' => false,
-                ]);
-            }
-            foreach ($request->contactInfo['phones'] as $phone) {
-                $created_request -> contacts() -> create([
-                    'name' => $phone['name'],
-                    'value' => $phone['value'],
-                    'is_email' => false,
-                    'is_phone' => true,
-                ]);
-            }
-        }
-        foreach ($request->procurement_items_categories as $category) {
-            $category = ProcurementItemsCategory::find($category);
-            $created_request -> delivers()->save($category);
-        }
-
-        return response()->json([
-            'saved' => true,
-            'message' => 'Book saved Successfully',
-            'vendor' => [
-                'id' => $created_request->id,
-                'name' => $created_request->name,
-                'description' => $created_request->description,
-                'physical_address' => $created_request->physical_address,
-                'contacts' => $created_request->contacts
-            ]
+      }
+      foreach ($request->contactInfo['phones'] as $phone) {
+        $created_request->contacts()->create([
+          'name' => $phone['name'],
+          'value' => $phone['value'],
+          'is_email' => false,
+          'is_phone' => true,
         ]);
+      }
+    }
+    foreach ($request->procurement_items_categories as $category) {
+      $category = ProcurementItemsCategory::find($category);
+      $created_request->delivers()->save($category);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $procurementRequest = ProcurementVendor::find($id);
-        return $procurementRequest;
-    }
+    return response()->json([
+      'saved' => true,
+      'message' => 'Procurement Vendor saved Successfully',
+      'data' => [
+        'id' => $created_request->id,
+        'name' => $created_request->name,
+        'description' => $created_request->description,
+        'physical_address' => $created_request->physical_address,
+        'contacts' => $created_request->contacts
+      ]
+    ])->setStatusCode(201);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param int $id
+   * @return Response
+   */
+  public function show($id)
+  {
+    $procurementRequest = ProcurementVendor::find($id);
+    return $procurementRequest;
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param int $id
+   * @return Response
+   */
+  public function edit($id)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy($id)
-    {
-        ProcurementVendor::destroy($id);
-        return response()->json([
-            'saved' => true,
-            'message' => 'Procurement Vendor deleted successfully'
-        ]);
-    }
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param ProcurementVendorUpdateRequest $request
+   * @param ProcurementVendor $procurementVendor
+   * @return JsonResponse
+   */
+  public function update(ProcurementVendorUpdateRequest $request, ProcurementVendor $procurementVendor)
+  {
+    $procurementVendor->update([
+      'name' => $request->name,
+      'description' => $request->description,
+      'physical_address' => $request->physical_address,
+    ]);
+
+    // TODO Update contact details
+
+    return response()->json([
+      'saved' => true,
+      'message' => 'Procurement Vendor saved Successfully',
+      'data' => [
+        'id' => $procurementVendor->id,
+        'name' => $procurementVendor->name,
+        'description' => $procurementVendor->description,
+        'physical_address' => $procurementVendor->physical_address,
+        'contacts' => $procurementVendor->contacts
+      ]
+    ])->setStatusCode(200);
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param ProcurementVendorDeleteRequest $request
+   * @param $id
+   * @return JsonResponse
+   */
+  public function destroy(ProcurementVendorDeleteRequest $request, $id)
+  {
+    ProcurementVendor::destroy($id);
+    return response()->json([
+      'saved' => true,
+      'message' => 'Procurement Vendor deleted successfully'
+    ]);
+  }
 }

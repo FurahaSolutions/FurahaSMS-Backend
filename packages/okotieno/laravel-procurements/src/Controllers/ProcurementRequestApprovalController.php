@@ -5,15 +5,14 @@ namespace Okotieno\Procurement\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Okotieno\Procurement\Models\ProcurementRequest;
-use Okotieno\ProcurementProcurementRequestApprovalCreateRequest;
-use Okotieno\ProcurementProcurementRequestCreateRequest;
+use Okotieno\Procurement\Requests\ProcurementRequestApprovalCreateRequest;
 
 class ProcurementRequestApprovalController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -33,8 +32,8 @@ class ProcurementRequestApprovalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ProcurementRequestCreateRequest $request
-     * @return \Illuminate\Http\Response
+     * @param ProcurementRequestApprovalCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ProcurementRequestApprovalCreateRequest $request)
     {
@@ -46,7 +45,7 @@ class ProcurementRequestApprovalController extends Controller
             ]);
         return response()->json([
             'saved' => true,
-            'message' => 'Book saved Successfully',
+            'message' => 'Procurement approval successful',
         ]);
     }
 

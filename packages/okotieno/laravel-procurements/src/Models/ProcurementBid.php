@@ -8,19 +8,25 @@
 
 namespace Okotieno\Procurement\Models;
 
-
+use Okotieno\Procurement\Database\Factories\ProcurementBidFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProcurementBid extends Model
 {
+  use HasFactory;
+  protected static function newFactory()
+  {
+    return ProcurementBidFactory::new();
+  }
+
   protected $appends = ['vendor_name'];
   protected $fillable = [
     'price_per_unit',
     'description',
     'unit_description',
     'vendor_id',
-    'tender_id',
-    'price_per_unit'
+    'tender_id'
   ];
 
   public function procurementRequest()

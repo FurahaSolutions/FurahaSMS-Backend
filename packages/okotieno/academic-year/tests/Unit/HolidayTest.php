@@ -1,6 +1,6 @@
 <?php
 
-namespace Okotieno\holiday\Tests\Unit;
+namespace Okotieno\AcademicYear\Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
