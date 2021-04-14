@@ -17,7 +17,7 @@ class ProcurementRequestApprovalTest extends TestCase
    * @group procurement-request
    * @group get-request
    */
-  public function unauthenticated_users_cannot_retrieve_procurement_request()
+  public function unauthenticated_users_cannot_retrieve_procurement_request_pending_approval()
   {
     $this->getJson('/api/procurements/requests/pending-approval')
       ->assertStatus(401);
@@ -30,11 +30,11 @@ class ProcurementRequestApprovalTest extends TestCase
    * @group procurement-request-approval
    * @group get-request
    */
-  public function authorised_users_cannot_retrieve_procurement_request()
+  public function authorised_users_can_retrieve_procurement_request_pending_approval()
   {
     $this->actingAs($this->user, 'api')
       ->getJson('/api/procurements/requests/pending-approval')
-      ->assertStatus(403);
+      ->assertStatus(200);
   }
 
   /**
