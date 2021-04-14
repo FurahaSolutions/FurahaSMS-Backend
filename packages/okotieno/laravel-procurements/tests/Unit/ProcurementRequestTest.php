@@ -12,6 +12,7 @@ use Tests\TestCase;
 class ProcurementRequestTest extends TestCase
 {
   /**
+   * POST /api/procurements/requests
    * @test
    * @group procurement
    * @group procurement-request
@@ -24,6 +25,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/requests
    * @test
    * @group procurement
    * @group procurement-request
@@ -37,6 +39,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/requests
    * @test
    * @group procurement
    * @group procurement-request
@@ -51,7 +54,26 @@ class ProcurementRequestTest extends TestCase
       ->assertStatus(200);
   }
 
+
   /**
+   * PATCH /api/procurements/requests
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function unauthorised_users_cannot_update_procurement_request()
+  {
+    $procurementRequest = ProcurementRequest::factory()->create();
+    $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/procurements/requests/'.$procurementRequest->id, $procurementRequestUpdate)
+      ->assertStatus(403);
+  }
+
+
+  /**
+   * POST /api/procurements/requests/pending-approval
    * @test
    * @group procurement
    * @group procurement-request
@@ -65,6 +87,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/requests/pending-approval
    * @test
    * @group procurement
    * @group procurement-request
@@ -79,6 +102,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/requests/pending-approval
    * @test
    * @group procurement
    * @group procurement-request
@@ -96,6 +120,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/tenders
    * @test
    * @group procurement
    * @group procurement-request
@@ -114,6 +139,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/tenders
    * @test
    * @group procurement
    * @group procurement-request
@@ -133,6 +159,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/tenders
    * @test
    * @group procurement
    * @group procurement-request
@@ -156,6 +183,7 @@ class ProcurementRequestTest extends TestCase
 
 
   /**
+   * POST /api/procurements/tenders
    * @test
    * @group procurement
    * @group procurement-request
@@ -172,6 +200,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/tenders
    * @test
    * @group procurement
    * @group procurement-request
@@ -189,6 +218,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
+   * POST /api/procurements/tenders
    * @test
    * @group procurement
    * @group procurement-request
@@ -206,5 +236,57 @@ class ProcurementRequestTest extends TestCase
       ])
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
+  }
+
+  /**
+   * PATCH /api/procurements/requests
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function unauthenticated_users_cannot_update_procurement_request()
+  {
+    $procurementRequest = ProcurementRequest::factory()->create();
+    $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
+    $this->patchJson('api/procurements/requests/'.$procurementRequest->id, $procurementRequestUpdate)
+      ->assertStatus(401);
+  }
+
+
+  /**
+   * PATCH /api/procurements/requests
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function authorised_users_can_update_procurement_request()
+  {
+    $procurementRequest = ProcurementRequest::factory()->create();
+    $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
+    Permission::factory()->state(['name' => 'update procurement request'])->create();
+    $this->user->givePermissionTo('update procurement request');
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/procurements/requests/'. $procurementRequest->id, $procurementRequestUpdate)
+      ->assertStatus(200);
+  }
+
+  /**
+   * PATCH /api/procurements/requests
+   * @test
+   * @group procurement
+   * @group procurement-request
+   * @group post-request
+   */
+  public function authorised_users_can_update_own_procurement_request()
+  {
+    $procurementRequest = ProcurementRequest::factory()->state([
+      'requested_by' => $this->user->id
+    ])->create();
+    $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/procurements/requests/'. $procurementRequest->id, $procurementRequestUpdate)
+      ->assertStatus(200);
   }
 }
