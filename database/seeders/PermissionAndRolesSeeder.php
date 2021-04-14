@@ -37,19 +37,19 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'maker admissions', 'verifier admissions', 'head teacher', 'deputy head teacher', 'dean of students',]
       ],
       [
-        'permission' => 'edit library book tag',
+        'permission' => 'update library book tag',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'add library book tag',
+        'permission' => 'create library book tag',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'add library book',
+        'permission' => 'create library book',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'edit library book',
+        'permission' => 'update library book',
         'roles' => ['admin', 'librarian']
       ],
       [
@@ -69,11 +69,7 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'add library user',
-        'roles' => ['admin', 'librarian']
-      ],
-      [
-        'permission' => 'add library user',
+        'permission' => 'create library user',
         'roles' => ['admin', 'librarian', 'maker admissions']
       ],
       [
@@ -85,19 +81,23 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'add library book author',
+        'permission' => 'create library book author',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'edit library book author',
+        'permission' => 'delete library book author',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'add library book publisher',
+        'permission' => 'update library book author',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'edit library book publisher',
+        'permission' => 'create library book publisher',
+        'roles' => ['admin', 'librarian']
+      ],
+      [
+        'permission' => 'update library book publisher',
         'roles' => ['admin', 'librarian']
       ],
       [

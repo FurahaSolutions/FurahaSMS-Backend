@@ -140,7 +140,7 @@ GET /api/users/auth
   "phone": "+254712345678",
   "gender_id": null,
   "religion_id": null,
-  "permissions": ["edit library book tag", "add library book tag", "add library book", "edit library book", "view issued books", "issue library book", "mark library book returned", "access library admin", "add library user", "block library user", "unblock library user", "add library book author", "edit library book author", "add library book publisher", "edit library book publisher", "access library account", "access library", "view student class list", "access student list report", "access reports", "send message", "read student", "view student admissions", "read teacher", "read guardian", "make procurement request", "upload study materials", "create e-learning course"
+  "permissions": ["update library book tag", "create library book tag", "create library book", "update library book", "view issued books", "issue library book", "mark library book returned", "access library admin", "add library user", "block library user", "unblock library user", "add library book author", "update library book author", "add library book publisher", "update library book publisher", "access library account", "access library", "view student class list", "access student list report", "access reports", "send message", "read student", "view student admissions", "read teacher", "read guardian", "make procurement request", "upload study materials", "create e-learning course"
   ],
   "roles": ["librarian"]
 }
