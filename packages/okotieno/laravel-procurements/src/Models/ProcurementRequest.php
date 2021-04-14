@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static doesnthave(string $string)
  * @method static has(string $string)
+ * @method static find(mixed $procurement_request_id)
  */
 class ProcurementRequest extends Model
 {
