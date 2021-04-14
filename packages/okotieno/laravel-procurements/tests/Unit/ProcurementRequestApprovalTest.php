@@ -11,11 +11,11 @@ use Tests\TestCase;
 class ProcurementRequestApprovalTest extends TestCase
 {
   /**
-   * POST /api/procurements/requests/pending-approval
+   * GET /api/procurements/requests/pending-approval
    * @test
    * @group procurement
    * @group procurement-request
-   * @group post-request
+   * @group get-request
    */
   public function unauthenticated_users_cannot_retrieve_procurement_request()
   {
@@ -24,11 +24,11 @@ class ProcurementRequestApprovalTest extends TestCase
   }
 
   /**
-   * POST /api/procurements/requests/pending-approval
+   * GET /api/procurements/requests/pending-approval
    * @test
    * @group procurement
    * @group procurement-request-approval
-   * @group post-request
+   * @group get-request
    */
   public function authorised_users_cannot_retrieve_procurement_request()
   {
