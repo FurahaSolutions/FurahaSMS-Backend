@@ -2,9 +2,10 @@
 
 namespace Okotieno\LMS\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLibraryBookItemRequest extends FormRequest
+class UpdateLibraryBookAuthorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class StoreLibraryBookItemRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create library book');
+        return auth()->user()->can('update library book author');
     }
 
     /**
@@ -24,19 +25,19 @@ class StoreLibraryBookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'ref' => 'required',
+            'name' => 'required',
         ];
     }
     public function messages()
     {
         return [
-            'ref.required' => 'The book Unique Reference is required',
+            'name.required' => 'The Author\'s name is required',
         ];
     }
     protected function failedAuthorization()
     {
-        throw new \Illuminate\Auth\Access\AuthorizationException(
-            'You are not authorised to add a library book'
+        throw new AuthorizationException(
+            'You are not authorised to update library book author'
         );
     }
 }

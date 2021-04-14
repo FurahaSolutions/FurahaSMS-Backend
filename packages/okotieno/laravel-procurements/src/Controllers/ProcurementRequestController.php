@@ -99,7 +99,7 @@ class ProcurementRequestController extends Controller
    * Remove the specified resource from storage.
    *
    * @param ProcurementRequest $procurementRequest
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function destroy($id)
   {
