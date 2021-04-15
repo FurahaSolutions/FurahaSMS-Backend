@@ -5,7 +5,7 @@ namespace Okotieno\LMS\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLibraryBookPublisherRequest extends FormRequest
+class UpdateLibraryBookPublisherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreLibraryBookPublisherRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create library book publisher');
+        return auth()->user()->can('update library book publisher');
     }
 
     /**
@@ -37,7 +37,7 @@ class StoreLibraryBookPublisherRequest extends FormRequest
     protected function failedAuthorization()
     {
         throw new AuthorizationException(
-            'You are not authorised to create library book author'
+            'You are not authorised to update library book author'
         );
     }
 }
