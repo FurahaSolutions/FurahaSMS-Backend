@@ -9,7 +9,7 @@ use Okotieno\PermissionsAndRoles\Models\Permission;
 use Tests\TestCase;
 
 
-class LibraryAuthorTest extends TestCase
+class LibraryBookAuthorTest extends TestCase
 {
   use WithFaker;
   use DatabaseTransactions;

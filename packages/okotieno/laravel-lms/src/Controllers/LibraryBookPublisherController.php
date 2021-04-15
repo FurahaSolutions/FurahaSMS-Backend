@@ -5,38 +5,40 @@ namespace Okotieno\LMS\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ProfilePic;
 use App\Models\User;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Okotieno\LMS\Models\LibraryBookPublisher;
 use Okotieno\LMS\Requests\StoreLibraryBookPublisherRequest;
+use Okotieno\LMS\Requests\UpdateLibraryBookPublisherRequest;
+use Okotieno\LMS\Requests\DeleteLibraryBookPublisherRequest;
 
 class LibraryBookPublisherController extends Controller
 {
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return JsonResponse
    */
-  public function index()
+  public function index(Request $request)
   {
+    if ($request->publisher_id != null) {
+      return response()->json(LibraryBookPublisher::find($request->publisher_id));
+    }
+    if ($request->name != null) {
+      return response()->json(LibraryBookPublisher::where('name', 'LIKE', '%' . $request->name . '%')->get());
 
+    }
+    return response()->json(LibraryBookPublisher::all());
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    return view('okotieno.lms.books.add_books');
-  }
 
   /**
    * Store a newly created resource in storage.
    *
-   * @param StoreLibraryBookRequest $request
-   * @return \Illuminate\Http\Response
+   * @param StoreLibraryBookPublisherRequest $request
+   * @return JsonResponse
    */
   public function store(StoreLibraryBookPublisherRequest $request)
   {
@@ -70,14 +72,14 @@ class LibraryBookPublisherController extends Controller
       'saved' => true,
       'message' => 'Publisher saved Successfully',
       'data' => $createdPublisher
-    ]);
+    ])->setStatusCode(201);
   }
 
   /**
    * Display the specified resource.
    *
    * @param LibraryBookPublisher $libraryBookPublisher
-   * @return \Illuminate\Http\Response
+   * @return JsonResponse
    */
   public function show(LibraryBookPublisher $libraryBookPublisher)
   {
@@ -85,24 +87,13 @@ class LibraryBookPublisherController extends Controller
   }
 
   /**
-   * Show the form for editing the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    //
-  }
-
-  /**
    * Update the specified resource in storage.
    *
-   * @param \Illuminate\Http\Request $request
+   * @param Request $request
    * @param LibraryBookPublisher $libraryBookPublisher
-   * @return \Illuminate\Http\Response
+   * @return JsonResponse
    */
-  public function update(Request $request, LibraryBookPublisher $libraryBookPublisher)
+  public function update(UpdateLibraryBookPublisherRequest $request, LibraryBookPublisher $libraryBookPublisher)
   {
 
     $libraryBookPublisher->update(['name' => $request->name, 'biography' => $request->biography]);
@@ -117,10 +108,10 @@ class LibraryBookPublisherController extends Controller
    * Remove the specified resource from storage.
    *
    * @param LibraryBookPublisher $libraryBookPublisher
-   * @return \Illuminate\Http\Response
-   * @throws \Exception
+   * @return JsonResponse
+   * @throws Exception
    */
-  public function destroy(LibraryBookPublisher $libraryBookPublisher)
+  public function destroy(DeleteLibraryBookPublisherRequest $request, LibraryBookPublisher $libraryBookPublisher)
   {
     $libraryBookPublisher->delete();
     return response()->json([
