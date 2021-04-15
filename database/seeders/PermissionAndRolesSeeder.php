@@ -97,6 +97,10 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'librarian']
       ],
       [
+        'permission' => 'delete library book publisher',
+        'roles' => ['admin', 'librarian']
+      ],
+      [
         'permission' => 'update library book publisher',
         'roles' => ['admin', 'librarian']
       ],

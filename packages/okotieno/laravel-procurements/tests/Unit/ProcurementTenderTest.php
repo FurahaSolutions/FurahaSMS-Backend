@@ -24,9 +24,6 @@ class ProcurementTenderTest extends TestCase
     $tender->procurementTenderBids()->save(ProcurementBid::factory()->state(['awarded' => true])->create());
     $tender->procurementTenderBids()->save(ProcurementBid::factory()->state(['awarded' => false])->create());
 
-    echo $this->actingAs($this->user, 'api')
-      ->getJson('/api/procurements/tenders?awarded=1')->content();
-
     $this->actingAs($this->user, 'api')
       ->getJson('/api/procurements/tenders?awarded=1')
       ->assertStatus(200);

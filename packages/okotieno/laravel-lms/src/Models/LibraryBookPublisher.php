@@ -2,16 +2,22 @@
 
 namespace Okotieno\LMS\Models;
 
-use App\Models\FileDocument;
-use App\Models\ProfilePic;
 use App\Traits\hasProfilePics;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Okotieno\LMS\Database\Factories\LibraryBookPublisherFactory;
 
 class LibraryBookPublisher extends Model
 {
-    use hasProfilePics;
-    protected $fillable = ['name', 'biography'];
+  use hasProfilePics, HasFactory;
 
-    protected $appends = ['profile_pic_id'];
+  protected $fillable = ['name', 'biography'];
+
+  protected $appends = ['profile_pic_id'];
+
+  protected static function newFactory()
+  {
+    return LibraryBookPublisherFactory::new();
+  }
 
 }
