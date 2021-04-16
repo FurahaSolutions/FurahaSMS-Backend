@@ -15,5 +15,5 @@ class Stream extends Model
       return StreamFactory::new();
     }
 
-  protected $fillable = ['name', 'abbreviation'];
+  protected $fillable = ['name', 'abbreviation', 'active', 'associated_color'];
 }
