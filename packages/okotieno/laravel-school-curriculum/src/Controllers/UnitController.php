@@ -27,15 +27,6 @@ class UnitController extends Controller
         return response()->json($units);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -53,7 +44,7 @@ class UnitController extends Controller
      *
      * @param Unit $unit
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Unit $unit, Request $request)
     {
@@ -65,17 +56,6 @@ class UnitController extends Controller
 
         };
         return response()->json($unit);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

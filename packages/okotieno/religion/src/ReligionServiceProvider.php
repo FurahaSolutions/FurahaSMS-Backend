@@ -2,6 +2,7 @@
 
 namespace Okotieno\Religion;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 
 class ReligionServiceProvider extends ServiceProvider
@@ -25,7 +26,7 @@ class ReligionServiceProvider extends ServiceProvider
    * Register services.
    *
    * @return void
-   * @throws \Illuminate\Contracts\Container\BindingResolutionException
+   * @throws BindingResolutionException
    */
   public function register()
   {

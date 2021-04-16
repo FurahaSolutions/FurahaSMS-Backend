@@ -30,16 +30,6 @@ class SupportStaffAdmissionsController extends Controller
   }
 
   /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
-  public function create()
-  {
-
-  }
-
-  /**
    * Store a newly created resource in storage.
    * @param CreateSupportStaffRequest $request
    * @return JsonResponse
@@ -87,17 +77,6 @@ class SupportStaffAdmissionsController extends Controller
   public function show($id)
   {
     return User::find($id);
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param int $id
-   * @return Response
-   */
-  public function edit($id)
-  {
-    //
   }
 
   /**

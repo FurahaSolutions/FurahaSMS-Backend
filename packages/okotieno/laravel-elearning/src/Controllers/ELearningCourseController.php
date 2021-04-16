@@ -53,15 +53,6 @@ class ELearningCourseController extends Controller
     return response()->json($response);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
 
   /**
    * Store a newly created resource in storage.
@@ -124,17 +115,6 @@ class ELearningCourseController extends Controller
       'topic_number_style_name' => $eLearningCourse->topic_number_style_name,
       'topics' => $topics,
     ]);
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    //
   }
 
   /**
