@@ -16,7 +16,7 @@ class LibraryBookController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function index()
   {
@@ -24,20 +24,10 @@ class LibraryBookController extends Controller
   }
 
   /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    return view('okotieno.lms.books.add_books');
-  }
-
-  /**
    * Store a newly created resource in storage.
    *
    * @param StoreLibraryBookRequest $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function store(StoreLibraryBookRequest $request)
   {
@@ -79,7 +69,7 @@ class LibraryBookController extends Controller
    * Display the specified resource.
    *
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show(LibraryBook $libraryBook)
   {
@@ -91,23 +81,13 @@ class LibraryBookController extends Controller
     return response()->json($libraryBook);
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param LibraryBook $libraryBook
-   * @return \Illuminate\Http\Response
-   */
-  public function edit()
-  {
-    return view('okotieno.lms.books.edit_books');
-  }
 
   /**
    * Update the specified resource in storage.
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update(Request $request, $id)
   {
@@ -118,7 +98,7 @@ class LibraryBookController extends Controller
    * Remove the specified resource from storage.
    *
    * @param LibraryBook $libraryBook
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function destroy(LibraryBook $libraryBook)
   {

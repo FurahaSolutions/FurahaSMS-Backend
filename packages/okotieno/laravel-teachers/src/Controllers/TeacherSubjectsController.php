@@ -37,15 +37,6 @@ class TeacherSubjectsController extends Controller
     return response()->json($response);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
 
   /**
    * Store a newly created resource in storage.
@@ -72,29 +63,19 @@ class TeacherSubjectsController extends Controller
   /**
    * Display the specified resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show()
   {
 
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    //
-  }
 
   /**
    * Update the specified resource in storage.
    *
    * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update()
   {

@@ -2,6 +2,7 @@
 
 namespace Okotieno\LMS\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLibraryBookTagRequest extends FormRequest
@@ -38,7 +39,7 @@ class StoreLibraryBookTagRequest extends FormRequest
 
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
+    throw new AuthorizationException(
       'You are not authorised to Create a Tag'
     );
   }
