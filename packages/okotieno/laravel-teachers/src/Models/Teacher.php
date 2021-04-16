@@ -14,5 +14,5 @@ use Okotieno\Teachers\Traits\TeachesUnit;
 
 class Teacher extends Model
 {
-    use AppUser, TeachesUnit;
+  use AppUser, TeachesUnit;
 }

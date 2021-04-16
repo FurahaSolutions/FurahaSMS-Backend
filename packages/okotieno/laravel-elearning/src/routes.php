@@ -7,25 +7,14 @@ use Okotieno\ELearning\Controllers\TopicNumberingController;
 use Okotieno\ELearning\Controllers\TopicOnlineAssessmentController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
-  Route::resource(
-    '/api/e-learning/courses',
-    ELearningCourseController::class
-  );
-  Route::resource(
-    '/api/e-learning/course-content',
-    ELearningCourseContentController::class
-  );
-  Route::resource(
-    '/api/e-learning/topic-numbering',
-    TopicNumberingController::class
-  );
-  Route::resource(
-    '/api/e-learning/course-content/topics/{eLearningTopic:id}/learning-outcomes',
-    TopicLearningOutcomeController::class
-  );
-  Route::resource(
-    '/api/e-learning/course-content/topics/{eLearningTopic:id}/online-assessments',
-    TopicOnlineAssessmentController::class
-  );
+  Route::prefix('api/e-learning')->group(function () {
+    Route::apiResources([
+      'courses' => ELearningCourseController::class,
+      'course-content' => ELearningCourseContentController::class,
+      'topic-numbering' => TopicNumberingController::class,
+      'course-content/topics/{eLearningTopic:id}/learning-outcomes' => TopicLearningOutcomeController::class,
+      'course-content/topics/{eLearningTopic:id}/online-assessments' => TopicOnlineAssessmentController::class
+    ]);
+  });
 });
 

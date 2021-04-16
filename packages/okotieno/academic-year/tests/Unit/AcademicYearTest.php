@@ -13,13 +13,6 @@ class AcademicYearTest extends TestCase
 {
   private $academicYear;
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-
-    AcademicYear::factory()->create();
-  }
-
   /**
    * GET /academic-year
    * @group academic-year
@@ -277,7 +270,6 @@ class AcademicYearTest extends TestCase
       ->assertStatus(422);
   }
 
-
   /**
    * PATCH /academic-years/{id}
    * @group academic-year
@@ -406,6 +398,13 @@ class AcademicYearTest extends TestCase
     $res->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(AcademicYear::find($academicYear->id));
+  }
+
+  protected function setUp(): void
+  {
+    parent::setUp();
+
+    AcademicYear::factory()->create();
   }
 
 

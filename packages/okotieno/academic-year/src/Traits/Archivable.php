@@ -13,7 +13,8 @@ trait Archivable
     return $this->belongsToMany(ArchivableItem::class);
   }
 
-  public function getArchivedAttribute(){
+  public function getArchivedAttribute()
+  {
     return $this->archived_at !== null;
   }
 

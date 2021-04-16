@@ -15,16 +15,16 @@ use Okotieno\LMS\Models\LibraryClassification;
 
 class LibraryClassificationClassController extends Controller
 {
-    public function index(Request $request, LibraryClassification $libraryClassification)
-    {
-        if($request->flat) {
-            return $libraryClassification
-                ->libraryClasses()
-                ->whereNull('library_class_id')->get();
-        }
-        if($request->library_class) {
-            return LibraryClass::find($request->library_class)
-                ->libraryClasses;
-        }
+  public function index(Request $request, LibraryClassification $libraryClassification)
+  {
+    if ($request->flat) {
+      return $libraryClassification
+        ->libraryClasses()
+        ->whereNull('library_class_id')->get();
     }
+    if ($request->library_class) {
+      return LibraryClass::find($request->library_class)
+        ->libraryClasses;
+    }
+  }
 }

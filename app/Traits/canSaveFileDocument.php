@@ -14,20 +14,20 @@ use App\Models\ProfilePic;
 
 trait canSaveFileDocument
 {
-    public function uploadFileDocument()
-    {
-        return $this->hasMany(FileDocument::class);
-    }
+  public function uploadFileDocument()
+  {
+    return $this->hasMany(FileDocument::class);
+  }
 
-    public function saveProfilePic($request)
-    {
-        $this->profilePics()->create([
-            'file_document_id' => $request->profile_pic_id
-        ]);
-    }
+  public function saveProfilePic($request)
+  {
+    $this->profilePics()->create([
+      'file_document_id' => $request->profile_pic_id
+    ]);
+  }
 
-    public function profilePics()
-    {
-        return $this->hasMany(ProfilePic::class);
-    }
+  public function profilePics()
+  {
+    return $this->hasMany(ProfilePic::class);
+  }
 }

@@ -17,13 +17,6 @@ class LearningOutcomeTest extends TestCase
 
   private $learningOutcome;
 
-
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->learningOutcome = TopicLearningOutcome::factory()->make()->toArray();
-  }
-
   /**
    * POST /api/e-learning/course-content/topics/1/learning-outcomes
    * @group learning-outcome
@@ -34,7 +27,7 @@ class LearningOutcomeTest extends TestCase
   public function unauthenticated_users_cannot_create_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes';
     $this->postJson($url, $this->learningOutcome)
       ->assertStatus(401);
 
@@ -50,7 +43,7 @@ class LearningOutcomeTest extends TestCase
   public function authenticate_users_without_permission_cannot_create_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes';
     $this->actingAs($this->user, 'api')->postJson($url, $this->learningOutcome)
       ->assertStatus(403);
   }
@@ -65,7 +58,7 @@ class LearningOutcomeTest extends TestCase
   public function authenticated_users_with_permission_can_create_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes';
     Permission::factory()->state(['name' => 'create learning outcome'])->create();
     $this->user->givePermissionTo('create learning outcome');
     $response = $this->actingAs($this->user, 'api')->postJson($url, $this->learningOutcome);
@@ -82,7 +75,7 @@ class LearningOutcomeTest extends TestCase
   public function should_return_error_422_if_description_not_provided()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes';
     $this->learningOutcome['description'] = '';
     Permission::factory()->state(['name' => 'create learning outcome'])->create();
     $this->user->givePermissionTo('create learning outcome');
@@ -100,7 +93,7 @@ class LearningOutcomeTest extends TestCase
   public function learning_outcome_should_exist_after_successful_call()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes';
     Permission::factory()->state(['name' => 'create learning outcome'])->create();
     $this->user->givePermissionTo('create learning outcome');
     $this->actingAs($this->user, 'api')->postJson($url, $this->learningOutcome)
@@ -110,7 +103,6 @@ class LearningOutcomeTest extends TestCase
       ->first();
     $this->assertNotNull($learningOutcome);
   }
-
 
   /**
    * PATCH /api/e-learning/course-content/topics/1/learning-outcomes/{id}
@@ -122,7 +114,7 @@ class LearningOutcomeTest extends TestCase
   public function unauthenticated_users_cannot_update_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->make()->toArray();
     $res = $this->patchJson($url . $learningOutcome->id, $learningOutcomeUpdate);
@@ -139,7 +131,7 @@ class LearningOutcomeTest extends TestCase
   public function authenticate_users_without_permission_cannot_update_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->make()->toArray();
     $this->actingAs($this->user, 'api')
@@ -159,7 +151,7 @@ class LearningOutcomeTest extends TestCase
     Permission::factory()->state(['name' => 'update learning outcome'])->create();
     $this->user->givePermissionTo('update learning outcome');
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->for($topic)->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->make()->toArray();
     $this->actingAs($this->user, 'api')
@@ -177,7 +169,7 @@ class LearningOutcomeTest extends TestCase
   public function should_return_error_422_if_description_not_provided_on_update()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->state(['description' => ''])->make()->toArray();
     $this->user->permissions()->create(['name' => 'update learning outcome']);
@@ -196,7 +188,7 @@ class LearningOutcomeTest extends TestCase
   public function learning_outcome_should_be_updated_after_successful_call()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->for($topic)->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->make()->toArray();
     $this->user->permissions()->create(['name' => 'update learning outcome']);
@@ -216,7 +208,7 @@ class LearningOutcomeTest extends TestCase
   public function unauthenticated_users_cannot_delete_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $this->deleteJson($url . $learningOutcome->id)
       ->assertStatus(401);
@@ -232,7 +224,7 @@ class LearningOutcomeTest extends TestCase
   public function authenticate_users_without_permission_cannot_delete_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $this->actingAs($this->user, 'api')
       ->deleteJson($url . $learningOutcome->id)
@@ -249,7 +241,7 @@ class LearningOutcomeTest extends TestCase
   public function authenticated_users_with_permission_can_delete_learning_outcome()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->for($topic)->create();
     $this->user->permissions()->create(['name' => 'delete learning outcome']);
     $this->actingAs($this->user, 'api')
@@ -267,7 +259,7 @@ class LearningOutcomeTest extends TestCase
   public function learning_outcome_should_be_deleted_after_successful_call()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->for($topic)->create();
     $this->user->permissions()->create(['name' => 'delete learning outcome']);
     $res = $this->actingAs($this->user, 'api')
@@ -287,7 +279,7 @@ class LearningOutcomeTest extends TestCase
   public function should_return_404_error_if_learning_outcome_does_not_exist_for_topic_on_update()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $learningOutcomeUpdate = TopicLearningOutcome::factory()->make()->toArray();
     $this->user->permissions()->create(['name' => 'update learning outcome']);
@@ -295,6 +287,7 @@ class LearningOutcomeTest extends TestCase
       ->patchJson($url . $learningOutcome->id, $learningOutcomeUpdate)
       ->assertStatus(404);
   }
+
   /**
    * DELETE/api/e-learning/course-content/topics/1/learning-outcomes/{id}
    * @group learning-outcome
@@ -305,12 +298,18 @@ class LearningOutcomeTest extends TestCase
   public function should_return_404_error_if_learning_outcome_does_not_exist_for_topic_on_delete()
   {
     $topic = ELearningTopic::factory()->create();
-    $url = 'api/e-learning/course-content/topics/'.$topic->id.'/learning-outcomes/';
+    $url = 'api/e-learning/course-content/topics/' . $topic->id . '/learning-outcomes/';
     $learningOutcome = TopicLearningOutcome::factory()->create();
     $this->user->permissions()->create(['name' => 'delete learning outcome']);
     $this->actingAs($this->user, 'api')
       ->deleteJson($url . $learningOutcome->id)
       ->assertStatus(404);
+  }
+
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->learningOutcome = TopicLearningOutcome::factory()->make()->toArray();
   }
 }
 

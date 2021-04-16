@@ -7,14 +7,15 @@ use Okotieno\LMS\Traits\hasFileDocuments;
 
 class FileDocument extends Model
 {
-    use hasFileDocuments;
-    protected $fillable = [
-        'name',
-        'type',
-        'extension',
-        'mme_type',
-        'size',
-        'file_path'
-    ];
+  use hasFileDocuments;
+
+  protected $fillable = [
+    'name',
+    'type',
+    'extension',
+    'mme_type',
+    'size',
+    'file_path'
+  ];
 
 }

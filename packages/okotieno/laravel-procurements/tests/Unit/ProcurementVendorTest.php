@@ -54,8 +54,7 @@ class ProcurementVendorTest extends TestCase
     $this->actingAs($this->user, 'api')
       ->getJson('/api/procurements/vendors')
       ->assertStatus(200)
-      ->assertJsonStructure([['id', 'name', 'physical_address']])
-    ;
+      ->assertJsonStructure([['id', 'name', 'physical_address']]);
   }
 
   /**
@@ -205,11 +204,10 @@ class ProcurementVendorTest extends TestCase
   {
     Permission::factory()->state(['name' => 'update procurement vendor'])->create();
     $this->user->givePermissionTo('update procurement vendor');
-
     $procurementVendor = ProcurementVendor::factory()->create();
-    $response = $this->actingAs($this->user, 'api')
-      ->patchJson('/api/procurements/vendors/' . $procurementVendor->id,  $this->procurementVendor);
-    $response->assertStatus(200);
+    $this->actingAs($this->user, 'api')
+      ->patchJson('/api/procurements/vendors/' . $procurementVendor->id, $this->procurementVendor)
+      ->assertStatus(200);
   }
 
   /**

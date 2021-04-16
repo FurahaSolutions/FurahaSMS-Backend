@@ -29,7 +29,7 @@ class ArchivableItem extends Model
 
   public function openPermission()
   {
-    return $this->belongsTo(Permission::class,'reopen_permission_id');
+    return $this->belongsTo(Permission::class, 'reopen_permission_id');
   }
 
   public function getPermissionNameAttribute()

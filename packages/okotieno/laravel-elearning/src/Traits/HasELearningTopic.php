@@ -8,7 +8,8 @@ use Okotieno\ELearning\Models\ELearningTopic;
 
 trait HasELearningTopic
 {
-  public function eLearningTopic() {
+  public function eLearningTopic()
+  {
     return $this->belongsTo(ELearningTopic::class);
   }
 }

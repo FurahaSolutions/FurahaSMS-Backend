@@ -7,9 +7,9 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\LibraryBookAuthor;
+use Okotieno\LMS\Requests\DeleteLibraryBookAuthorRequest;
 use Okotieno\LMS\Requests\StoreLibraryBookAuthorRequest;
 use Okotieno\LMS\Requests\UpdateLibraryBookAuthorRequest;
-use Okotieno\LMS\Requests\DeleteLibraryBookAuthorRequest;
 
 class LibraryBookAuthorController extends Controller
 {

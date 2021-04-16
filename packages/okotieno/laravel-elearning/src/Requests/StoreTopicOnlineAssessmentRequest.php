@@ -14,7 +14,7 @@ class StoreTopicOnlineAssessmentRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can( 'create online assessment');
+    return auth()->user()->can('create online assessment');
   }
 
   /**

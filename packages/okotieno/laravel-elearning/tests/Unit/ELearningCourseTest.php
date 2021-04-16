@@ -11,15 +11,6 @@ class ELearningCourseTest extends TestCase
 
   private array $eLearningCourse;
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->eLearningCourse = ELearningCourse::factory()
-      ->state(['numbering' => $this->faker->name, 'topics' => []])
-      ->make()
-      ->toArray();
-  }
-
   /**
    * POST /api/e-learning/courses
    * @group post-request
@@ -256,6 +247,15 @@ class ELearningCourseTest extends TestCase
       ->assertJsonStructure(['saved', 'message']);
 
     $this->assertNull(ELearningCourse::find($eLearningId));
+  }
+
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->eLearningCourse = ELearningCourse::factory()
+      ->state(['numbering' => $this->faker->name, 'topics' => []])
+      ->make()
+      ->toArray();
   }
 
 }
