@@ -9,8 +9,7 @@
 namespace Okotieno\Religion\Traits;
 
 
-
 trait studentInAcademicYear
 {
-    //
+  //
 }

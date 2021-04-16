@@ -14,23 +14,16 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::prefix('api')->group(function () {
     Route::prefix('admissions')->group(function () {
       Route::prefix('students')->group(function () {
-        Route::resource(
-          'identification',
-          StudentAdmissionIdentificationController::class
-        );
-        Route::resource(
-          'guardians',
-          StudentGuardianController::class
-        );
+        Route::apiResources([
+          'identification' => StudentAdmissionIdentificationController::class,
+          'guardians' => StudentGuardianController::class
+        ]);
       });
     });
     Route::prefix('student')->group(function () {
       Route::prefix('id-number')->group(function () {
         Route::get('/', [StudentIdNumberController::class, 'get']);
-        Route::get(
-          '/identification-details',
-          [StudentIdNumberController::class, 'getIdentificationDetails']
-        );
+        Route::get('/identification-details', [StudentIdNumberController::class, 'getIdentificationDetails']);
       });
     });
   });

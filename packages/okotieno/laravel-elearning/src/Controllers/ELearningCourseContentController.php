@@ -52,7 +52,7 @@ class ELearningCourseContentController extends Controller
   public function update(Request $request, $eLearningCourseContentId)
   {
     $eLearningCourseContent = ELearningCourseContent::find($eLearningCourseContentId);
-    $studyMaterial =  StudyMaterial::find($eLearningCourseContent->study_material_id);
+    $studyMaterial = StudyMaterial::find($eLearningCourseContent->study_material_id);
     $studyMaterial->update([
       'title' => $request->title
     ]);

@@ -11,7 +11,8 @@ namespace App\Traits;
 
 trait hasActiveProperty
 {
-    public static function scopeActive($query){
-        return $query->where('active', true);
-    }
+  public static function scopeActive($query)
+  {
+    return $query->where('active', true);
+  }
 }

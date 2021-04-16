@@ -35,6 +35,13 @@ class ELearningTopic extends Model
   ];
   protected $hidden = ['topic_number_style', 'learning_outcomes'];
 
+  protected static function newFactory(): Factory
+  {
+
+    return ELearningTopicFactory::new();
+
+  }
+
   public function subTopics()
   {
     return $this->hasMany(ELearningTopic::class);
@@ -45,13 +52,6 @@ class ELearningTopic extends Model
     return $this->learningOutcomes()->create([
       'description' => $request->description
     ]);
-  }
-
-  protected static function newFactory(): Factory
-  {
-
-    return ELearningTopicFactory::new();
-
   }
 
 }

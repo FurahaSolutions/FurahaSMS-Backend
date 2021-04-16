@@ -15,10 +15,10 @@ class AcademicYearFactory extends Factory
   public function definition()
   {
     $startDate = Carbon::createFromFormat('Y', $this->faker->year);
-    $endDate = Carbon::createFromFormat('Y',$startDate->year + 1);
+    $endDate = Carbon::createFromFormat('Y', $startDate->year + 1);
 
     return [
-      'name' => $startDate->year.'-'.rand(1000, 9999).'-'. $this->faker->randomLetter,
+      'name' => $startDate->year . '-' . rand(1000, 9999) . '-' . $this->faker->randomLetter,
       'start_date' => $startDate->format('Y-m-d'),
       'end_date' => $endDate->format('Y-m-d'),
     ];

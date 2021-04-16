@@ -22,14 +22,14 @@ class AcademicYearArchiveRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    $routeParams =  Route::current()->parameters();
+    $routeParams = Route::current()->parameters();
     $closeItem = null;
-    if(key_exists('closeItem', $routeParams)){
+    if (key_exists('closeItem', $routeParams)) {
       $closeItem = $routeParams['closeItem'];
       $permission = ArchivableItem::where('slug', $closeItem)->first()->permission->name;
       return auth()->user()->can($permission);
     }
-    if(key_exists('openItem', $routeParams)){
+    if (key_exists('openItem', $routeParams)) {
       $openItem = $routeParams['openItem'];
       $permission = Str::replaceFirst('close', 'open', ArchivableItem::where('slug', $openItem)->first()->permission->name);
       return auth()->user()->can($permission);

@@ -11,15 +11,17 @@ use Okotieno\Procurement\Controllers\ProcurementTenderFulfillmentController;
 use Okotieno\Procurement\Controllers\ProcurementVendorsController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
-    Route::prefix('api')->group(function (){
-        Route::resource('/procurements/tenders/{procurementTender}/fulfilled', ProcurementTenderFulfillmentController::class);
-        Route::resource('/procurements/tenders/{procurementTender}/bids', ProcurementTenderBidsController::class);
-        Route::resource('/procurements/tenders', ProcurementTenderController::class);
-        Route::resource('/procurements/vendors', ProcurementVendorsController::class);
-        Route::resource('/procurements/requests/pending-tendering', ProcurementRequestTenderController::class);
-        Route::resource('/procurements/requests/pending-approval', ProcurementRequestApprovalController::class);
-        Route::resource('/procurements/requests', ProcurementRequestController::class);
-        Route::resource('/procurements/item-categories', ProcurementItemsCategoryController::class);
-        Route::get('/procurements/my-requests', [ProcurementRequestApiController::class, 'myRequests']);
-    });
+  Route::prefix('api/procurements')->group(function () {
+    Route::apiResources([
+      'tenders/{procurementTender}/fulfilled' => ProcurementTenderFulfillmentController::class,
+      'tenders/{procurementTender}/bids' => ProcurementTenderBidsController::class,
+      'tenders' => ProcurementTenderController::class,
+      'vendors' => ProcurementVendorsController::class,
+      'requests/pending-tendering' => ProcurementRequestTenderController::class,
+      'requests/pending-approval' => ProcurementRequestApprovalController::class,
+      'requests' => ProcurementRequestController::class,
+      'item-categories' => ProcurementItemsCategoryController::class,
+    ]);
+    Route::get('my-requests', [ProcurementRequestApiController::class, 'myRequests']);
+  });
 });

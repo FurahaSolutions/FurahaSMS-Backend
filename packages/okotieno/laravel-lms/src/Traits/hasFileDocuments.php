@@ -13,9 +13,9 @@ use App\Models\ProfilePic;
 
 trait hasFileDocuments
 {
-    public function profilePics()
-    {
-        return $this->belongsToMany(ProfilePic::class);
-    }
+  public function profilePics()
+  {
+    return $this->belongsToMany(ProfilePic::class);
+  }
 
 }

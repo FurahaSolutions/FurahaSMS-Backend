@@ -17,12 +17,6 @@ class OnlineAssessmentTest extends TestCase
 
   private $name;
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->name = $this->faker->name;
-  }
-
   /**
    * User should be able to create E-Learning Online Assessment
    * @group post-request
@@ -123,6 +117,12 @@ class OnlineAssessmentTest extends TestCase
       ->assertJsonStructure(['saved', 'message', 'data' => ['id']]);
 
     $this->assertNotEmpty($topic->onlineAssessments->toArray());
+  }
+
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->name = $this->faker->name;
   }
 
 }

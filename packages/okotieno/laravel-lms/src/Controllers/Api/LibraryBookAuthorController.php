@@ -8,20 +8,20 @@ use Okotieno\LMS\Models\LibraryBookAuthor;
 
 class LibraryBookAuthorController extends Controller
 {
-    public function all()
-    {
-        return response(LibraryBookAuthor::all());
-    }
+  public function all()
+  {
+    return response(LibraryBookAuthor::all());
+  }
 
-    public function filter(Request $request)
-    {
-        if($request->author_id != null){
-            return response(
-                LibraryBookAuthor::find($request->author_id)
-            );
-        }
-        return response(
-            LibraryBookAuthor::where('name', 'LIKE', '%' . $request->name . '%')->get()
-        );
+  public function filter(Request $request)
+  {
+    if ($request->author_id != null) {
+      return response(
+        LibraryBookAuthor::find($request->author_id)
+      );
     }
+    return response(
+      LibraryBookAuthor::where('name', 'LIKE', '%' . $request->name . '%')->get()
+    );
+  }
 }

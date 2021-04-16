@@ -30,10 +30,10 @@ class AcademicYearHolidayTest extends TestCase
     Holiday::factory()->count(10)->create();
     $academicYear = AcademicYear::factory()->make()->toArray();
     $this->user->givePermissionTo('create academic year');
-    $this->actingAs($this->user,'api')
+    $this->actingAs($this->user, 'api')
       ->postJson('/api/academic-years', $academicYear);
-     $this->assertNotEmpty(
-       AcademicYear::where('name', $academicYear['name'])->first()->holidays->toArray());
+    $this->assertNotEmpty(
+      AcademicYear::where('name', $academicYear['name'])->first()->holidays->toArray());
   }
 
 }

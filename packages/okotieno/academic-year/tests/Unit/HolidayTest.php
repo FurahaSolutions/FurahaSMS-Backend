@@ -16,13 +16,6 @@ class HolidayTest extends TestCase
 
   private $holiday;
 
-
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->holiday = Holiday::factory()->make()->toArray();
-  }
-
   /**
    * POST /academic-year/holidays
    * @group holiday
@@ -98,7 +91,6 @@ class HolidayTest extends TestCase
       ->assertStatus(422);
   }
 
-
   /**
    * POST /academic-year/holidays
    * @group holiday
@@ -134,7 +126,6 @@ class HolidayTest extends TestCase
       ->where('name', $this->holiday['name'])->first();
     $this->assertNotNull($holiday);
   }
-
 
   /**
    * PATCH /academic-year/holidays/{id}
@@ -221,7 +212,6 @@ class HolidayTest extends TestCase
       ->patchJson('/api/academic-years/holidays/' . $holiday->id, $holidayUpdate)
       ->assertStatus(422);
   }
-
 
   /**
    * PATCH /academic-year/holidays/{id}
@@ -324,6 +314,12 @@ class HolidayTest extends TestCase
     $res->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(Holiday::find($holiday->id));
+  }
+
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->holiday = Holiday::factory()->make()->toArray();
   }
 }
 
