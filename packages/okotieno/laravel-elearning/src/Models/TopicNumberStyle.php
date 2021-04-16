@@ -9,10 +9,9 @@ use Okotieno\ELearning\Database\Factories\TopicNumberStyleFactory;
 
 class TopicNumberStyle extends Model
 {
-  protected $fillable = ['name'];
-  use softDeletes, HasFactory;
-
   public $timestamps = false;
+  use softDeletes, HasFactory;
+  protected $fillable = ['name'];
 
   protected static function newFactory()
   {

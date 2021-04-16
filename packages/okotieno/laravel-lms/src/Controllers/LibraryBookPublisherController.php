@@ -10,9 +10,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Okotieno\LMS\Models\LibraryBookPublisher;
+use Okotieno\LMS\Requests\DeleteLibraryBookPublisherRequest;
 use Okotieno\LMS\Requests\StoreLibraryBookPublisherRequest;
 use Okotieno\LMS\Requests\UpdateLibraryBookPublisherRequest;
-use Okotieno\LMS\Requests\DeleteLibraryBookPublisherRequest;
 
 class LibraryBookPublisherController extends Controller
 {

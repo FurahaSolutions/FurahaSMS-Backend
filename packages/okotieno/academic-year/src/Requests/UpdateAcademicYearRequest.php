@@ -32,7 +32,7 @@ class UpdateAcademicYearRequest extends FormRequest
   {
     echo request()->id;
     return [
-      'name' => 'required|unique:academic_years,name,'.request()->id,
+      'name' => 'required|unique:academic_years,name,' . request()->id,
       'start_date' => 'required|date_format:Y-m-d|before_or_equal:end_date',
       'end_date' => 'required|date_format:Y-m-d',
     ];

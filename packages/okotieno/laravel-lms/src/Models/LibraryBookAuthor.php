@@ -12,10 +12,12 @@ use Okotieno\LMS\Database\Factories\LibraryBookAuthorFactory;
  */
 class LibraryBookAuthor extends Model
 {
-    use SoftDeletes, HasFactory;
-    protected $fillable = ['name'];
-    protected static function newFactory()
-    {
-      return LibraryBookAuthorFactory::new();
-    }
+  use SoftDeletes, HasFactory;
+
+  protected $fillable = ['name'];
+
+  protected static function newFactory()
+  {
+    return LibraryBookAuthorFactory::new();
+  }
 }

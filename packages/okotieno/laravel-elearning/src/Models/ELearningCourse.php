@@ -27,9 +27,9 @@ class ELearningCourse extends Model
     'description'
   ];
 
-  public function topics()
+  protected static function newFactory()
   {
-    return $this->hasMany(ELearningTopic::class);
+    return ELearningCourseFactory::new();
   }
 
   public function saveTopics($topics = [['sub_topics' => []]])
@@ -83,6 +83,11 @@ class ELearningCourse extends Model
     }
   }
 
+  public function topics()
+  {
+    return $this->hasMany(ELearningTopic::class);
+  }
+
   public function classLevel()
   {
     return $this->belongsTo(ClassLevel::class);
@@ -131,10 +136,5 @@ class ELearningCourse extends Model
   public function getTopicNumberingStyleNameAttribute()
   {
     return $this->topicNumberingStyle ? $this->topicNumberingStyle->name : null;
-  }
-
-  protected static function newFactory()
-  {
-    return ELearningCourseFactory::new();
   }
 }

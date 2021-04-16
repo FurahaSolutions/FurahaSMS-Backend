@@ -16,13 +16,6 @@ class LibraryBookPublisherTest extends TestCase
 
   private $bookPublisher;
 
-
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->bookPublisher = LibraryBookPublisher::factory()->make()->toArray();
-  }
-
   /**
    * GET /api/library-book-publisher
    * @group library
@@ -89,7 +82,6 @@ class LibraryBookPublisherTest extends TestCase
 
   }
 
-
   /**
    * POST /api/library-book-publisher
    * @group library
@@ -155,7 +147,6 @@ class LibraryBookPublisherTest extends TestCase
       ->assertStatus(422);
   }
 
-
   /**
    * POST /api/library-book-publisher
    * @group library
@@ -175,7 +166,6 @@ class LibraryBookPublisherTest extends TestCase
       ->where('name', $this->bookPublisher['name'])->first();
     $this->assertNotNull($bookPublisher);
   }
-
 
   /**
    * PATCH /api/library-book-publisher/{id}
@@ -336,6 +326,12 @@ class LibraryBookPublisherTest extends TestCase
     $res->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(LibraryBookPublisher::find($bookPublisher->id));
+  }
+
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->bookPublisher = LibraryBookPublisher::factory()->make()->toArray();
   }
 }
 

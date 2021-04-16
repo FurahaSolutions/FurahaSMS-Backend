@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Okotieno\AcademicYear\Database\Factories\AcademicYearFactory;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
-use Okotieno\AcademicYear\Traits\HasHoliday;
 use Okotieno\AcademicYear\Traits\Archivable;
+use Okotieno\AcademicYear\Traits\HasHoliday;
 use Okotieno\SchoolAccounts\Traits\hasFinancialYearPlans;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\TimeTable\Traits\HasTimeTables;
@@ -64,6 +64,11 @@ class AcademicYear extends Model
     return $academicYear;
   }
 
+  public static function newFactory(): Factory
+  {
+    return AcademicYearFactory::new();
+  }
+
   public function classLevels()
   {
     return $this->belongsToMany(
@@ -75,11 +80,6 @@ class AcademicYear extends Model
   public function classAllocations()
   {
     return $this->hasMany(AcademicYearUnitAllocation::class);
-  }
-
-  public static function newFactory(): Factory
-  {
-    return AcademicYearFactory::new();
   }
 
 }

@@ -3,9 +3,7 @@
 namespace Okotieno\AcademicYear\Database\Factories;
 
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Okotieno\AcademicYear\Models\AcademicYear;
 use Okotieno\AcademicYear\Models\ArchivableItem;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 

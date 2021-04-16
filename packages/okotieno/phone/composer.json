@@ -1,16 +1,16 @@
 {
-    "name": "okotieno/phone",
-    "description": "Laravel Package for Phone Numbers",
-    "authors": [
-        {
-            "name": "okotieno",
-            "email": "okotieno@yahoo.com"
-        }
-    ],
-    "require": {},
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
+  "name": "okotieno/phone",
+  "description": "Laravel Package for Phone Numbers",
+  "authors": [
+    {
+      "name": "okotieno",
+      "email": "okotieno@yahoo.com"
     }
+  ],
+  "require": {},
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  }
 }

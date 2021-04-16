@@ -13,11 +13,13 @@ use App\Models\ProfilePic;
 
 trait hasProfilePics
 {
-    public function profilePics() {
-        return $this->belongsToMany(ProfilePic::class);
-    }
+  public function profilePics()
+  {
+    return $this->belongsToMany(ProfilePic::class);
+  }
 
-    public function getProfilePicIdAttribute() {
-        return $this->profilePics->last() ? $this->profilePics->last()->file_document_id : null;
-    }
+  public function getProfilePicIdAttribute()
+  {
+    return $this->profilePics->last() ? $this->profilePics->last()->file_document_id : null;
+  }
 }

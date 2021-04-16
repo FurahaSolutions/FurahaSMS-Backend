@@ -15,12 +15,8 @@ trait hasOnlineAssessment
     return $this->belongsTo(ExamPaper::class);
   }
 
-  public function onlineAssessments()
+  public function getOnlineAssessmentsAttribute()
   {
-    return $this->hasMany(OnlineAssessment::class);
-  }
-
-  public function getOnlineAssessmentsAttribute() {
     return OnlineAssessment::where('e_learning_topic_id', $this->id)->get();
   }
 
@@ -39,5 +35,10 @@ trait hasOnlineAssessment
       'closing_at' => $request['closing_at'],
       'exam_paper_id' => $examPaper->id
     ]);
+  }
+
+  public function onlineAssessments()
+  {
+    return $this->hasMany(OnlineAssessment::class);
   }
 }
