@@ -71,21 +71,12 @@ class UnitLevelController extends Controller
     return response()->json($unitLevels);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
 
   /**
    * Store a newly created resource in storage.
    *
    * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function store(Request $request)
   {
@@ -96,20 +87,9 @@ class UnitLevelController extends Controller
    * Display the specified resource.
    *
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show($id)
-  {
-    //
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
   {
     //
   }
@@ -119,7 +99,7 @@ class UnitLevelController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update(Request $request, $id)
   {

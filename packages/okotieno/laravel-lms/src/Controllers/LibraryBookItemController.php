@@ -14,29 +14,20 @@ class LibraryBookItemController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function index()
   {
 
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    return view('okotieno.lms.books.add_books');
-  }
 
   /**
    * Store a newly created resource in storage.
    *
    * @param LibraryBook $libraryBook
    * @param StoreLibraryBookItemRequest $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function store(LibraryBook $libraryBook, StoreLibraryBookItemRequest $request)
   {
@@ -60,23 +51,13 @@ class LibraryBookItemController extends Controller
    * Display the specified resource.
    *
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show($id)
   {
     //
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    //
-  }
 
   /**
    * Update the specified resource in storage.
@@ -84,7 +65,7 @@ class LibraryBookItemController extends Controller
    * @param UpdateLibraryBookItemRequest $request
    * @param LibraryBook $libraryBook
    * @param LibraryBookItem $libraryBookItem
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update(UpdateLibraryBookItemRequest $request, LibraryBook $libraryBook, LibraryBookItem $libraryBookItem)
   {
@@ -104,7 +85,7 @@ class LibraryBookItemController extends Controller
    *
    * @param LibraryBook $libraryBook
    * @param LibraryBookItem $libraryBookItem
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function destroy(LibraryBook $libraryBook, LibraryBookItem $libraryBookItem)
   {

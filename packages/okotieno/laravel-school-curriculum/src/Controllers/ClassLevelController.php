@@ -48,15 +48,6 @@ class ClassLevelController extends Controller
         return response()->json($classLevels);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -80,17 +71,6 @@ class ClassLevelController extends Controller
     public function show(ClassLevel $classLevel, Request $request)
     {
         return response()->json($classLevel);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

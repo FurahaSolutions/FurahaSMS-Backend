@@ -2,6 +2,7 @@
 
 namespace Okotieno\LMS\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLibraryBookIssueRequest extends FormRequest
@@ -39,7 +40,7 @@ class StoreLibraryBookIssueRequest extends FormRequest
 
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
+    throw new AuthorizationException(
       'You are not authorised to issue a library book'
     );
   }

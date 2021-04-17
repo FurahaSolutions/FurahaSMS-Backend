@@ -2,6 +2,7 @@
 
 namespace Okotieno\Gender;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 
 class GenderServiceProvider extends ServiceProvider
@@ -25,7 +26,7 @@ class GenderServiceProvider extends ServiceProvider
    * Register services.
    *
    * @return void
-   * @throws \Illuminate\Contracts\Container\BindingResolutionException
+   * @throws BindingResolutionException
    */
   public function register()
   {
