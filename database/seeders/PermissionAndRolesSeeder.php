@@ -829,6 +829,16 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'upload profile picture',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'dean of students',
+          'maker admissions'
+        ]
+      ],
+      [
         'permission' => 'create medical condition',
         'roles' => [
           'admin',
