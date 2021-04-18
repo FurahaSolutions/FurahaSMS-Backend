@@ -4,8 +4,8 @@ namespace Okotieno\SchoolCurriculum\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Okotieno\SchoolCurriculum\Requests\CreateClassLevelRequest;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
+use Okotieno\SchoolCurriculum\Requests\CreateClassLevelRequest;
 
 
 class ClassLevelUnitLevelsController extends Controller
@@ -52,7 +52,6 @@ class ClassLevelUnitLevelsController extends Controller
   {
     return response()->json($classLevel);
   }
-
 
 
   /**

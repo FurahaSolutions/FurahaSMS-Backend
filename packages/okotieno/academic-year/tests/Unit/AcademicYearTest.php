@@ -96,16 +96,13 @@ class AcademicYearTest extends TestCase
    */
   public function authenticated_users_with_permission_can_create_academic_year()
   {
+    $academicYear = AcademicYear::factory()->make()->toArray();
     Permission::factory()->state(['name' => 'create academic year'])->create();
     $user = User::factory()->create();
     $user->givePermissionTo('create academic year');
-    $response = $this->actingAs($user, 'api')->postJson('/api/academic-years', [
-      'name' => $this->faker->year,
-      'start_date' => '2020-01-30',
-      'end_date' => '2021-01-30',
-    ]);
-
-    $response->assertStatus(201);
+    $this->actingAs($user, 'api')
+      ->postJson('/api/academic-years', $academicYear)
+      ->assertStatus(201);
   }
 
   /**

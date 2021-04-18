@@ -38,7 +38,7 @@ class UnitCategory extends Model
             foreach ($request->units as $key => $unitRequest) {
                 $unit = $unitCategory->units()->create([
                     'name' => $unitRequest['name'],
-                    'abbreviation' => $unitRequest['abbr'],
+                    'abbreviation' => $unitRequest['abbreviation'],
                     'active' => $unitRequest['active'],
                 ]);
                 if (key_exists('subjectLevels', $unitRequest)) {

@@ -41,7 +41,7 @@ class Unit extends Model
     $unit = UnitCategory::find($request->unit_category_id)
       ->units()->create([
         'name' => $request->name,
-        'abbreviation' => $request->abbr,
+        'abbreviation' => $request->abbreviation,
         'description' => $request->description,
         'active' => $request->active,
       ]);
@@ -74,7 +74,7 @@ class Unit extends Model
   {
     $unit->name = $request->name;
     $unit->active = $request->active;
-    $unit->abbreviation = $request->abbr;
+    $unit->abbreviation = $request->abbreviation;
     $unit->description = $request->description;
     $unit->save();
     if ($request->unitLevels && is_array($request->unitLevels)) {

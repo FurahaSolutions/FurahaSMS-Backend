@@ -13,7 +13,7 @@ class ClassLevelCategory extends Model
 {
   use softDeletes, HasFactory;
 
-  protected $fillable = ['name', 'abbr'];
+  protected $fillable = ['name', 'abbreviation'];
   public $timestamps = false;
   protected $hidden = ['deleted_at'];
 
