@@ -5,7 +5,7 @@ namespace Okotieno\SchoolCurriculum\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUnitRequest extends FormRequest
+class UpdateUnitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class CreateUnitRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create unit');
+        return auth()->user()->can('update unit');
     }
 
     /**

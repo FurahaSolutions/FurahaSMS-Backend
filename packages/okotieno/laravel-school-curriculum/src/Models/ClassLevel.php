@@ -27,7 +27,7 @@ class ClassLevel extends Model
     {
         $classLevelCategory = ClassLevelCategory::find($request->class_level_category_id);
         $classLevel = $classLevelCategory->classLevels()->create([
-            'abbreviation' => $request->abbr,
+            'abbreviation' => $request->abbreviation,
             'name' => $request->name,
             'active' => $request->active,
 
@@ -41,7 +41,7 @@ class ClassLevel extends Model
             'class_level_category_id' => $request-> class_level_category_id,
             'name' => $request->name,
             'active' => $request->active,
-            'abbr' => $request->abbreviation
+            'abbreviation' => $request->abbreviation
         ]);
         return $classLevel;
     }

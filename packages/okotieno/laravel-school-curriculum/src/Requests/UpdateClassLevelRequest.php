@@ -2,6 +2,7 @@
 
 namespace Okotieno\SchoolCurriculum\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateClassLevelRequest extends FormRequest
@@ -13,7 +14,7 @@ class UpdateClassLevelRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create class level');
+        return auth()->user()->can('update class level');
     }
 
     /**
@@ -26,7 +27,7 @@ class UpdateClassLevelRequest extends FormRequest
         return [
             'name' => 'required',
             'class_level_category_id' => 'required',
-            'abbr' => 'required',
+            'abbreviation' => 'required',
         ];
     }
     public function messages()
@@ -37,4 +38,10 @@ class UpdateClassLevelRequest extends FormRequest
             'class_level_category_id' => 'The class level category field is required'
         ];
     }
+  protected function failedAuthorization()
+  {
+    throw new AuthorizationException(
+      'You are not authorised to update class level'
+    );
+  }
 }

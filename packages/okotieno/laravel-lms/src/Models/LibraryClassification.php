@@ -9,12 +9,12 @@ class LibraryClassification extends Model
   public $timestamps = false;
   protected $table = 'library_classifications';
   protected $fillable = [
-    'name', 'abbr'
+    'name', 'abbreviation'
   ];
 
-  public static function ofType($abbr)
+  public static function ofType($abbreviation)
   {
-    return self::where('abbr', $abbr)->first();
+    return self::where('abbreviation', $abbreviation)->first();
   }
 
   public function libraryClasses()

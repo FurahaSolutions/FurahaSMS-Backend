@@ -16,15 +16,15 @@ class CreateLibraryClassificationTable extends Migration
     Schema::create('library_classifications', function (Blueprint $table) {
       $table->id();
       $table->string('name');
-      $table->string('abbr');
+      $table->string('abbreviation');
       // $table->timestamps();
     });
 
     DB::table('library_classifications')->insert([
-      ['name' => 'Dewey Decimal Classification', 'abbr' => 'DDC'],
-      ['name' => 'Library of Congress Classification', 'abbr' => 'LCC'],
-      ['name' => 'Colon classification', 'abbr' => 'CC'],
-      ['name' => 'Universal Decimal Classification ', 'abbr' => 'UDC'],
+      ['name' => 'Dewey Decimal Classification', 'abbreviation' => 'DDC'],
+      ['name' => 'Library of Congress Classification', 'abbreviation' => 'LCC'],
+      ['name' => 'Colon classification', 'abbreviation' => 'CC'],
+      ['name' => 'Universal Decimal Classification ', 'abbreviation' => 'UDC'],
     ]);
   }
 

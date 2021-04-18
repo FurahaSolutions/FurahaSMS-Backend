@@ -5,7 +5,7 @@ namespace Okotieno\SchoolCurriculum\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUnitRequest extends FormRequest
+class UpdateSemesterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class CreateUnitRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create unit');
+        return auth()->user()->can('update semester');
     }
 
     /**
@@ -26,21 +26,18 @@ class CreateUnitRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'unit_category_id' => 'required',
-            'abbreviation' => 'required'
         ];
     }
     public function messages()
     {
         return [
-            'name.required'=> 'The Unit/Subject is required',
-            'unit_category_id.required' => 'The unit category field is required'
+            'name.required'=> 'The semester name is required',
         ];
     }
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to create unit'
+      'You are not authorised to update semester'
     );
   }
 }
