@@ -5,7 +5,7 @@ namespace Okotieno\TimeTable\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreWeekDayRequest extends FormRequest
+class UpdateWeekDayRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreWeekDayRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('create weekday');
+    return auth()->user()->can('update weekday');
   }
 
   /**
@@ -41,7 +41,7 @@ class StoreWeekDayRequest extends FormRequest
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to create a week day'
+      'You are not authorised to update a week day'
     );
   }
 }

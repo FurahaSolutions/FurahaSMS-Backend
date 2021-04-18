@@ -5,7 +5,7 @@ namespace Okotieno\TimeTable\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreWeekDayRequest extends FormRequest
+class DeleteTimeTableTimingTemplateRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreWeekDayRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('create weekday');
+    return auth()->user()->can('delete time table timing template');
   }
 
   /**
@@ -25,23 +25,14 @@ class StoreWeekDayRequest extends FormRequest
   public function rules()
   {
     return [
-      'name' => 'required',
-      'abbreviation' => 'required'
     ];
   }
 
-  public function messages()
-  {
-    return [
-      'name.required' => 'week day name is required',
-      'abbreviation.required' => 'Week day abbreviation is required',
-    ];
-  }
 
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to create a week day'
+      'You are not authorised to delete a time table timing template'
     );
   }
 }

@@ -5,7 +5,7 @@ namespace Okotieno\TimeTable\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateWeekDayRequest extends FormRequest
+class DeleteWeekDayRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class UpdateWeekDayRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('update weekday');
+    return auth()->user()->can('delete weekday');
   }
 
   /**
@@ -25,23 +25,13 @@ class UpdateWeekDayRequest extends FormRequest
   public function rules()
   {
     return [
-      'name' => 'required',
-      'abbreviation' => 'required'
-    ];
-  }
-
-  public function messages()
-  {
-    return [
-      'name.required' => 'week day name is required',
-      'abbreviation.required' => 'Week day abbreviation is required',
     ];
   }
 
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to update a week day'
+      'You are not authorised to delete a week day'
     );
   }
 }
