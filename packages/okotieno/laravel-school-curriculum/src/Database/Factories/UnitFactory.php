@@ -14,13 +14,12 @@ class UnitFactory extends Factory
 
   public function definition()
   {
-    UnitCategory::factory()->create();
     return [
       'name' => $this->faker->name,
       'abbreviation'=>$this->faker->randomLetter,
       'active' => $this->faker->boolean,
       'default' => $this->faker->boolean,
-      'unit_category_id' => 1,
+      'unit_category_id' => UnitCategory::factory()->create()->id,
       'description' => $this->faker->sentence,
     ];
   }
