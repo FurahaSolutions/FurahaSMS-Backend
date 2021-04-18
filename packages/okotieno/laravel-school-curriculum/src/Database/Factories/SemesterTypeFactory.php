@@ -5,22 +5,20 @@ namespace Okotieno\SchoolCurriculum\Database\Factories;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Okotieno\SchoolCurriculum\Models\SemesterType;
 use Okotieno\SchoolCurriculum\Models\Unit;
 use Okotieno\SchoolCurriculum\Models\UnitCategory;
 
-class UnitFactory extends Factory
+class SemesterTypeFactory extends Factory
 {
-  protected $model = Unit::class;
+  protected $model = SemesterType::class;
 
   public function definition()
   {
     return [
       'name' => $this->faker->name,
-      'abbreviation'=>$this->faker->randomLetter,
       'active' => $this->faker->boolean,
-      'default' => $this->faker->boolean,
-      'unit_category_id' => UnitCategory::factory()->create()->id,
-      'description' => $this->faker->sentence,
+      'default' => $this->faker->boolean
     ];
   }
 }

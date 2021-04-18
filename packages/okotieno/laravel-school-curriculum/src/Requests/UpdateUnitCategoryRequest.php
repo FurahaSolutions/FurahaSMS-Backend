@@ -5,7 +5,7 @@ namespace Okotieno\SchoolCurriculum\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUnitRequest extends FormRequest
+class UpdateUnitCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class CreateUnitRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create unit');
+        return auth()->user()->can('update unit category');
     }
 
     /**
@@ -25,22 +25,21 @@ class CreateUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'unit_category_id' => 'required',
-            'abbreviation' => 'required'
+            // TODO Check if unique:unit_categories,name,deleted_at is okay
+            'name' => 'required|unique:unit_categories,name,deleted_at'
         ];
     }
     public function messages()
     {
         return [
-            'name.required'=> 'The Unit/Subject is required',
-            'unit_category_id.required' => 'The unit category field is required'
+//            'name.unique' => 'The Unit/Subject category name already exists',
+            'name.required'=> 'The Unit/Subject category is required'
         ];
     }
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to create unit'
+      'You are not authorised to update unit category'
     );
   }
 }

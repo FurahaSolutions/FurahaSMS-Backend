@@ -29,6 +29,6 @@ class SchoolCurriculumServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('Okotieno\\SchoolCurriculum\\Controllers\\SchoolCurriculumController');
+
     }
 }
