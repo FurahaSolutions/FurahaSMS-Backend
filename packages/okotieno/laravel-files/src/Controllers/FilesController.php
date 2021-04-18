@@ -17,43 +17,42 @@ use Illuminate\Support\Facades\Storage;
 
 class FilesController extends Controller
 {
-
-  /**
-   * Display a listing of the resource.
-   *
-   * @param Request $request
-   * @param User $user
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function index(Request $request, User $user)
+  public function index(Request $request)
   {
-    $response = [];
-    return response()->json($response);
+    $userId = $request->userId;
+    $profilePic = $request->profilePic;
+    if ($profilePic && ($userId !== null)) {
+      $picture = User::find($userId)->profilePics->last();
+      if ($picture != null) {
+        return Storage::download($picture->fileDocument->file_path);
+      }
+    }
   }
 
-
-  /**
-   * Store a newly created resource in storage.
-   * @param Request $request
-   * @param User $user
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function store(Request $request, User $user)
+  public function store(Request $request)
   {
 
-//        return response()->json([
-//            'saves' => true,
-//            'message' => 'Successfully allocated units to the student',
-//            'data' => []
-//        ]);
+    if ($request->profilePicture !== null) {
+      if(!auth()->user()->can('upload profile picture')) {
+        abort(403, 'You are not authorised to upload profile picture');
+      }
+      $filePath = Storage::put('uploads/profile_picture', $request->profilePicture);
+      $saved_content = User::find(auth()->id())->uploadFileDocument()->create([
+        'name' => $request->profilePicture->getClientOriginalName(),
+        'type' => $request->profilePicture->getClientOriginalExtension(),
+        'extension' => $request->profilePicture->getClientOriginalExtension(),
+        'mme_type' => $request->profilePicture->getMimeType(),
+        'size' => $request->profilePicture->getSize(),
+        'file_path' => $filePath
+      ]);
+      return response([
+        'saved' => true,
+        'message' => 'The Upload was successful',
+        'data' => $saved_content
+      ])->setStatusCode(201);
+    }
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param $fileDocument
-   * @return \Illuminate\Http\JsonResponse
-   */
   public function show($fileDocumentId)
   {
     $fileDocument = FileDocument::find($fileDocumentId);
@@ -62,26 +61,5 @@ class FilesController extends Controller
     }
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function update()
-  {
-
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @return void
-   * @throws \Exception
-   */
-  public function destroy()
-  {
-
-  }
 }
 
