@@ -9,6 +9,8 @@ Build on Laravel Framework
  - Procurements
  - E-learning
  - Library
+ - Financial Management
+ - Timetable Management
 
 ## Installation
 

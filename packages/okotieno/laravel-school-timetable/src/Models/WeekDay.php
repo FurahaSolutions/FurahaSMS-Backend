@@ -2,11 +2,16 @@
 
 namespace Okotieno\TimeTable\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Okotieno\TimeTable\Database\Factories\WeekDayFactory;
 
 class WeekDay extends Model
 {
-//    use SoftDeletes;
-
+  protected $fillable = ['name', 'abbreviation', 'active'];
+  use HasFactory;
+  protected static function newFactory()
+  {
+    return WeekDayFactory::new();
+  }
 }

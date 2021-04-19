@@ -11,7 +11,7 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     Route::apiResources([
       'time-table/time-table-timing-templates' => TimingsTemplateController::class,
       'time-table/week-days' => WeekDaysController::class,
-      'academic-year/{academicYear}/time-tables' => AcademicYearTimeTableController::class,
+      'academic-year/{academicYear:id}/time-tables' => AcademicYearTimeTableController::class,
       'academic-year/{academicYear}/time-tables/{timeTable}/lessons' => TimeTableLessonsController::class,
       'academic-year/{academicYear}/time-tables/{timeTable}/timings' => TimeTableTimingsController::class
     ]);
