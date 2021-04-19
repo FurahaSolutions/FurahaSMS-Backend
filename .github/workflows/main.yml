@@ -15,7 +15,9 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Copy ENV Laravel Configuration for CI
-        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+        run: |
+          php -r "file_exists('.env') || copy('.env.ci', '.env');"
+          mv .env.ci .env.testing
 
       - name: Create database
         run: |
@@ -25,6 +27,7 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
+          DB_FOREIGN_KEYS: true
       - name: Install Dependencies
         run: |
           composer self-update
