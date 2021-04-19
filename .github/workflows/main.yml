@@ -13,9 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - uses: nanasess/setup-php@master
-      with:
-        php-version: '7.4.15'
+#    - uses: nanasess/setup-php@master
+#      with:
+#        php-version: '7.4.15'
     - name: Copy ENV Laravel Configuration for CI
       run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
     - name: Install Dependencies
