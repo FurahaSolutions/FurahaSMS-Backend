@@ -16,9 +16,10 @@ jobs:
     - name: Copy ENV Laravel Configuration for CI
       run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
     - name: Install Dependencies
-      run: composer self-update
-           composer install --prefer-source --no-interaction --dev
-           composer require --dev php-coveralls/php-coveralls
+      run: |
+        composer self-update
+        composer install --prefer-source --no-interaction --dev
+        composer require --dev php-coveralls/php-coveralls
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
