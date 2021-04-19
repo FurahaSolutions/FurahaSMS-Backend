@@ -16,6 +16,7 @@ class CreateLibraryBookPublishersTable extends Migration
     Schema::create('library_book_publishers', function (Blueprint $table) {
       $table->id();
       $table->string('name');
+      $table->longText('biography')->nullable();
       $table->timestamps();
     });
   }
