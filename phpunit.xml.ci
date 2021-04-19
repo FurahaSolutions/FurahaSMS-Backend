@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+  <testsuites>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
+      <directory suffix="Test.php">./packages/okotieno</directory>
+    </testsuite>
+
+    <testsuite name="Feature">
+      <directory suffix="Test.php">./tests/Feature</directory>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <include>
+      <directory suffix=".php">./app</directory>
+      <directory suffix=".php">./packages</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./packages/*/*/src/migrations</directory>
+    </exclude>
+    <report>
+      <clover outputFile="tests/coverage/clover.xml"/>
+      <crap4j outputFile="tests/coverage/crap4j.xml" threshold="50"/>
+      <html outputDirectory="tests/coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
+      <php outputFile="tests/coverage/coverage.php"/>
+      <text outputFile="tests/coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+      <xml outputDirectory="tests/coverage/xml-coverage"/>
+    </report>
+  </coverage>
+  <logging>
+    <junit outputFile="tests/logs/junit.xml"/>
+    <teamcity outputFile="tests/logs/teamcity.txt"/>
+    <testdoxHtml outputFile="tests/logs/testdox.html"/>
+    <testdoxText outputFile="tests/logs/testdox.txt"/>
+    <testdoxXml outputFile="tests/logs/testdox.xml"/>
+    <text outputFile="tests/logs/logfile.txt"/>
+  </logging>
+</phpunit>
