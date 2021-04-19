@@ -24,6 +24,9 @@ class ProcurementRequestUpdateRequest extends FormRequest
   {
     $procurementRequestId = Route::current()->parameters()['request'];
     $requestedById = ProcurementRequest::find($procurementRequestId)->requested_by;
+    echo auth()->id();
+    echo '==>';
+    echo $requestedById;
     return auth()->id() === $requestedById || auth()->user()->can('update procurement request');
   }
 

@@ -229,7 +229,7 @@ class ProcurementRequestTest extends TestCase
    * PATCH /api/procurements/requests
    * @test
    * @group procurement
-   * @group procurement-request
+   * @group procurement-request-1
    * @group post-request
    */
   public function authorised_users_can_update_own_procurement_request()
