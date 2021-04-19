@@ -26,7 +26,9 @@ class TimeTableLessonTest extends \Tests\TestCase
   {
     parent::setUp();
     $this->academicYear = AcademicYear::factory()->create();
-    $this->timeTable = TimeTable::factory()->create();
+    $this->timeTable = TimeTable::factory()->state([
+      'academic_year_id' => $this->academicYear->id
+    ])->create();
     $this->url = '/api/academic-year/' . $this->academicYear->id . 'academic-year/time-tables/' . $this->timeTable->id . '/lessons';
   }
 

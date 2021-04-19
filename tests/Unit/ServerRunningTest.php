@@ -85,10 +85,11 @@ class ServerRunningTest extends TestCase
    * @group app
    * @group post-request
    * @group authentication
+   * @test
    *
    */
 
-  public function testApiAuthenticationFailsWithCorrectCredentialsInvalidToken()
+  public function api_authentication_fails_with_correct_credentials_invalid_token()
   {
     $response = $this->post('/api/oauth/token', [
       'grant_type' => 'password',
