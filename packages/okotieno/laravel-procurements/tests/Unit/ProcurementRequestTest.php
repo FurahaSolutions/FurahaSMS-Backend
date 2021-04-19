@@ -4,6 +4,7 @@
 namespace Okotieno\Procurement\Tests\Unit;
 
 
+use App\Models\User;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\Procurement\Models\ProcurementBid;
 use Okotieno\Procurement\Models\ProcurementRequest;
@@ -234,11 +235,12 @@ class ProcurementRequestTest extends TestCase
    */
   public function authorised_users_can_update_own_procurement_request()
   {
+    $user = User::factory()->create();
     $procurementRequest = ProcurementRequest::factory()->state([
-      'requested_by' => $this->user->id
+      'requested_by' => $user->id
     ])->create();
     $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
-    $this->actingAs($this->user, 'api')
+    $this->actingAs($user, 'api')
       ->patchJson('api/procurements/requests/'. $procurementRequest->id, $procurementRequestUpdate)
       ->assertStatus(200);
   }
