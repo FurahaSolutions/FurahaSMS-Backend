@@ -110,10 +110,11 @@ class ServerRunningTest extends TestCase
    * @group app
    * @group post-request
    * @group authentication
+   * @group test
    *
    */
 
-  public function testApiAuthenticationFailsWithInCorrectCredentials()
+  public function api_authentication_fails_with_incorrect_credentials()
   {
     $response = $this->post('/api/oauth/token', [
       'grant_type' => 'password',
@@ -123,6 +124,7 @@ class ServerRunningTest extends TestCase
       'password' => 'Invalid password',
       'scope' => '',
     ]);
+    echo $response->content();
     $response->assertStatus(401);
   }
 
