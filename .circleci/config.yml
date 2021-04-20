@@ -20,7 +20,7 @@ jobs:
         environment:
           MYSQL_USER: root
           MYSQL_DATABASE: root
-          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_ROOT_PASSWORD: 'vbxtjmxG'
           MYSQL_PASSWORD: 'root'
 
     steps:
