@@ -31,11 +31,11 @@ jobs:
           command: |
             sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
             sudo docker-php-ext-install zip bcmath pdo_mysql
-      - run: sudo apt-get update && \
-             apt-get install -y \
-             libzip-dev \
-             libjpeg62-turbo-dev \
-             libpng-dev
+      # - run: sudo apt-get update && \
+      #        apt-get install -y \
+      #        libzip-dev \
+      #        libjpeg62-turbo-dev \
+      #        libpng-dev
       - run: sudo docker-php-ext-install gd
       # Download and cache dependencies
 
