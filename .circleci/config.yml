@@ -31,11 +31,6 @@ jobs:
           command: |
             sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
             sudo docker-php-ext-install zip bcmath pdo_mysql
-      - run:
-          name: Install Node
-          command: |
-            curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-            sudo apt-get install -y nodejs
       # Download and cache dependencies
 
       # composer cache
@@ -52,20 +47,10 @@ jobs:
           paths:
             - vendor
 
-      # node cache
-      - restore_cache:
-          keys:
-            - node-v4-{{ checksum "package.json" }}
-            - node-v4-
-      - run: npm install
-      - save_cache:
-          key: node-v4-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-            - ~/.yarn
-
       # prepare the database
-      - run: touch storage/testing.sqlite
+      - run: cp .env.travis .env
+      - run: cp .env.testing.travis .env.testing
+      - run: touch storage/furahasms_testing.sqlite
       - run: php artisan migrate --env=testing --database=mysql --force
 
       # run tests with phpunit or codecept
