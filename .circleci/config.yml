@@ -38,11 +38,6 @@ jobs:
                  libpng-dev \
                  && sudo docker-php-ext-configure gd --with-freetype --with-jpeg \
                  && sudo docker-php-ext-install -j$(nproc) gd
-            # sudo docker-php-ext-install gd
-      # sudo apt-get install -y libzip-dev libjpeg62-turbo-dev libpng-dev
-      # - run: sudo apt-get install libzip-dev libjpeg62-turbo-dev libpng-dev
-      # - run: sudo docker-php-ext-install gd
-      # Download and cache dependencies
 
       # composer cache
       - restore_cache:
@@ -68,11 +63,12 @@ jobs:
       # run tests with phpunit
       - run: php artisan test --coverage-html reports
       - run: ./vendor/bin/phpunit
+      - run: php vendor/bin/php-coveralls -v
       
       - store_test_results:
-          path: tests/_output
+          path: tests/coverage
       - store_artifacts:
-          path: tests/_output
+          path: tests/coverage
 
 workflows:
   version: 2
