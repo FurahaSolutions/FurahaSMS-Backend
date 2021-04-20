@@ -35,14 +35,14 @@ POST /api/oauth/token
 ```
 
 #### Parameters
-|     Parameter   |   Type  |  Required | 
-|:--------------- |:-------:|:---------:|
-| `grant_type`    | string  |  true     |
-| `client_id`     | integer |  true     |
-| `client_secret` | string  |  true     |
-| `username`      | string  |  true     |
-| `password`      | string  |  true     |
-| `scope`         | string  |  true     |
+|     Parameter   |      Description      |
+|:--------------- |:---------------------:|
+| `grant_type`    | (*string*, *required*)     |
+| `client_id`     |  (*integer*, *required*)     |
+| `client_secret` |  (*string*, *required*)     |
+| `username`      |  (*string*, *required*)     |
+| `password`      |  (*string*, *required*)     |
+| `scope`         |  (*string*, *required*)     |
 
 <details>
   <summary>Sample request object</summary>
