@@ -6,76 +6,44 @@ version: 2
 jobs:
   build:
     docker:
-      # Specify the version you desire here
-      - image: circleci/php:8.0-node-browsers
-
-      - image: circleci/mysql:8.0.4
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-        environment:
-          MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: furahasms_testing
-          MYSQL_USER: user
-          MYSQL_PASSWORD: passw0rd
-
-      steps:
-        - checkout
-        - run:
-            # Our primary container isn't MYSQL so run a sleep command until it's ready.
-            name: Waiting for MySQL to be ready
-            command: |
-              for i in `seq 1 10`;
-              do
-                nc -z 127.0.0.1 3306 && echo Success && exit 0
-                echo -n .
-                sleep 1
-              done
-              echo Failed waiting for MySQL && exit 1
-        - run:
-          name: Install MySQL CLI; Import dummy data; run an example query
-          command: |
-            sudo apt-get install default-mysql-client
-            mysql -h 127.0.0.1 -u user -ppassw0rd furahasms_testing < sql-data/dummy.sql
+      - image: circleci/php:7.2-node-browsers
+      - image: circleci/mysql:5.7-ram
 
     steps:
       - checkout
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
+      - run: sudo docker-php-ext-install zip bcmath
+      - run: sudo apt-get install mysql-client
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-            # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-{{ checksum "composer.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+
+      # Install Dependencies
 
       - run: composer install -n --prefer-dist
 
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: v1-dependencies-{{ checksum "composer.lock" }}
           paths:
             - ./vendor
       - restore_cache:
           keys:
-            - node-v1-{{ checksum "package.json" }}
+            - node-v1-{{ checksum "package-lock.json" }}
             - node-v1-
-      - run: yarn install
+      - run: npm install
       - save_cache:
-          key: node-v1-{{ checksum "package.json" }}
+          key: node-v1-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
 
-      # copy env files
-      - run: cp .env.travis .env
-      - run: cp .env.testing.travis .env.testing
-
       # prepare the database
-      - run: touch database/furahasms_testing.sqlite
+      - run: mysqladmin create furahasms_testing --user="root" --password="root"
       - run: php artisan migrate --env=testing --force
 
-      # run tests with phpunit or codecept
-      - run: ./vendor/bin/phpunit
-
+      # run tests
+      - run: ./vendor/bin/phpuni
