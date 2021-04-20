@@ -22,11 +22,11 @@ jobs:
       - name: Create database
         run: |
           mkdir -p database
-          touch database/database.sqlite
+          touch database/furahasms_testing.sqlite
           sudo apt-get install php-sqlite3
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+          DB_DATABASE: database/furahasms_testing.sqlite
           DB_FOREIGN_KEYS: true
       - name: Install Dependencies
         run: |

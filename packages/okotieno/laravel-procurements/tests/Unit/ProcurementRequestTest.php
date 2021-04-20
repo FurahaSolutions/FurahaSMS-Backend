@@ -235,12 +235,18 @@ class ProcurementRequestTest extends TestCase
    */
   public function authorised_users_can_update_own_procurement_request()
   {
-    $user = User::factory()->create();
     $procurementRequest = ProcurementRequest::factory()->state([
-      'requested_by' => $user->id
+      'requested_by' => $this->user->id
     ])->create();
-    $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
-    $this->actingAs($user, 'api')
+    echo "USER ==>";
+    echo $this->user->id;
+    echo "Requested BY ==>";
+    echo $procurementRequest->requested_by;
+    echo "||";
+    $procurementRequestUpdate = ProcurementRequest::factory()->state([
+      'requested_by' => $this->user->id
+    ])->make()->toArray();
+    $this->actingAs($this->user, 'api')
       ->patchJson('api/procurements/requests/'. $procurementRequest->id, $procurementRequestUpdate)
       ->assertStatus(200);
   }
