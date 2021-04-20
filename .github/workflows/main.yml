@@ -18,6 +18,7 @@ jobs:
         run: |
           php -r "file_exists('.env') || copy('.env.ci', '.env');"
           mv .env.ci .env.testing
+          mv phpunit.xml.ci phpunit.xml
 
       - name: Create database
         run: |

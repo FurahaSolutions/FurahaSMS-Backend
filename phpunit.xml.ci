@@ -51,7 +51,7 @@
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="SESSION_DRIVER" value="array"/>
     <env name="APP_ENV" value="testing"/>
-    <env name="DB_DATABASE" value="furahasms_testing"/>
+    <env name="DB_DATABASE" value="database/furahasms_testing.sqlite"/>
   </php>
 
 </phpunit>
