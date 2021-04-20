@@ -16,20 +16,22 @@ jobs:
       # for database intensive operations.
       # - image: circleci/mysql:5.7-ram
       # - image: redis:3
-      - image: circleci/mysql:8.0.20-ram
+      - image: circleci/mysql:8
         environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_ROOT_PASSWORD: ''
           MYSQL_USER: root
           MYSQL_DATABASE: root
-          MYSQL_ROOT_PASSWORD: 'vbxtjmxG'
-          MYSQL_PASSWORD: 'root'
+          MYSQL_PASSWORD: ''
 
     steps:
       - checkout
       - run:
           name: Install MySQL driver
           command: |
-            sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
-            sudo docker-php-ext-install zip bcmath pdo_mysql
+            sudo apt-get install mysql-client
+      # create database
+      - run: mysql -h 127.0.0.1 -u root -e "create database furahasms_testing"
       - run:
           name: Install Node
           command: |
