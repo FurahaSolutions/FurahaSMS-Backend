@@ -61,9 +61,8 @@ jobs:
       - run: php artisan migrate --env=testing --database=mysql --force
 
       # run tests with phpunit
-      - run: php artisan test --coverage-html reports
+      - run: php artisan test --coverage-html tests/coverage
       - run: ./vendor/bin/phpunit
-      - run: php vendor/bin/php-coveralls -v
       
       - store_test_results:
           path: tests/coverage
