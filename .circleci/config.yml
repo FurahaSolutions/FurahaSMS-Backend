@@ -47,6 +47,10 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}
           paths:
             - node_modules
+            
+      # copy env files
+      - run: cp .env.travis .env
+      - run: cp .env.testing.travis .env.testing
 
       # prepare the database
       - run: touch database/furahasms_testing.sqlite
