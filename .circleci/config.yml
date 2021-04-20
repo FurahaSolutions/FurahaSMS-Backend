@@ -31,7 +31,6 @@ jobs:
           command: |
             sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
             sudo docker-php-ext-install zip bcmath pdo_mysql
-            sudo mysql -e 'create database furahasms_testing;'
       # Download and cache dependencies
 
       # composer cache
@@ -51,6 +50,7 @@ jobs:
       # prepare the database
       - run: cp .env.travis .env
       - run: cp .env.testing.travis .env.testing
+      - run: sudo mysql -e 'create database furahasms_testing;'
       - run: touch storage/furahasms_testing.sqlite
       - run: php artisan migrate --env=testing --database=mysql --force
 
