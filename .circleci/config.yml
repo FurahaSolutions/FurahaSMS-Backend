@@ -28,7 +28,6 @@ jobs:
           name: Install MySQL driver
           command: |
             sudo apt-get update && sudo apt-get dist-upgrade
-            sudo apt-get install mysql-server
       # create database
       - run: mysql -h 127.0.0.1 -u root -e "create database furahasms_testing"
       - run:
