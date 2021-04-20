@@ -9,14 +9,34 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:8.0-node-browsers
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
+      - image: circleci/mysql:8.0.4
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: furahasms_testing
+          MYSQL_USER: user
+          MYSQL_PASSWORD: passw0rd
+
+      steps:
+        - checkout
+        - run:
+            # Our primary container isn't MYSQL so run a sleep command until it's ready.
+            name: Waiting for MySQL to be ready
+            command: |
+              for i in `seq 1 10`;
+              do
+                nc -z 127.0.0.1 3306 && echo Success && exit 0
+                echo -n .
+                sleep 1
+              done
+              echo Failed waiting for MySQL && exit 1
+        - run:
+          name: Install MySQL CLI; Import dummy data; run an example query
+          command: |
+            sudo apt-get install default-mysql-client
+            mysql -h 127.0.0.1 -u user -ppassw0rd furahasms_testing < sql-data/dummy.sql
 
     steps:
       - checkout
@@ -47,7 +67,7 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}
           paths:
             - node_modules
-            
+
       # copy env files
       - run: cp .env.travis .env
       - run: cp .env.testing.travis .env.testing
