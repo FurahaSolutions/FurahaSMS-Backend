@@ -13,7 +13,7 @@ use Tests\TestCase;
 class ProcurementRequestTest extends TestCase
 {
   /**
-   * POST /api/procurements/requests
+   * POST /api/procurements
    * @test
    * @group procurement
    * @group procurement-request
@@ -21,12 +21,12 @@ class ProcurementRequestTest extends TestCase
    */
   public function unauthenticated_users_cannot_make_procurement_request()
   {
-    $this->postJson('api/procurements/requests', [])
+    $this->postJson('api/procurements', [])
       ->assertStatus(401);
   }
 
   /**
-   * POST /api/procurements/requests
+   * POST /api/procurements
    * @test
    * @group procurement
    * @group procurement-request
@@ -35,12 +35,12 @@ class ProcurementRequestTest extends TestCase
   public function unauthorised_users_cannot_make_procurement_request()
   {
     $procurementRequest = ProcurementRequest::factory()->make()->toArray();
-    $this->actingAs($this->user, 'api')->postJson('api/procurements/requests', $procurementRequest)
+    $this->actingAs($this->user, 'api')->postJson('api/procurements', $procurementRequest)
       ->assertStatus(403);
   }
 
   /**
-   * POST /api/procurements/requests
+   * POST /api/procurements
    * @test
    * @group procurement
    * @group procurement-request
@@ -51,13 +51,13 @@ class ProcurementRequestTest extends TestCase
     Permission::factory()->state(['name' => 'make procurement request'])->create();
     $this->user->givePermissionTo('make procurement request');
     $procurementRequest = ProcurementRequest::factory()->make()->toArray();
-    $this->actingAs($this->user, 'api')->postJson('api/procurements/requests', $procurementRequest)
+    $this->actingAs($this->user, 'api')->postJson('api/procurements', $procurementRequest)
       ->assertStatus(200);
   }
 
 
   /**
-   * PATCH /api/procurements/requests
+   * PATCH /api/procurements
    * @test
    * @group procurement
    * @group procurement-request
@@ -68,7 +68,7 @@ class ProcurementRequestTest extends TestCase
     $procurementRequest = ProcurementRequest::factory()->create();
     $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/procurements/requests/'.$procurementRequest->id, $procurementRequestUpdate)
+      ->patchJson('api/procurements/'.$procurementRequest->id, $procurementRequestUpdate)
       ->assertStatus(403);
   }
 
@@ -193,7 +193,7 @@ class ProcurementRequestTest extends TestCase
   }
 
   /**
-   * PATCH /api/procurements/requests
+   * PATCH /api/procurements
    * @test
    * @group procurement
    * @group procurement-request
@@ -203,13 +203,13 @@ class ProcurementRequestTest extends TestCase
   {
     $procurementRequest = ProcurementRequest::factory()->create();
     $procurementRequestUpdate = ProcurementRequest::factory()->make()->toArray();
-    $this->patchJson('api/procurements/requests/'.$procurementRequest->id, $procurementRequestUpdate)
+    $this->patchJson('api/procurements/'.$procurementRequest->id, $procurementRequestUpdate)
       ->assertStatus(401);
   }
 
 
   /**
-   * PATCH /api/procurements/requests
+   * PATCH /api/procurements
    * @test
    * @group procurement
    * @group procurement-request
@@ -222,15 +222,15 @@ class ProcurementRequestTest extends TestCase
     Permission::factory()->state(['name' => 'update procurement request'])->create();
     $this->user->givePermissionTo('update procurement request');
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/procurements/requests/'. $procurementRequest->id, $procurementRequestUpdate)
+      ->patchJson('api/procurements/'. $procurementRequest->id, $procurementRequestUpdate)
       ->assertStatus(200);
   }
 
   /**
-   * PATCH /api/procurements/requests
+   * PATCH /api/procurements
    * @test
    * @group procurement
-   * @group procurement-request-1
+   * @group procurement-request
    * @group post-request
    */
   public function authorised_users_can_update_own_procurement_request()
@@ -238,16 +238,11 @@ class ProcurementRequestTest extends TestCase
     $procurementRequest = ProcurementRequest::factory()->state([
       'requested_by' => $this->user->id
     ])->create();
-    echo "USER ==>";
-    echo $this->user->id;
-    echo "Requested BY ==>";
-    echo $procurementRequest->requested_by;
-    echo "||";
     $procurementRequestUpdate = ProcurementRequest::factory()->state([
       'requested_by' => $this->user->id
     ])->make()->toArray();
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/procurements/requests/'. $procurementRequest->id, $procurementRequestUpdate)
+      ->patchJson('api/procurements/'. $procurementRequest->id, $procurementRequestUpdate)
       ->assertStatus(200);
   }
 }

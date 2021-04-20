@@ -16,12 +16,6 @@ if (env('HEROKU_POSTGRES') != null) {
   $DATABASE_URL['database'] = ltrim($DATABASE_URL['path'], '/');
 }
 
-echo 'DB_CONNECTION =>>';
-echo $default;
-echo 'DB_DATABASE =>>';
-echo env('DB_DATABASE');
-echo 'APP_ENV =>>';
-echo env('APP_ENV');
 return [
 
   /*
