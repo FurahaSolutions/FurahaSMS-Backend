@@ -58,8 +58,8 @@ jobs:
             - vendor
 
       # prepare the database
-      - run: cp .env.travis .env
-      - run: cp .env.testing.travis .env.testing
+      - run: cp .env.ci .env
+      - run: cp .env.testing.ci .env.testing
       - run: touch storage/furahasms_testing.sqlite
       - run: php artisan migrate --env=testing --database=mysql --force
 
