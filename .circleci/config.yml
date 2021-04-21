@@ -61,9 +61,9 @@ jobs:
       - run: php artisan migrate --env=testing --database=mysql --force
 
       # run tests with phpunit
-      - run: php artisan test --coverage-html tests/coverage
       - run: 
-          command: ./vendor/bin/phpunit
+          # command: ./vendor/bin/phpunit
+          command: php artisan test --coverage-html tests/coverage
           environment: 
             XDEBUG_MODE: coverage
       
