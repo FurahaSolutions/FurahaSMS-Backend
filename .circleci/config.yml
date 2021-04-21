@@ -8,6 +8,8 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:8.0.3-apache
+        environment: 
+           XDEBUG_MODE: coverage
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
