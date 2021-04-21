@@ -8,7 +8,7 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:8.0.3-apache
-        environment: 
+        environment:
            XDEBUG_MODE: coverage
 
       # Specify service dependencies here if necessary
@@ -64,13 +64,11 @@ jobs:
       - run: php artisan migrate --env=testing --database=mysql --force
 
       # run tests with phpunit
-      # - run: php artisan test --coverage-html tests/coverage 
-      - run: 
-          command: sudo php -d memory_limit=-1 ./vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
-          environment: 
-            XDEBUG_MODE: coverage
+      # - run: php artisan test --coverage-html tests/coverage
+      - run:
+          command: composer run test:coverage
       # - run: ./vendor/bin/php-coveralls -v
-      
+
       - store_test_results:
           path: tests/coverage
       - store_artifacts:
