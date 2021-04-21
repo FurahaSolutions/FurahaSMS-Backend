@@ -64,7 +64,7 @@ jobs:
       # run tests with phpunit
       # - run: php artisan test --coverage-html tests/coverage 
       - run: 
-          command: sudo php -d memory_limit=-1 ./vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
+          command: sudo php -d memory_limit=-1 XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover tests/coverage/clover.xml
           environment: 
             XDEBUG_MODE: coverage
       # - run: ./vendor/bin/php-coveralls -v
