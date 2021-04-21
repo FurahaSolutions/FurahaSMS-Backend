@@ -62,10 +62,9 @@ jobs:
       - run: php artisan migrate --env=testing --database=mysql --force
 
       # run tests with phpunit
-      # - run: php artisan test --coverage-html tests/coverage
-      - run: sudo php -d memory_limit=-1
+      # - run: php artisan test --coverage-html tests/coverage 
       - run: 
-          command: ./vendor/bin/phpunit
+          command: sudo php -d memory_limit=-1 ./vendor/bin/phpunit
           environment: 
             XDEBUG_MODE: coverage
       
