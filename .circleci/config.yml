@@ -67,6 +67,7 @@ jobs:
           command: sudo php -d memory_limit=-1 ./vendor/bin/phpunit
           environment: 
             XDEBUG_MODE: coverage
+      - run: ./vendor/bin/php-coveralls -v
       
       - store_test_results:
           path: tests/coverage
