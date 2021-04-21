@@ -63,6 +63,7 @@ jobs:
 
       # run tests with phpunit
       # - run: php artisan test --coverage-html tests/coverage
+      - run: sudo php -d memory_limit=-1
       - run: 
           command: ./vendor/bin/phpunit
           environment: 
