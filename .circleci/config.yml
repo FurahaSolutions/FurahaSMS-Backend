@@ -67,7 +67,7 @@ jobs:
       # - run: php artisan test --coverage-html tests/coverage
       - run:
           command: composer run test:coverage
-      # - run: ./vendor/bin/php-coveralls -v
+      - run: ./vendor/bin/php-coveralls -v
 
       - store_test_results:
           path: tests/coverage
