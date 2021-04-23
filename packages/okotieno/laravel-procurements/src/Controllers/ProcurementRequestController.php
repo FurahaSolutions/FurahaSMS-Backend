@@ -13,7 +13,7 @@ class ProcurementRequestController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function index()
   {
@@ -46,32 +46,30 @@ class ProcurementRequestController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param ProcurementRequest $procurement
+   * @return JsonResponse
    */
-  public function show($id)
+  public function show(ProcurementRequest $procurement)
   {
-    $procurementRequest = ProcurementRequest::find($id);
-    $procurementRequest->user;
-    return $procurementRequest;
+    $procurement->user;
+    return response()->json($procurement);
   }
 
 
   /**
    * Update the specified resource in storage.
    *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param ProcurementRequestUpdateRequest $request
+   * @param ProcurementRequest $procurement
+   * @return JsonResponse
    */
-  public function update(ProcurementRequestUpdateRequest $request, $id): JsonResponse
+  public function update(ProcurementRequestUpdateRequest $request, ProcurementRequest $procurement): JsonResponse
   {
-    $updated = ProcurementRequest::find($id);
-    $updated->update($request->all());
+    $procurement->update($request->all());
     return response()->json([
       'saved' => true,
       'message' => 'Procurement Requests updated Successfully',
-      'data' => $updated
+      'data' => $procurement
     ]);
   }
 
@@ -79,7 +77,7 @@ class ProcurementRequestController extends Controller
    * Remove the specified resource from storage.
    *
    * @param ProcurementRequest $procurementRequest
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function destroy($id)
   {

@@ -19,9 +19,10 @@ class LibraryBookPublisherController extends Controller
   /**
    * Display a listing of the resource.
    *
+   * @param Request $request
    * @return JsonResponse
    */
-  public function index(Request $request)
+  public function index(Request $request): JsonResponse
   {
     if ($request->publisher_id != null) {
       return response()->json(LibraryBookPublisher::find($request->publisher_id));
@@ -40,7 +41,7 @@ class LibraryBookPublisherController extends Controller
    * @param StoreLibraryBookPublisherRequest $request
    * @return JsonResponse
    */
-  public function store(StoreLibraryBookPublisherRequest $request)
+  public function store(StoreLibraryBookPublisherRequest $request): JsonResponse
   {
     $saved_picture = null;
     if ($request->profilePicture !== null) {
@@ -78,42 +79,42 @@ class LibraryBookPublisherController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param LibraryBookPublisher $libraryBookPublisher
+   * @param LibraryBookPublisher $publisher
    * @return JsonResponse
    */
-  public function show(LibraryBookPublisher $libraryBookPublisher)
+  public function show(LibraryBookPublisher $publisher)
   {
-    return response()->json($libraryBookPublisher);
+    return response()->json($publisher);
   }
 
   /**
    * Update the specified resource in storage.
    *
-   * @param Request $request
-   * @param LibraryBookPublisher $libraryBookPublisher
+   * @param UpdateLibraryBookPublisherRequest $request
+   * @param LibraryBookPublisher $publisher
    * @return JsonResponse
    */
-  public function update(UpdateLibraryBookPublisherRequest $request, LibraryBookPublisher $libraryBookPublisher)
+  public function update(UpdateLibraryBookPublisherRequest $request, LibraryBookPublisher $publisher): JsonResponse
   {
 
-    $libraryBookPublisher->update(['name' => $request->name, 'biography' => $request->biography]);
+    $publisher->update(['name' => $request->name, 'biography' => $request->biography]);
     return response()->json([
       'saved' => true,
       'message' => 'Publisher Updated Successfully',
-      'data' => LibraryBookPublisher::find($libraryBookPublisher->id)
+      'data' => LibraryBookPublisher::find($publisher->id)
     ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param LibraryBookPublisher $libraryBookPublisher
+   * @param DeleteLibraryBookPublisherRequest $request
+   * @param LibraryBookPublisher $publisher
    * @return JsonResponse
-   * @throws Exception
    */
-  public function destroy(DeleteLibraryBookPublisherRequest $request, LibraryBookPublisher $libraryBookPublisher)
+  public function destroy(DeleteLibraryBookPublisherRequest $request, LibraryBookPublisher $publisher): JsonResponse
   {
-    $libraryBookPublisher->delete();
+    $publisher->delete();
     return response()->json([
       'saved' => true,
       'message' => 'Publisher Updated Successfully',

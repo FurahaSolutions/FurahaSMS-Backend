@@ -11,7 +11,6 @@ namespace Okotieno\Procurement\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
-use Okotieno\Procurement\Models\ProcurementRequest;
 
 class ProcurementRequestUpdateRequest extends FormRequest
 {
@@ -22,8 +21,9 @@ class ProcurementRequestUpdateRequest extends FormRequest
    */
   public function authorize()
   {
-    $procurementRequestId = Route::current()->parameters()['request'];
-    $requestedById = ProcurementRequest::find($procurementRequestId)->requested_by;
+
+    $requestedById = Route::current()->parameters()['procurement']->requested_by;
+
     return auth()->id() === $requestedById || auth()->user()->can('update procurement request');
   }
 

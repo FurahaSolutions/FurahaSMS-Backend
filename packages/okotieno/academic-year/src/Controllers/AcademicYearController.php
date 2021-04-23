@@ -68,6 +68,9 @@ class AcademicYearController extends Controller
       'end_date' => $academicYear->end_date,
       'class_level_allocations' => []
     ];
+    if($request->semesters == 1) {
+      $returnAcademicYear['semesters'] = $academicYear->semesters;
+    }
     if ($request->class_levels == 1) {
       $classLevels = [];
       foreach ($academicYear->classAllocations->groupBy('class_level_id')->toArray() as $key => $classAllocation) {

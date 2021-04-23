@@ -5,7 +5,9 @@ namespace Okotieno\AcademicYear\Tests\Unit;
 use App\Models\User;
 use Carbon\Carbon;
 use Okotieno\AcademicYear\Models\AcademicYear;
+use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\SchoolAccounts\Models\TuitionFeeFinancialPlan;
 use Tests\TestCase;
 
 
@@ -61,6 +63,46 @@ class AcademicYearTest extends TestCase
       ->assertStatus(200)
       ->assertJsonFragment(['archived_at' => $time])
       ->assertJsonMissing(['archived_at' => null]);
+  }
+
+  /**
+   * GET /academic-years/{id}?semesters=1
+   * @group academic-year
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_academic_year_with_semesters()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    TuitionFeeFinancialPlan::factory()->state([
+      'academic_year_id' => $academicYear->id
+    ])->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years/' . $academicYear->id . '?semesters=1')
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'name', 'semesters' => [['id', 'name']]]);
+
+  }
+
+  /**
+   * GET /academic-years/{id}?semesters=1
+   * @group academic-year-sem
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_academic_year_with_class_levels()
+  {
+    $academicYear = AcademicYear::factory()->create();
+    AcademicYearUnitAllocation::factory()->state([
+      'academic_year_id' => $academicYear->id
+    ])->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years/' . $academicYear->id . '?class_levels=1')
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'name', 'class_level_allocations' => [['id', 'name']]]);
+
   }
 
   /**
