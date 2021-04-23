@@ -5,16 +5,10 @@ namespace Okotieno\LMS\Controllers\Api;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Http\Request;
-use Okotieno\LMS\Models\BookIssue;
-use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryClassification;
 
 class LibraryBookController extends Controller
 {
-  public function getAllIssuedBooks()
-  {
-
-  }
 
   public function getMyAccount()
   {

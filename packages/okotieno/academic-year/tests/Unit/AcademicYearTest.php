@@ -98,9 +98,6 @@ class AcademicYearTest extends TestCase
     AcademicYearUnitAllocation::factory()->state([
       'academic_year_id' => $academicYear->id
     ])->create();
-    echo $this->actingAs($this->user, 'api')
-      ->getJson('/api/academic-years/' . $academicYear->id . '?class_levels=1')
-      ->content();
     $this->actingAs($this->user, 'api')
       ->getJson('/api/academic-years/' . $academicYear->id . '?class_levels=1')
       ->assertStatus(200)
