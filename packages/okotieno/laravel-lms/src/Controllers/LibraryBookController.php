@@ -3,33 +3,50 @@
 namespace Okotieno\LMS\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryBookAuthor;
 use Okotieno\LMS\Models\LibraryBookPublisher;
 use Okotieno\LMS\Models\LibraryBookTag;
 use Okotieno\LMS\Models\LibraryClass;
+use Okotieno\LMS\Requests\DeleteLibraryBookRequest;
 use Okotieno\LMS\Requests\StoreLibraryBookRequest;
+use Okotieno\LMS\Requests\UpdateLibraryBookRequest;
 
 class LibraryBookController extends Controller
 {
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function index()
+  public function index(Request $request)
   {
+    $book = LibraryBook::find($request->book_id);
+    if ($book != null) {
+      return response()->json($book->details());
+    }
 
+    if($request->title != null || $request->author != null || $request->publisher != null || $request->tag != null){
+      $books = LibraryBook::filter($request)
+        ->get()
+        ->pluck('id')
+        ->unique();
+      return response()->json(LibraryBook::collectionDetails(LibraryBook::find($books)));
+    }
+
+    $libraryBooks = LibraryBook::all();
+    return response()->json(LibraryBook::collectionDetails($libraryBooks));
   }
 
   /**
    * Store a newly created resource in storage.
    *
    * @param StoreLibraryBookRequest $request
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function store(StoreLibraryBookRequest $request)
+  public function store(StoreLibraryBookRequest $request): JsonResponse
   {
     $created_book = LibraryBook::create([
       'title' => $request->title,
@@ -50,7 +67,7 @@ class LibraryBookController extends Controller
 
     return response()->json([
       'saved' => true,
-      'message' => 'Book saved Successfully',
+      'message' => 'Successfully created library book',
       'data' => [
         'id' => $created_book->id,
         'title' => $created_book->title,
@@ -62,16 +79,16 @@ class LibraryBookController extends Controller
         'publishers' => $created_book->libraryBookPublishers,
         'libraryClasses' => $created_book->libraryClasses
       ]
-    ]);
+    ])->setStatusCode(201);
   }
 
   /**
    * Display the specified resource.
    *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param LibraryBook $libraryBook
+   * @return JsonResponse
    */
-  public function show(LibraryBook $libraryBook)
+  public function show(LibraryBook $libraryBook): JsonResponse
   {
     $libraryBook->libraryBookAuthors;
     $libraryBook->libraryBookItems;
@@ -85,27 +102,33 @@ class LibraryBookController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param UpdateLibraryBookRequest $request
+   * @param LibraryBook $libraryBook
+   * @return JsonResponse
    */
-  public function update(Request $request, $id)
+  public function update(UpdateLibraryBookRequest $request, LibraryBook $libraryBook): JsonResponse
   {
-    //
+    $libraryBook->update($request->all());
+    return response()->json([
+      'saved' => true,
+      'message' => 'Successfully updated library book',
+      'data' => $libraryBook
+    ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
+   * @param DeleteLibraryBookRequest $request
    * @param LibraryBook $libraryBook
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function destroy(LibraryBook $libraryBook)
+  public function destroy(DeleteLibraryBookRequest $request, LibraryBook $libraryBook): JsonResponse
   {
-    LibraryBook::destroy($libraryBook->id);
+    $libraryBook->delete();
     return response()->json([
       'saved' => true,
-      'message' => 'Book saved Successfully'
+      'message' => 'Successfully deleted library book'
     ]);
   }
 }

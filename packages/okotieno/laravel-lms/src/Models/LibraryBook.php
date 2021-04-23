@@ -2,16 +2,24 @@
 
 namespace Okotieno\LMS\Models;
 
+
+use Okotieno\LMS\Database\Factories\LibraryBookFactory;
 use DB;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 class LibraryBook extends Model
 {
-  use SoftDeletes;
+  use SoftDeletes, HasFactory;
 
-  protected $fillable = ['title', 'publisher', 'publication_date', 'ISBN'];
+  protected static function newFactory()
+  {
+    return LibraryBookFactory::new();
+  }
+
+  protected $fillable = ['title', 'publication_date', 'ISBN'];
 
   public static function filter($request)
   {

@@ -2,10 +2,19 @@
 
 namespace Okotieno\LMS\Models;
 
+
+use Okotieno\LMS\Database\Factories\LibraryClassFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LibraryClass extends Model
 {
+  use HasFactory;
+  protected static function newFactory()
+  {
+    return LibraryClassFactory::new();
+  }
+
   public $timestamps = false;
   protected $table = 'library_classes';
 
