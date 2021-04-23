@@ -1,9 +1,7 @@
 <?php
 
-use Okotieno\Gender\Controllers\GenderApiController;
+use Okotieno\Gender\Controllers\GenderController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
-
-  Route::get('/api/genders/all', [GenderApiController::class, 'getAll']);
-
+  Route::apiResource('/api/genders', GenderController::class);
 });

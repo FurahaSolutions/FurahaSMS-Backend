@@ -5,7 +5,7 @@ namespace Okotieno\LMS\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLibraryBookTagRequest extends FormRequest
+class UpdateLibraryBookTagRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreLibraryBookTagRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('create library book tag');
+    return auth()->user()->can('update library book tag');
   }
 
   /**
@@ -22,15 +22,14 @@ class StoreLibraryBookTagRequest extends FormRequest
    *
    * @return array
    */
-  public function rules()
+  public function rules(): array
   {
     return [
-
       'name' => 'required|unique:library_book_tags',
     ];
   }
 
-  public function messages()
+  public function messages(): array
   {
     return [
       'name.required' => 'The Tag name is required',
@@ -40,7 +39,7 @@ class StoreLibraryBookTagRequest extends FormRequest
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to Create a Tag'
+      'You are not authorised to update a tag'
     );
   }
 }

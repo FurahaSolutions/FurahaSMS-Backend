@@ -17,7 +17,7 @@ class LibraryBookAuthorTest extends TestCase
   private $bookAuthor;
 
   /**
-   * GET /api/library-book-author
+   * GET /api/library-books/authors
    * @group library
    * @group library-book-author
    * @group get-request
@@ -26,13 +26,13 @@ class LibraryBookAuthorTest extends TestCase
    */
   public function unauthenticated_users_cannot_retrieve_book_authors()
   {
-    $this->getJson('/api/library-book-author', $this->bookAuthor)
+    $this->getJson('/api/library-books/authors', $this->bookAuthor)
       ->assertStatus(401);
 
   }
 
   /**
-   * GET /api/library-book-author
+   * GET /api/library-books/authors
    * @group library
    * @group library-book-author
    * @group get-request
@@ -42,14 +42,14 @@ class LibraryBookAuthorTest extends TestCase
   public function authenticated_users_can_retrieve_book_authors()
   {
     LibraryBookAuthor::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/library-book-author', $this->bookAuthor)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books/authors', $this->bookAuthor)
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'name']]);
 
   }
 
   /**
-   * GET /api/library-book-author/:id
+   * GET /api/library-books/authors/:id
    * @group library
    * @group library-book-author
    * @group get-request
@@ -59,13 +59,13 @@ class LibraryBookAuthorTest extends TestCase
   public function unauthenticated_users_cannot_retrieve_book_author()
   {
     $author = LibraryBookAuthor::factory()->create();
-    $this->getJson('/api/library-book-author/' . $author->id, $this->bookAuthor)
+    $this->getJson('/api/library-books/authors/' . $author->id, $this->bookAuthor)
       ->assertStatus(401);
 
   }
 
   /**
-   * GET /api/library-book-author/:id
+   * GET /api/library-books/authors/:id
    * @group library
    * @group library-book-author
    * @group get-request
@@ -76,14 +76,14 @@ class LibraryBookAuthorTest extends TestCase
   {
     $author = LibraryBookAuthor::factory()->create();
     LibraryBookAuthor::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/library-book-author/' . $author->id, $this->bookAuthor)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books/authors/' . $author->id, $this->bookAuthor)
       ->assertStatus(200)
       ->assertJsonStructure(['id', 'name']);
 
   }
 
   /**
-   * POST /api/library-book-author
+   * POST /api/library-books/authors
    * @group library
    * @group library-book-author
    * @group post-request
@@ -92,13 +92,13 @@ class LibraryBookAuthorTest extends TestCase
    */
   public function unauthenticated_users_cannot_create_book_author()
   {
-    $this->postJson('/api/library-book-author', $this->bookAuthor)
+    $this->postJson('/api/library-books/authors', $this->bookAuthor)
       ->assertStatus(401);
 
   }
 
   /**
-   * POST /api/library-book-author
+   * POST /api/library-books/authors
    * @group library
    * @group library-book-author
    * @group post-request
@@ -108,12 +108,12 @@ class LibraryBookAuthorTest extends TestCase
   public function authenticate_users_without_permission_cannot_create_book_author()
   {
 
-    $this->actingAs($this->user, 'api')->postJson('/api/library-book-author', $this->bookAuthor)
+    $this->actingAs($this->user, 'api')->postJson('/api/library-books/authors', $this->bookAuthor)
       ->assertStatus(403);
   }
 
   /**
-   * POST /api/library-book-author
+   * POST /api/library-books/authors
    * @group library
    * @group library-book-author
    * @group post-request
@@ -125,13 +125,13 @@ class LibraryBookAuthorTest extends TestCase
     Permission::factory()->state(['name' => 'create library book author'])->create();
     $this->user->givePermissionTo('create library book author');
     $response = $this->actingAs($this->user, 'api')
-      ->postJson('/api/library-book-author', $this->bookAuthor)
+      ->postJson('/api/library-books/authors', $this->bookAuthor)
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'name']]);
     $response->assertStatus(201);
   }
 
   /**
-   * POST /api/library-book-author
+   * POST /api/library-books/authors
    * @group library
    * @group library-book-author
    * @group post-request
@@ -143,12 +143,12 @@ class LibraryBookAuthorTest extends TestCase
     $this->bookAuthor['name'] = '';
     Permission::factory()->state(['name' => 'create library book author'])->create();
     $this->user->givePermissionTo('create library book author');
-    $this->actingAs($this->user, 'api')->postJson('/api/library-book-author', $this->bookAuthor)
+    $this->actingAs($this->user, 'api')->postJson('/api/library-books/authors', $this->bookAuthor)
       ->assertStatus(422);
   }
 
   /**
-   * POST /api/library-book-author
+   * POST /api/library-books/authors
    * @group library
    * @group library-book-author
    * @test
@@ -159,7 +159,7 @@ class LibraryBookAuthorTest extends TestCase
   {
     Permission::factory()->state(['name' => 'create library book author'])->create();
     $this->user->givePermissionTo('create library book author');
-    $this->actingAs($this->user, 'api')->postJson('/api/library-book-author', $this->bookAuthor)
+    $this->actingAs($this->user, 'api')->postJson('/api/library-books/authors', $this->bookAuthor)
       ->assertStatus(201)
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'name']]);
     $bookAuthor = LibraryBookAuthor::where('name', $this->bookAuthor['name'])
@@ -168,7 +168,7 @@ class LibraryBookAuthorTest extends TestCase
   }
 
   /**
-   * PATCH /api/library-book-author/{id}
+   * PATCH /api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @group patch-request
@@ -179,13 +179,13 @@ class LibraryBookAuthorTest extends TestCase
   {
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $bookAuthorUpdate = LibraryBookAuthor::factory()->make()->toArray();
-    $res = $this->patchJson('/api/library-book-author/' . $bookAuthor->id, $bookAuthorUpdate);
+    $res = $this->patchJson('/api/library-books/authors/' . $bookAuthor->id, $bookAuthorUpdate);
     $res->assertStatus(401);
 
   }
 
   /**
-   * PATCH /api/library-book-author/{id}
+   * PATCH /api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @test
@@ -196,12 +196,12 @@ class LibraryBookAuthorTest extends TestCase
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $bookAuthorUpdate = LibraryBookAuthor::factory()->make()->toArray();
     $this->actingAs($this->user, 'api')
-      ->patchJson('/api/library-book-author/' . $bookAuthor->id, $bookAuthorUpdate)
+      ->patchJson('/api/library-books/authors/' . $bookAuthor->id, $bookAuthorUpdate)
       ->assertStatus(403);
   }
 
   /**
-   * PATCH /api/library-book-author/{id}
+   * PATCH /api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @group patch-request
@@ -216,12 +216,12 @@ class LibraryBookAuthorTest extends TestCase
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $bookAuthorUpdate = LibraryBookAuthor::factory()->make()->toArray();
     $response = $this->actingAs($this->user, 'api')
-      ->patchJson('/api/library-book-author/' . $bookAuthor->id, $bookAuthorUpdate);
+      ->patchJson('/api/library-books/authors/' . $bookAuthor->id, $bookAuthorUpdate);
     $response->assertStatus(200);
   }
 
   /**
-   * PATCH /api/library-book-author/{id}
+   * PATCH /api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @group patch-request
@@ -235,12 +235,12 @@ class LibraryBookAuthorTest extends TestCase
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $bookAuthorUpdate = LibraryBookAuthor::factory()->state(['name' => ''])->make()->toArray();
     $this->actingAs($this->user, 'api')
-      ->patchJson('/api/library-book-author/' . $bookAuthor->id, $bookAuthorUpdate)
+      ->patchJson('/api/library-books/authors/' . $bookAuthor->id, $bookAuthorUpdate)
       ->assertStatus(422);
   }
 
   /**
-   * PATCH /api/library-book-author/{id}
+   * PATCH /api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @test
@@ -254,13 +254,13 @@ class LibraryBookAuthorTest extends TestCase
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $bookAuthorUpdate = LibraryBookAuthor::factory()->make()->toArray();
     $this->actingAs($this->user, 'api')
-      ->patchJson('/api/library-book-author/' . $bookAuthor->id, $bookAuthorUpdate)
+      ->patchJson('/api/library-books/authors/' . $bookAuthor->id, $bookAuthorUpdate)
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'name']]);
   }
 
   /**
-   * DELETE/api/library-book-author/{id}
+   * DELETE/api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @group delete-request
@@ -270,13 +270,13 @@ class LibraryBookAuthorTest extends TestCase
   public function unauthenticated_users_cannot_delete_book_author()
   {
     $bookAuthor = LibraryBookAuthor::factory()->create();
-    $this->deleteJson('/api/library-book-author/' . $bookAuthor->id)
+    $this->deleteJson('/api/library-books/authors/' . $bookAuthor->id)
       ->assertStatus(401);
 
   }
 
   /**
-   * DELETE/api/library-book-author/{id}
+   * DELETE/api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @test
@@ -286,12 +286,12 @@ class LibraryBookAuthorTest extends TestCase
   {
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->deleteJson('/api/library-book-author/' . $bookAuthor->id)
+      ->deleteJson('/api/library-books/authors/' . $bookAuthor->id)
       ->assertStatus(403);
   }
 
   /**
-   * DELETE/api/library-book-author/{id}
+   * DELETE/api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @group delete-request
@@ -304,12 +304,12 @@ class LibraryBookAuthorTest extends TestCase
     $this->user->givePermissionTo('delete library book author');
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->deleteJson('/api/library-book-author/' . $bookAuthor->id)
+      ->deleteJson('/api/library-books/authors/' . $bookAuthor->id)
       ->assertStatus(200);
   }
 
   /**
-   * DELETE/api/library-book-author/{id}
+   * DELETE/api/library-books/authors/{id}
    * @group library
    * @group library-book-author
    * @test
@@ -322,7 +322,7 @@ class LibraryBookAuthorTest extends TestCase
     $this->user->givePermissionTo('delete library book author');
     $bookAuthor = LibraryBookAuthor::factory()->create();
     $res = $this->actingAs($this->user, 'api')
-      ->deleteJson('/api/library-book-author/' . $bookAuthor->id);
+      ->deleteJson('/api/library-books/authors/' . $bookAuthor->id);
     $res->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(LibraryBookAuthor::find($bookAuthor->id));

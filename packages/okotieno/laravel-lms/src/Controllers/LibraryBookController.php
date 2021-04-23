@@ -18,9 +18,23 @@ class LibraryBookController extends Controller
    *
    * @return \Illuminate\Http\JsonResponse
    */
-  public function index()
+  public function index(Request $request)
   {
+    $book = LibraryBook::find($request->book_id);
+    if ($book != null) {
+      return response()->json($book->details());
+    }
 
+    if($request->title != null || $request->author != null || $request->publisher != null || $request->tag != null){
+      $books = LibraryBook::filter($request)
+        ->get()
+        ->pluck('id')
+        ->unique();
+      return response()->json(LibraryBook::collectionDetails(LibraryBook::find($books)));
+    }
+
+    $libraryBooks = LibraryBook::all();
+    return response()->json(LibraryBook::collectionDetails($libraryBooks));
   }
 
   /**

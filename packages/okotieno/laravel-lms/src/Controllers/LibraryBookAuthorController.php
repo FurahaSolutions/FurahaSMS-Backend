@@ -16,9 +16,10 @@ class LibraryBookAuthorController extends Controller
   /**
    * Display a listing of the resource.
    *
+   * @param Request $request
    * @return JsonResponse
    */
-  public function index(Request $request)
+  public function index(Request $request): JsonResponse
   {
     if ($request->author_id != null) {
       return response()->json(LibraryBookAuthor::find($request->author_id));
@@ -51,12 +52,12 @@ class LibraryBookAuthorController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param LibraryBookAuthor $libraryBookAuthor
+   * @param LibraryBookAuthor $author
    * @return JsonResponse
    */
-  public function show(LibraryBookAuthor $libraryBookAuthor)
+  public function show(LibraryBookAuthor $author): JsonResponse
   {
-    return response()->json($libraryBookAuthor);
+    return response()->json($author);
   }
 
 
@@ -64,29 +65,29 @@ class LibraryBookAuthorController extends Controller
    * Update the specified resource in storage.
    *
    * @param UpdateLibraryBookAuthorRequest $request
-   * @param LibraryBookAuthor $libraryBookAuthor
+   * @param LibraryBookAuthor $author
    * @return JsonResponse
    */
-  public function update(UpdateLibraryBookAuthorRequest $request, LibraryBookAuthor $libraryBookAuthor): JsonResponse
+  public function update(UpdateLibraryBookAuthorRequest $request, LibraryBookAuthor $author): JsonResponse
   {
-    $libraryBookAuthor->update($request->all());
+    $author->update($request->all());
     return response()->json([
       'saved' => true,
       'message' => 'Author Updated Successfully',
-      'data' => LibraryBookAuthor::find($libraryBookAuthor->id)
+      'data' => LibraryBookAuthor::find($author->id)
     ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param LibraryBookAuthor $libraryBookAuthor
+   * @param DeleteLibraryBookAuthorRequest $request
+   * @param LibraryBookAuthor $author
    * @return JsonResponse
-   * @throws Exception
    */
-  public function destroy(DeleteLibraryBookAuthorRequest $request, LibraryBookAuthor $libraryBookAuthor)
+  public function destroy(DeleteLibraryBookAuthorRequest $request, LibraryBookAuthor $author): JsonResponse
   {
-    $libraryBookAuthor->delete();
+    $author->delete();
     return response()->json([
       'saved' => true,
       'message' => 'Author Updated Successfully',

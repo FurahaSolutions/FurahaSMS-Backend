@@ -3,20 +3,33 @@
 namespace Okotieno\LMS\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\LibraryBookTag;
+use Okotieno\LMS\Requests\DeleteLibraryBookTagRequest;
 use Okotieno\LMS\Requests\StoreLibraryBookTagRequest;
+use Okotieno\LMS\Requests\UpdateLibraryBookTagRequest;
 
 class LibraryBookTagController extends Controller
 {
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @param Request $request
+   * @return JsonResponse
    */
-  public function index()
+  public function index(Request $request): JsonResponse
   {
-    //
+    if ($request->tag_id != null) {
+      return LibraryBookTag::find($request->tag_id);
+    }
+    if($request->name) {
+      return response()->json(
+        LibraryBookTag::where('name', 'LIKE', '%' . $request->name . '%')->get()
+      );
+    }
+    return response()->json(LibraryBookTag::all());
+
   }
 
 
@@ -24,68 +37,58 @@ class LibraryBookTagController extends Controller
    * Store a newly created resource in storage.
    *
    * @param StoreLibraryBookTagRequest $request
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function store(StoreLibraryBookTagRequest $request)
+  public function store(StoreLibraryBookTagRequest $request): JsonResponse
   {
-
-    $input = [
-      'name' => $request->name,
-    ];
-    $createdTag = LibraryBookTag::create($input);
+    $createdTag = LibraryBookTag::create($request->all());
     return response()->json([
       'message' => 'Tag Created Successfully',
       'saved' => true,
       'data' => $createdTag
-    ]);
+    ])->setStatusCode(201);
   }
 
   /**
    * Display the specified resource.
    *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param LibraryBookTag $tag
+   * @return JsonResponse
    */
-  public function show(LibraryBookTag $libraryBookTag)
+  public function show(LibraryBookTag $tag): JsonResponse
   {
-    return response()->json($libraryBookTag);
+    return response()->json($tag);
   }
 
 
   /**
    * Update the specified resource in storage.
    *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param UpdateLibraryBookTagRequest $request
+   * @param LibraryBookTag $tag
+   * @return JsonResponse
    */
-  public function update(Request $request, $id)
+  public function update(UpdateLibraryBookTagRequest $request, LibraryBookTag $tag): JsonResponse
   {
 
-    $input = [
-      'name' => $request->name,
-    ];
-    if ($request->active != null) {
-      $input['active'] = $request->active;
-    }
-    $task = LibraryBookTag::findOrFail($id);
-    $task->update($input);
+    $tag->update($request->all());
     return response()->json([
       'message' => 'Tag Updated Successfully',
       'saved' => true,
-      'data' => LibraryBookTag::find($id)
+      'data' => $tag
     ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @param DeleteLibraryBookTagRequest $request
+   * @param LibraryBookTag $tag
+   * @return JsonResponse
    */
-  public function destroy($id)
+  public function destroy(DeleteLibraryBookTagRequest $request ,LibraryBookTag $tag): JsonResponse
   {
-    LibraryBookTag::destroy($id);
+    $tag->delete();
     return response()->json([
       'message' => 'Tag Deleted Successfully',
       'saved' => true,
