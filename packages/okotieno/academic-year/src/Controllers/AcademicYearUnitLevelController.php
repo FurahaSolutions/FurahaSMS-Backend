@@ -12,6 +12,7 @@ namespace Okotieno\AcademicYear\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Okotieno\AcademicYear\Models\AcademicYear;
+use Okotieno\AcademicYear\Requests\AcademicYearUnitLevelsStoreRequest;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
 
 
@@ -36,7 +37,7 @@ class AcademicYearUnitLevelController extends Controller
     }
   }
 
-  public function store(Request $request, AcademicYear $academicYear)
+  public function store(AcademicYearUnitLevelsStoreRequest $request, AcademicYear $academicYear)
   {
     $academicYear->classAllocations()->delete();
     foreach ($request->all() as $item) {
@@ -51,6 +52,6 @@ class AcademicYearUnitLevelController extends Controller
       'saved' => true,
       'message' => 'Successfully saved Unit Levels Allocations',
       'data' => $academicYear->classAllocations
-    ]);
+    ])->setStatusCode(201);
   }
 }

@@ -10,6 +10,7 @@ namespace Okotieno\SchoolExams\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\SchoolExams\Models\ExamPaper;
 use Okotieno\SchoolExams\Models\ExamPaperQuestion;
@@ -19,7 +20,8 @@ class ExamPaperQuestionsController extends Controller
 {
   /**
    * @param Request $request
-   * @return \Illuminate\Http\JsonResponse
+   * @param ExamPaper $examPaper
+   * @return JsonResponse
    */
   public function index(Request $request, ExamPaper $examPaper)
   {
@@ -32,7 +34,7 @@ class ExamPaperQuestionsController extends Controller
 
   /**
    * @param ExamPaper $examPaper
-   * @return array
+   * @return JsonResponse
    */
 
   public function show(ExamPaper $examPaper, ExamPaperQuestion $examPaperQuestion)
@@ -82,17 +84,16 @@ class ExamPaperQuestionsController extends Controller
     }
     $newPaperQuestion->tags;
     $newPaperQuestion->answers;
-    return [
+    return response()->json([
       'saved' => true,
       'message' => 'Question Successfully saved',
       'data' => $newPaperQuestion
-    ];
+    ])->setStatusCode(201);
   }
 
   /**
-   * @param ExamPaper $examPaper
+   * @param ExamPaperQuestion $examPaperQuestion
    * @return array
-   * @throws \Exception
    */
   public function destroy(ExamPaperQuestion $examPaperQuestion)
   {
