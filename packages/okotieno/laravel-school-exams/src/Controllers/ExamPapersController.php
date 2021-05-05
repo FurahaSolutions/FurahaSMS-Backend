@@ -11,14 +11,18 @@ namespace Okotieno\SchoolExams\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\SchoolExams\Models\ExamPaper;
+use Okotieno\SchoolExams\Requests\ExamPaperDestroyRequest;
+use Okotieno\SchoolExams\Requests\ExamPaperStoreRequest;
+use Okotieno\SchoolExams\Requests\ExamPaperUpdateRequest;
 
 class ExamPapersController extends Controller
 {
   /**
    * @param Request $request
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function index(Request $request)
   {
@@ -36,14 +40,12 @@ class ExamPapersController extends Controller
     if ($request->latest != null) {
       $response = ExamPaper::latest()->limit($request->latest)->get();
     }
-    return response()->json(
-      $response
-    );
+    return response()->json($response);
   }
 
   /**
    * @param ExamPaper $examPaper
-   * @return array
+   * @return JsonResponse
    */
 
   public function show(ExamPaper $examPaper)
@@ -54,42 +56,54 @@ class ExamPapersController extends Controller
     return response()->json($examPaper);
   }
 
-  public function store(Request $request)
+  public function store(ExamPaperStoreRequest $request): JsonResponse
   {
 
     $newPaper = ExamPaper::create([
       'name' => $request->name,
-      'unit_level_id' => $request->unitLevel,
+      'unit_level_id' => $request->unit_level_id,
       'created_by' => auth()->id()
     ]);
-    foreach ($request->instructions as $instruction) {
-      $position = null;
-      if (key_exists('position', $instruction)) {
-        $position = $instruction['position'];
+    if ($request->instructions != null) {
+      foreach ($request->instructions as $instruction) {
+        $position = null;
+        if (key_exists('position', $instruction)) {
+          $position = $instruction['position'];
+        }
+        $newPaper->instructions()->create([
+          'description' => $instruction['description'],
+          'position' => $position,
+        ]);
       }
-      $newPaper->instructions()->create([
-        'description' => $instruction['description'],
-        'position' => $position,
-      ]);
     }
-    return [
+    return response()->json([
       'saved' => true,
       'message' => 'Financial Plan Successfully saved',
       'data' => $newPaper
-    ];
+    ])->setStatusCode(201);
+  }
+
+  public function update(ExamPaperUpdateRequest $request, ExamPaper $examPaper)
+  {
+    $examPaper->update($request->all());
+    return response()->json([
+      'saved' => true,
+      'message' => 'Financial Plan Successfully saved',
+      'data' => $examPaper
+    ]);
   }
 
   /**
+   * @param ExamPaperDestroyRequest $request
    * @param ExamPaper $examPaper
-   * @return array
-   * @throws \Exception
+   * @return JsonResponse
    */
-  public function destroy(ExamPaper $examPaper)
+  public function destroy(ExamPaperDestroyRequest $request, ExamPaper $examPaper): JsonResponse
   {
     $examPaper->delete();
-    return [
+    return response()->json([
       'saved' => true,
       'message' => 'Exam Paper Successfully deleted'
-    ];
+    ]);
   }
 }
