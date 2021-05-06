@@ -4,11 +4,25 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  public function update(Request $request, User $user)
+  public function index(Request $request)
+  {
+    if ($request->name) {
+      return response()->json(User::where(
+        'first_name', 'like', '%' . $request->q . '%'
+      )->orWhere(
+        'last_name', 'like', '%' . $request->q . '%'
+      )->orWhere(
+        'middle_name', 'like', '%' . $request->q . '%'
+      )->get());
+    }
+  }
+
+  public function update(Request $request, User $user): JsonResponse
   {
 //        if (!auth()->user()->can('update user profile')) {
 //            abort('400', 'insufficient privilege to update profile');
@@ -61,12 +75,10 @@ class UserController extends Controller
       $user->save();
     }
 
-    return [
+    return response()->json([
       'saved' => true,
       'message' => 'User Info successfully saved'
-    ];
+    ]);
 
   }
-
-
 }
