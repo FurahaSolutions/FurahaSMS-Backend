@@ -11,14 +11,16 @@ class UserController extends Controller
 {
   public function index(Request $request)
   {
+    $queryName = $request->name ? $request->name : '';
+    $queryLimit = $request->limit ? $request->limit : 20;
+    $users = User::where('first_name', 'like', '%' . $queryName . '%')
+      ->orWhere('last_name', 'like', '%' . $queryName . '%')
+      ->orWhere( 'middle_name', 'like', '%' . $queryName . '%')
+      ->limit($queryLimit)
+      ->get();
+
     if ($request->name) {
-      return response()->json(User::where(
-        'first_name', 'like', '%' . $request->q . '%'
-      )->orWhere(
-        'last_name', 'like', '%' . $request->q . '%'
-      )->orWhere(
-        'middle_name', 'like', '%' . $request->q . '%'
-      )->get());
+      return response()->json($users);
     }
   }
 
