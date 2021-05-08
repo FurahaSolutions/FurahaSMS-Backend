@@ -12,7 +12,11 @@ class LibraryUser extends Model
   protected $fillable = ['user_id'];
   use HasFactory;
 
-  public function newFactory(): LibraryUserFactory
+  protected $casts = [
+    'blocked' => 'boolean',
+  ];
+
+  public static function newFactory()
   {
     return LibraryUserFactory::new();
   }

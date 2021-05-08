@@ -3,6 +3,7 @@
 namespace Okotieno\LMS\Database\Factories;
 
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Okotieno\LMS\Models\LibraryUser;
 
@@ -23,7 +24,7 @@ class LibraryUserFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::factory()->create()->id
         ];
     }
 }
