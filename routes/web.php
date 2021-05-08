@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
   return view('welcome', ['users' => App\Models\Setting::first()->id]);
 });

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +15,7 @@ use Laravel\Passport\Passport;
 |
 */
 
-Route::middleware('cors','preflight')->group(function () {
+Route::middleware(['cors','preflight'])->group(function () {
     Route::options('{id}', function () { });
 });
 
@@ -25,7 +27,8 @@ Route::middleware('auth:api')->get('/users/email', 'User\\UserApiController@getU
 Route::middleware('auth:api')->group(function () {
    Route::get('users/auth','User\\UserApiController@authenticatedUser');
    Route::get('users/auth/logout','Auth\\AuthController@logout');
-   Route::patch('users/{user}', 'User\\UserController@update');
+   Route::get('users', [UserController::class, 'index']);
+   Route::patch('users/{user}', [UserController::class, 'update']);
 });
 
 Route::post('/password/email', 'User\\ForgotPasswordController@sendResetLinkEmail');

@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Okotieno\Gender\Traits\hasGender;
 use Okotieno\GuardianAdmissions\Traits\canBeAGuardian;
+use Okotieno\LMS\Traits\HasLibraryUser;
 use Okotieno\NamePrefix\Traits\hasNamePrefix;
 use Okotieno\Procurement\Traits\canProcure;
 use Okotieno\Religion\Traits\hasReligion;
@@ -38,6 +39,7 @@ class User extends Authenticatable
     canUploadStudyMaterials,
     canSaveFileDocument,
     HasPasswordToken,
+    HasLibraryUser,
     HasFactory;
 
   /**

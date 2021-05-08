@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 class PermissionAndRolesSeeder extends Seeder
 {
@@ -19,13 +20,13 @@ class PermissionAndRolesSeeder extends Seeder
       Role::create([
         'name' => 'super admin'
       ]);
-    } catch (Exception $exception) {
+    } catch (Throwable $exception) {
     }
     try {
       Role::create([
         'name' => 'student'
       ]);
-    } catch (Exception $exception) {
+    } catch (Throwable $exception) {
     }
     $permissions = [
       [

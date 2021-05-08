@@ -50,7 +50,8 @@ class AcademicYearUnitLevelTest extends TestCase
   public function authenticated_users_can_retrieve_academic_year_unit_levels_with_class_level()
   {
     $academicYear = AcademicYear::factory()->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/academic-years/' . $academicYear->id . '/unit-levels?class_level', [])
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years/' . $academicYear->id . '/unit-levels?class_level=1', [])
       ->assertStatus(200);
   }
 
