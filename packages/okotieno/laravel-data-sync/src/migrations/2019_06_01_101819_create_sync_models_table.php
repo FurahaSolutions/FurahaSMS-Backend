@@ -29,7 +29,7 @@ class CreateSyncModelsTable extends Migration
       ],
       [
         'name' => 'Guardians',
-        'model_class' => \Okotieno\GuardianAdmissions\Models\Guardian::class,
+        'model_class' => \Okotieno\Guardians\Models\Guardian::class,
         'api_link' => env('SYNC_GUARDIAN_API') . '/api/guardians'
       ],
       [
