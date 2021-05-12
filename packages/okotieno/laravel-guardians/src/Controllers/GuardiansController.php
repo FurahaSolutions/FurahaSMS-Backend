@@ -15,7 +15,7 @@ class GuardiansController extends Controller
    *
    * @param User $user
    * @param Request $request
-   * @return JsonResponse
+   * @return JsonResponse 
    */
   public function show(User $user, Request $request): JsonResponse
   {
