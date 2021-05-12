@@ -9,7 +9,7 @@
 namespace Okotieno\GuardianAdmissions\Traits;
 
 
-use Okotieno\GuardianAdmissions\Models\Guardian;
+use Okotieno\Guardians\Models\Guardian;
 
 trait canBeAGuardian
 {
