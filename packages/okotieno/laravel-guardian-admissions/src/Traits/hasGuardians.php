@@ -11,7 +11,7 @@ namespace Okotieno\GuardianAdmissions\Traits;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Okotieno\GuardianAdmissions\Models\Guardian;
+use Okotieno\Guardians\Models\Guardian;
 
 trait hasGuardians
 {

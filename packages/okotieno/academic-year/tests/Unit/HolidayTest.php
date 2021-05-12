@@ -11,8 +11,6 @@ use Tests\TestCase;
 
 class HolidayTest extends TestCase
 {
-  use WithFaker;
-  use DatabaseTransactions;
 
   private $holiday;
 

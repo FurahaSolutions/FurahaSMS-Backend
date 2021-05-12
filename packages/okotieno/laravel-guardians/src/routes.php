@@ -6,13 +6,15 @@
  * Time: 11:15 PM
  */
 
-use Okotieno\Guardians\Controllers\GuardiansApiController;
+use Illuminate\Support\Facades\Route;
 use Okotieno\Guardians\Controllers\GuardiansController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::prefix('api')->group(function () {
-    Route::get('/guardians/{user}/students', [GuardiansApiController::class, 'students']);
-    Route::apiResource('/guardians', GuardiansController::class);
+    Route::apiResource('/guardians', GuardiansController::class)
+      ->parameters([
+        'guardians' => 'user'
+      ]);
 
   });
 });
