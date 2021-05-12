@@ -3,13 +3,24 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\AdminPasswordResetRequest;
 use App\Http\Requests\User\PasswordChangeRequest;
 use App\Models\PasswordToken;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
 {
+  public function adminPasswordReset(AdminPasswordResetRequest $request, User $user)
+  {
+    $user->setPassword($request->reset_password);
+    return response()->json([
+      'saved' => true,
+      'message' => 'User Password Successfully reset'
+    ]);
+  }
+
   public function tokenLogin(Request $request)
   {
     $token = PasswordToken::getUserForToken($request->token)

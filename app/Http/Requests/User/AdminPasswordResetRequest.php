@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\User;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetPasswordPasswordRequest extends FormRequest
+class AdminPasswordResetRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -13,7 +14,8 @@ class ResetPasswordPasswordRequest extends FormRequest
    */
   public function authorize()
   {
-    return true;
+
+    return auth()->user()->can('reset user password');
   }
 
   /**
@@ -24,8 +26,11 @@ class ResetPasswordPasswordRequest extends FormRequest
   public function rules()
   {
     return [
-      'email' => 'required',
-      'password' => 'required|confirmed'
+      'reset_password' => 'required'
     ];
+  }
+  protected function failedAuthorization()
+  {
+    throw new AuthorizationException( 'You are not authorised to reset user password');
   }
 }
