@@ -1,11 +1,11 @@
 <?php
 
-namespace Okotieno\LMS\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteLibraryBookAuthorRequest extends FormRequest
+class AdminPasswordResetRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -14,7 +14,8 @@ class DeleteLibraryBookAuthorRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('delete library book author');
+
+    return auth()->user()->can('reset user password');
   }
 
   /**
@@ -24,13 +25,12 @@ class DeleteLibraryBookAuthorRequest extends FormRequest
    */
   public function rules()
   {
-    return [];
+    return [
+      'reset_password' => 'required'
+    ];
   }
-
   protected function failedAuthorization()
   {
-    throw new AuthorizationException(
-      'You are not authorised to delete library book author'
-    );
+    throw new AuthorizationException( 'You are not authorised to reset user password');
   }
 }

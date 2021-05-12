@@ -30,6 +30,18 @@ class PermissionAndRolesSeeder extends Seeder
     }
     $permissions = [
       [
+        'permission' => 'block user',
+        'roles' => ['admin']
+      ],
+      [
+        'permission' => 'unblock user',
+        'roles' => ['admin']
+      ],
+      [
+        'permission' => 'reset user password',
+        'roles' => ['admin']
+      ],
+      [
         'permission' => 'change role permissions',
         'roles' => ['admin', 'head teacher']
       ],
