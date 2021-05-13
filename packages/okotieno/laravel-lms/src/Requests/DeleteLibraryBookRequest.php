@@ -17,15 +17,9 @@ class DeleteLibraryBookRequest extends FormRequest
     return auth()->user()->can('delete library book');
   }
 
-  /**
-   * Get the validation rules that apply to the request.
-   *
-   * @return array
-   */
   public function rules()
   {
-    return [
-    ];
+    return [];
   }
 
   protected function failedAuthorization()

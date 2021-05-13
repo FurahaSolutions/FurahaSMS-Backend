@@ -28,12 +28,6 @@ class DeleteLibraryBookPublisherRequest extends FormRequest
     ];
   }
 
-  public function messages()
-  {
-    return [
-    ];
-  }
-
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
