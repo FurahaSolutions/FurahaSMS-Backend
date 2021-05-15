@@ -207,6 +207,21 @@ class UserTest extends TestCase
       ->assertStatus(422);
   }
 
+  /**
+   * PATCH api/user/:user
+   * @group users
+   * @test
+   */
+  public function error_422_thrown_invalid_email_is_provided_while_updating_profile()
+  {
+    $user = User::factory()->create();
+    Permission::factory()->state(['name' => 'update user profile'])->create();
+    $this->user->givePermissionTo('update user profile');
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/users/' . $user->id, ['email' => 'invalid-email'])
+      ->assertStatus(422);
+  }
+
 }
 
 
