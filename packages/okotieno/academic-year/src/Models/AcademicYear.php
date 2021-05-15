@@ -25,6 +25,7 @@ class AcademicYear extends Model
   use SoftDeletes;
   public $timestamps = false;
   protected $fillable = ['name', 'start_date', 'end_date'];
+  protected $appends = ['archived'];
 
   public static function createAcademicYear(CreateAcademicYearRequest $request)
   {

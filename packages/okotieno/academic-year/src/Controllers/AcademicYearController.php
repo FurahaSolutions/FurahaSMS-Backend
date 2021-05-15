@@ -75,6 +75,7 @@ class AcademicYearController extends Controller
   {
     $returnAcademicYear = [
       'id' => $academicYear->id,
+      'archived' => $academicYear->archived,
       'name' => $academicYear->name,
       'start_date' => $academicYear->start_date,
       'end_date' => $academicYear->end_date,

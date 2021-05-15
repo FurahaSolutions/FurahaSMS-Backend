@@ -133,6 +133,7 @@ class AcademicYearTest extends TestCase
 
   /**
    * GET /academic-years/{id}?semesters=1
+   * @group academic-year
    * @group academic-year-sem
    * @group get-request
    * @test
@@ -147,7 +148,7 @@ class AcademicYearTest extends TestCase
     $this->actingAs($this->user, 'api')
       ->getJson('/api/academic-years/' . $academicYear->id . '?class_levels=1')
       ->assertStatus(200)
-      ->assertJsonStructure(['id', 'name', 'class_level_allocations' => [['id', 'name']]]);
+      ->assertJsonStructure(['id', 'name', 'archived', 'class_level_allocations' => [['id', 'name']]]);
 
   }
 
