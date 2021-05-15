@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Okotieno\AcademicYear\Database\Factories\AcademicYearFactory;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
 use Okotieno\AcademicYear\Traits\Archivable;
@@ -21,6 +22,7 @@ class AcademicYear extends Model
 {
   use hasFinancialYearPlans, HasTimeTables, HasHoliday, HasFactory, Archivable;
 
+  use SoftDeletes;
   public $timestamps = false;
   protected $fillable = ['name', 'start_date', 'end_date'];
 

@@ -15,6 +15,13 @@ class AcademicYearTest extends TestCase
 {
   private $academicYear;
 
+  protected function setUp(): void
+  {
+    parent::setUp();
+
+    $this->academicYear = AcademicYear::factory()->create();
+  }
+
   /**
    * GET /academic-year
    * @group academic-year
@@ -64,6 +71,45 @@ class AcademicYearTest extends TestCase
       ->assertJsonFragment(['archived_at' => $time])
       ->assertJsonMissing(['archived_at' => null]);
   }
+
+  /**
+   * GET /academic-year
+   * @group academic-year
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_without_permission_cannot_retrieve_deleted_academic_year()
+  {
+    $time = (new Carbon())->format('Y-m-d h:m:s');
+    AcademicYear::factory()->state(['deleted_at' => $time])->create();
+    AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years?deleted=1')
+      ->assertStatus(403);
+  }
+
+  /**
+   * GET /academic-year
+   * @group academic-year
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_with_permission_can_retrieve_deleted_academic_year()
+  {
+    $time = (new Carbon())->format('Y-m-d h:m:s');
+    AcademicYear::factory()->state(['deleted_at' => $time])->create();
+    AcademicYear::factory()->create();
+    Permission::factory()->state(['name' => 'view deleted academic year'])->create();
+    $this->user->givePermissionTo('view deleted academic year');
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years?deleted=1')
+      ->assertStatus(200)
+      ->assertSeeText(substr($time, 0, 10))
+      ->assertJsonMissing(['deleted_at' => null]);
+  }
+
 
   /**
    * GET /academic-years/{id}?semesters=1
@@ -421,13 +467,80 @@ class AcademicYearTest extends TestCase
   }
 
   /**
+   * POST /academic-years/{id}/restore
+   * @group academic-year
+   * @group post-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_restore_academicYear()
+  {
+    $academicYear = AcademicYear::factory()->deleted()->create();
+    $this->postJson('/api/academic-years/' . $academicYear->id . '/restore')
+      ->assertStatus(401);
+
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @group post-request
+   * @test
+   * @return void
+   */
+  public function authenticate_users_without_permission_cannot_restore_academicYear()
+  {
+    $academicYear = AcademicYear::factory()->deleted()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/restore')
+      ->assertStatus(403);
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @group post-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_with_permission_can_restore_academicYear()
+  {
+    Permission::factory()->state(['name' => 'restore academic year'])->create();
+    $this->user->givePermissionTo('restore academic year');
+
+    $academicYear = AcademicYear::factory()->deleted()->create();
+    $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id . '/restore')
+      ->assertStatus(200);
+  }
+
+  /**
+   * DELETE/academic-years/{id}
+   * @group academic-year
+   * @test
+   * @group post-request
+   * @return void
+   */
+  public function academicYear_should_be_restored_after_successful_call()
+  {
+    Permission::factory()->state(['name' => 'restore academic year'])->create();
+    $this->user->givePermissionTo('restore academic year');
+    $academicYear = AcademicYear::factory()->deleted()->create();
+    $res = $this->actingAs($this->user, 'api')
+      ->postJson('/api/academic-years/' . $academicYear->id. '/restore');
+    $res->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message']);
+    $this->assertNotNull(AcademicYear::find($academicYear->id));
+  }
+
+  /**
    * POST/academic-years/{id}
    * @group academic-year
    * @test
    * @group post-request
    * @return void
    */
-  public function after_successfull_call_academic_year()
+  public function academicYear_should_be_deleted_after_successful_call_academic_year()
   {
     Permission::factory()->state(['name' => 'delete academic year'])->create();
     $this->user->givePermissionTo('delete academic year');
@@ -438,13 +551,4 @@ class AcademicYearTest extends TestCase
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNull(AcademicYear::find($academicYear->id));
   }
-
-  protected function setUp(): void
-  {
-    parent::setUp();
-
-    AcademicYear::factory()->create();
-  }
-
-
 }

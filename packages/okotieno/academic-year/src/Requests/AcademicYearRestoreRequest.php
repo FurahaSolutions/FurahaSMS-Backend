@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  *
  */
-class DeleteAcademicYearRequest extends FormRequest
+class AcademicYearRestoreRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -17,7 +17,7 @@ class DeleteAcademicYearRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    return auth()->user()->can('delete academic year');
+    return auth()->user()->can('restore academic year');
   }
 
   /**
@@ -30,10 +30,11 @@ class DeleteAcademicYearRequest extends FormRequest
     return [];
   }
 
+
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to delete an academic year'
+      'You are not authorised to restore deleted academic year'
     );
   }
 }
