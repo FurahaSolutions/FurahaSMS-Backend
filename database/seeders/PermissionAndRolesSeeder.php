@@ -50,6 +50,10 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'maker admissions', 'verifier admissions', 'head teacher', 'deputy head teacher', 'dean of students',]
       ],
       [
+        'permission' => 'update user profile',
+        'roles' => ['admin', 'maker admissions', 'verifier admissions', 'head teacher', 'deputy head teacher', 'dean of students',]
+      ],
+      [
         'permission' => 'update library book tag',
         'roles' => ['admin', 'librarian']
       ],
