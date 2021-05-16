@@ -11,7 +11,7 @@ namespace Okotieno\StudentAdmissions\Traits;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Okotieno\StudentAdmissions\Models\Student;
+use Okotieno\Students\Models\Student;
 
 trait canBeAStudent
 {

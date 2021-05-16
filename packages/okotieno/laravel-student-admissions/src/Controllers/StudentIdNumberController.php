@@ -4,7 +4,7 @@ namespace Okotieno\StudentAdmissions\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Okotieno\StudentAdmissions\Models\Student;
+use Okotieno\Students\Models\Student;
 
 class StudentIdNumberController extends Controller
 {

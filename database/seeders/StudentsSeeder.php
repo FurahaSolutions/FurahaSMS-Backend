@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Okotieno\AcademicYear\Models\AcademicYear;
 use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
-use Okotieno\StudentAdmissions\Models\Student;
+use Okotieno\Students\Models\Student;
 
 class StudentsSeeder extends Seeder
 {

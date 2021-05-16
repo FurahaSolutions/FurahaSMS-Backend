@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Okotieno\StudentAdmissions\Models\Student;
+use Okotieno\Students\Models\Student;
 use Okotieno\StudentAdmissions\Requests\User\CreateStudentRequest;
 
 class StudentAdmissionIdentificationController extends Controller
