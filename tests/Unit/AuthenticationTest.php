@@ -3,9 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Database\Seeders\DatabaseSeeder;
-use Database\Seeders\OauthClientSeeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Okotieno\Students\Models\Student;
@@ -37,7 +34,6 @@ class AuthenticationTest extends TestCase
       'client_secret' => $personalAccessToken->secret,
       'scope' => '',
     ]);
-    echo $response->content();
     $response->assertStatus(401);
     $response->assertSeeText('Invalid username or password');
   }

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Exceptions\OAuthServerException;
 use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
+use League\OAuth2\Server\AuthorizationServer;
+use Nyholm\Psr7\Response as Psr7Response;
 use Okotieno\Students\Models\Student;
+use Psr\Http\Message\ServerRequestInterface;
 
 
 class AuthController extends Controller
@@ -17,30 +20,50 @@ class AuthController extends Controller
   use HandlesOAuthErrors;
 
   /**
+   * The authorization server.
+   *
+   * @var \League\OAuth2\Server\AuthorizationServer
+   */
+  protected $server;
+
+
+  public function __construct(AuthorizationServer $server)
+  {
+
+    $this->server = $server;
+  }
+
+  /**
    * Login user and create token
    *
-   * @param LoginRequest $request
+   * @param ServerRequestInterface $request
    * @return JsonResponse [string] access_token
+   * @throws OAuthServerException
    */
-  public function login(LoginRequest $request)
+  public function login(ServerRequestInterface $request)
   {
-    $validAuth = false;
-
     $credentials = [
-      'password' => $request->password,
-      'email' => $request->username,
+      'password' => request()->password,
+      'email' => request()->username,
     ];
 
+    $validAuth = false;
+
     if (Auth::attempt($credentials)) {
-      $validAuth = true;
+      return $this->withErrorHandling(function () use ($request) {
+        return $this->convertResponse(
+          $this->server->respondToAccessTokenRequest($request, new Psr7Response)
+        );
+      });
     }
 
+
     if (!$validAuth) {
-      $loginByAdmissionNumber = Student::where('student_school_id_number', $request->username)->first();
+      $loginByAdmissionNumber = Student::where('student_school_id_number', request()->username)->first();
       if ($loginByAdmissionNumber) {
         $credentials = [
           'id' => $loginByAdmissionNumber->user->id,
-          'password' => $request->password,
+          'password' => request()->password,
         ];
         if (Auth::attempt($credentials)) {
           $validAuth = true;
@@ -54,7 +77,7 @@ class AuthController extends Controller
 
       $tokenResult = $user->createToken('Personal Access Token');
       $token = $tokenResult->token;
-      if ($request->remember_me)
+      if (request()->remember_me)
         $token->expires_at = Carbon::now()->addWeeks(1);
       $token->save();
       return response()->json([
