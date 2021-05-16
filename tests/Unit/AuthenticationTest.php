@@ -56,7 +56,6 @@ class AuthenticationTest extends TestCase
       'client_secret' => $personalAccessToken->secret,
       'scope' => '',
     ]);
-    echo $response->content();
     $response->assertStatus(200);
     $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
   }
@@ -79,7 +78,6 @@ class AuthenticationTest extends TestCase
       'client_secret' => $personalAccessToken->secret,
       'scope' => '',
     ]);
-    echo $response->content();
     $response->assertStatus(200);
     $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
   }

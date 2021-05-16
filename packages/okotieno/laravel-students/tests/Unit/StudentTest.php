@@ -102,7 +102,7 @@ class StudentTest extends TestCase
    */
   public function authenticated_users_with_permission_can_create_student()
   {
-    Permission::factory()->state(['name' => 'create student']);
+    Permission::factory()->state(['name' => 'create student'])->create();
     $this->user->givePermissionTo('create student');
     $student = User::factory()->make();
     $student['student_school_id_number'] = Student::factory()->make()->student_school_id_number;
@@ -156,7 +156,7 @@ class StudentTest extends TestCase
     $student = Student::factory()->create();
     $studentUpdate = User::factory()->make();
     $studentUpdate['student_school_id_number'] = Student::factory()->make()->student_school_id_number;
-    Permission::factory()->state(['name' => 'update student']);
+    Permission::factory()->state(['name' => 'update student'])->create();
     $this->user->givePermissionTo('update student');
 
     $response = $this->actingAs($this->user, 'api')
