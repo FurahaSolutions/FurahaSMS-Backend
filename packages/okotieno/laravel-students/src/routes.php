@@ -7,7 +7,8 @@ use Okotieno\Students\Controllers\StudentGuardiansController;
 use Okotieno\Students\Controllers\StudentsController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
-  Route::get('/api/students', [StudentsController::class, 'index']);
+  Route::apiResource('api/students', StudentsController::class)
+    ->parameters(['students' => 'user']);
   Route::prefix('api/students/{user}')->group(function () {
     Route::apiResources([
       'guardians' => StudentGuardiansController::class,

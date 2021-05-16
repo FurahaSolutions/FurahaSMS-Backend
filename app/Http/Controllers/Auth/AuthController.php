@@ -8,10 +8,13 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
+use Okotieno\Students\Models\Student;
 
 
 class AuthController extends Controller
 {
+  use HandlesOAuthErrors;
 
   /**
    * Login user and create token
@@ -21,28 +24,54 @@ class AuthController extends Controller
    */
   public function login(LoginRequest $request)
   {
+    $validAuth = false;
+
     $credentials = [
       'password' => $request->password,
       'email' => $request->username,
     ];
 
-    if (!Auth::attempt($credentials))
+    if (Auth::attempt($credentials)) {
+      $validAuth = true;
+    }
+
+    if (!$validAuth) {
+      $loginByAdmissionNumber = Student::where('student_school_id_number', $request->username)->first();
+      if ($loginByAdmissionNumber) {
+        $credentials = [
+          'id' => $loginByAdmissionNumber->user->id,
+          'password' => $request->password,
+        ];
+        if (Auth::attempt($credentials)) {
+          $validAuth = true;
+        }
+      }
+    }
+
+
+    if ($validAuth) {
+      $user = auth()->user();
+
+      $tokenResult = $user->createToken('Personal Access Token');
+      $token = $tokenResult->token;
+      if ($request->remember_me)
+        $token->expires_at = Carbon::now()->addWeeks(1);
+      $token->save();
       return response()->json([
-        'message' => 'Unauthorized'
-      ], 401);
-    $user = auth()->user();
-    $tokenResult = $user->createToken('Personal Access Token');
-    $token = $tokenResult->token;
-    if ($request->remember_me)
-      $token->expires_at = Carbon::now()->addWeeks(1);
-    $token->save();
+        'access_token' => $tokenResult->accessToken,
+        'token_type' => 'Bearer',
+        'expires_in' => Carbon::parse(
+          $tokenResult->token->expires_at
+        )->toDateTimeString(),
+        'expires_at' => Carbon::parse(
+          $tokenResult->token->expires_at
+        )->toDateTimeString()
+      ]);
+    }
+
     return response()->json([
-      'access_token' => $tokenResult->accessToken,
-      'token_type' => 'Bearer',
-      'expires_at' => Carbon::parse(
-        $tokenResult->token->expires_at
-      )->toDateTimeString()
-    ]);
+      'message' => 'Invalid username or password'
+    ], 401);
   }
 
   /**

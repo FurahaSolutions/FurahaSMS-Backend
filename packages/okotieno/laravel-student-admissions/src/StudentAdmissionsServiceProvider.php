@@ -25,10 +25,10 @@ class StudentAdmissionsServiceProvider extends ServiceProvider
      * Register services.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      */
     public function register()
     {
-        $this->app->make('Okotieno\\StudentAdmissions\\Controllers\\StudentAdmissionIdentificationController');
+        //
     }
 }

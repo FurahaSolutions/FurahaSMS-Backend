@@ -15,9 +15,9 @@ use Okotieno\Students\Models\Student;
 
 trait canBeAStudent
 {
-  public static function updateStudent($student, $request)
+  public static function updateStudent($user, $request)
   {
-    $user = $student->user;
+
     $user->first_name = $request->first_name;
     $user->last_name = $request->last_name;
     $user->middle_name = $request->middle_name;

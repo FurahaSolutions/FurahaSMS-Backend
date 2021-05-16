@@ -6,6 +6,7 @@
  * Time: 11:15 PM
  */
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\GuardianAdmissions\Controllers\StudentGuardianController;
 use Okotieno\StudentAdmissions\Controllers\StudentAdmissionIdentificationController;
 use Okotieno\StudentAdmissions\Controllers\StudentIdNumberController;
@@ -15,7 +16,6 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     Route::prefix('admissions')->group(function () {
       Route::prefix('students')->group(function () {
         Route::apiResources([
-          'identification' => StudentAdmissionIdentificationController::class,
           'guardians' => StudentGuardianController::class
         ]);
       });
