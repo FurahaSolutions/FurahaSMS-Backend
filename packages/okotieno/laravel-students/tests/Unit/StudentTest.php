@@ -6,6 +6,7 @@ namespace Okotieno\Students\Tests\Unit;
 
 use App\Models\User;
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\PermissionsAndRoles\Models\Role;
 use Okotieno\Students\Models\Student;
 use Tests\TestCase;
 
@@ -96,12 +97,13 @@ class StudentTest extends TestCase
 
   /**
    * POST /api/students
-   * @group students
+   * @group students-1
    * @group post-request
    * @test
    */
   public function authenticated_users_with_permission_can_create_student()
   {
+    Role::factory()->state(['name' => 'student'])->create();
     Permission::factory()->state(['name' => 'create student'])->create();
     $this->user->givePermissionTo('create student');
     $student = User::factory()->make();
