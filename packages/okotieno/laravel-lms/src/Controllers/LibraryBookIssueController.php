@@ -45,7 +45,7 @@ class LibraryBookIssueController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param StoreLibraryBookRequest $request
+   * @param StoreLibraryBookIssueRequest $request
    * @return \Illuminate\Http\JsonResponse
    */
   public function store(StoreLibraryBookIssueRequest $request)
@@ -73,41 +73,5 @@ class LibraryBookIssueController extends Controller
       'saved' => true,
       'message' => 'Book issued Successfully'
     ]);
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show($id)
-  {
-    //
-  }
-
-
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function update(Request $request, $id)
-  {
-    //
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function destroy($id)
-  {
-    //
   }
 }

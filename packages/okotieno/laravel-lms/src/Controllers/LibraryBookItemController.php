@@ -11,15 +11,6 @@ use Okotieno\LMS\Requests\UpdateLibraryBookItemRequest;
 
 class LibraryBookItemController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function index()
-  {
-
-  }
 
 
   /**
@@ -47,16 +38,6 @@ class LibraryBookItemController extends Controller
     ]);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show($id)
-  {
-    //
-  }
 
 
   /**

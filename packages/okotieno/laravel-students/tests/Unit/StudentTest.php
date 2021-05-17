@@ -96,8 +96,8 @@ class StudentTest extends TestCase
   }
 
   /**
-   * POST /api/students
-   * @group students-1
+   * POST /api/st8udents
+   * @group students
    * @group post-request
    * @test
    */

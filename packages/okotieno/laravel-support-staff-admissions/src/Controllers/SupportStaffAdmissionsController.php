@@ -33,6 +33,7 @@ class SupportStaffAdmissionsController extends Controller
    * Store a newly created resource in storage.
    * @param CreateSupportStaffRequest $request
    * @return JsonResponse
+   *
    */
   public function store(CreateSupportStaffRequest $request)
   {
@@ -66,7 +67,6 @@ class SupportStaffAdmissionsController extends Controller
     } else {
       abort(416, 'Invalid Staff Type');
     }
-
   }
 
   /**
@@ -79,25 +79,4 @@ class SupportStaffAdmissionsController extends Controller
     return User::find($id);
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @return Response
-   */
-  public function update()
-  {
-
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @return void
-   * @throws \Exception
-   */
-  public function destroy()
-  {
-
-  }
 }

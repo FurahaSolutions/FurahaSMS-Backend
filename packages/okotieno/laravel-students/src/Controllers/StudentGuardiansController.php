@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 12/12/2019
- * Time: 11:28 AM
- */
+
 
 namespace Okotieno\Students\Controllers;
 
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 use Okotieno\GuardianAdmissions\Requests\User\CreateGuardianRequest;
 
@@ -19,7 +15,9 @@ class StudentGuardiansController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @param Request $request
+   * @param User $user
+   * @return JsonResponse
    */
   public function index(Request $request, User $user)
   {
@@ -45,6 +43,9 @@ class StudentGuardiansController extends Controller
 
   /**
    * Store a newly created resource in storage.
+   * @param CreateGuardianRequest $request
+   * @param User $user
+   * @return mixed
    */
   public function store(CreateGuardianRequest $request, User $user)
   {
@@ -54,25 +55,4 @@ class StudentGuardiansController extends Controller
     }
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show()
-  {
-
-  }
-
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @return void
-   * @throws \Exception
-   */
-  public function destroy()
-  {
-
-  }
 }
