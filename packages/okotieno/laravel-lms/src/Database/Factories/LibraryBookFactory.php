@@ -14,7 +14,7 @@ class LibraryBookFactory extends Factory
   public function definition()
   {
     return [
-      'title' => $this->faker->title,
+      'title' => $this->faker->sentence($this->faker->numberBetween(3,6)),
       'ISBN' => $this->faker->numberBetween(10000000000, 9999999999)
     ];
   }
