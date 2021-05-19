@@ -2,6 +2,7 @@
 
 namespace Okotieno\AcademicYear\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -29,14 +30,9 @@ class DeleteAcademicYearRequest extends FormRequest
     return [];
   }
 
-  public function messages()
-  {
-    return [];
-  }
-
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
+    throw new AuthorizationException(
       'You are not authorised to delete an academic year'
     );
   }

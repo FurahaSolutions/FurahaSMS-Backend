@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Okotieno\AcademicYear\Models\AcademicYear;
+use Okotieno\AcademicYear\Requests\AcademicYearRestoreRequest;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
 use Okotieno\AcademicYear\Requests\DeleteAcademicYearRequest;
 use Okotieno\AcademicYear\Requests\UpdateAcademicYearRequest;
@@ -23,12 +24,23 @@ class AcademicYearController extends Controller
    */
   public function index(Request $request): jsonResponse
   {
+    if (($request->boolean('deleted'))) {
+      if (!auth()->user()->can('view deleted academic year')) {
+        abort(403, 'You are not authorised to view deleted academic year');
+      }
+      return response()->json(AcademicYear::onlyTrashed()->get());
+    }
 
-    if (($request->archived == 1)) {
+    if ($request->archived !== null && !$request->boolean('archived')) {
+      return response()->json(AcademicYear::whereNull('archived_at')->get());
+    }
+
+    if ($request->boolean('archived')) {
       return response()->json(AcademicYear::whereNotNull('archived_at')->get());
     }
-    if (($request->archived == 0)) {
-      return response()->json(AcademicYear::whereNull('archived_at')->get());
+
+    if ($request->archived !== null && !$request->boolean('archived')) {
+      return response()->json(AcademicYear::whereNotNull('archived_at')->get());
     }
 
     return response()->json(AcademicYear::all());
@@ -63,12 +75,13 @@ class AcademicYearController extends Controller
   {
     $returnAcademicYear = [
       'id' => $academicYear->id,
+      'archived' => $academicYear->archived,
       'name' => $academicYear->name,
       'start_date' => $academicYear->start_date,
       'end_date' => $academicYear->end_date,
       'class_level_allocations' => []
     ];
-    if($request->semesters == 1) {
+    if ($request->semesters == 1) {
       $returnAcademicYear['semesters'] = $academicYear->semesters;
     }
     if ($request->class_levels == 1) {
@@ -119,13 +132,25 @@ class AcademicYearController extends Controller
   /**
    * Remove the specified resource from storage.
    *
+   * @param DeleteAcademicYearRequest $request
    * @param AcademicYear $academicYear
    * @return JsonResponse
-   * @throws \Exception
    */
   public function destroy(DeleteAcademicYearRequest $request, AcademicYear $academicYear)
   {
     $academicYear->delete();
+    return response()->json([
+      'saved' => true,
+      'message' => 'Successfully deleted Academic Year'
+    ]);
+
+  }
+
+  public function restore(AcademicYearRestoreRequest $request, $id)
+  {
+    $academicYear = AcademicYear::onlyTrashed()->where('id', $id)->first();
+    $academicYear->deleted_at = null;
+    $academicYear->save();
     return response()->json([
       'saved' => true,
       'message' => 'Successfully deleted Academic Year'

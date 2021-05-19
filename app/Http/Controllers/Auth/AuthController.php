@@ -3,47 +3,98 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Exceptions\OAuthServerException;
+use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
+use League\OAuth2\Server\AuthorizationServer;
+use Nyholm\Psr7\Response as Psr7Response;
+use Okotieno\Students\Models\Student;
+use Psr\Http\Message\ServerRequestInterface;
 
 
 class AuthController extends Controller
 {
+  use HandlesOAuthErrors;
+
+  /**
+   * The authorization server.
+   *
+   * @var \League\OAuth2\Server\AuthorizationServer
+   */
+  protected $server;
+
+
+  public function __construct(AuthorizationServer $server)
+  {
+
+    $this->server = $server;
+  }
 
   /**
    * Login user and create token
    *
-   * @param LoginRequest $request
+   * @param ServerRequestInterface $request
    * @return JsonResponse [string] access_token
+   * @throws OAuthServerException
    */
-  public function login(LoginRequest $request)
+  public function login(ServerRequestInterface $request)
   {
     $credentials = [
-      'password' => $request->password,
-      'email' => $request->username,
-
+      'password' => request()->password,
+      'email' => request()->username,
     ];
 
-    if (!Auth::attempt($credentials))
+    $validAuth = false;
+
+    if (Auth::attempt($credentials)) {
+      return $this->withErrorHandling(function () use ($request) {
+        return $this->convertResponse(
+          $this->server->respondToAccessTokenRequest($request, new Psr7Response)
+        );
+      });
+    }
+
+
+    if (!$validAuth) {
+      $loginByAdmissionNumber = Student::where('student_school_id_number', request()->username)->first();
+      if ($loginByAdmissionNumber) {
+        $credentials = [
+          'id' => $loginByAdmissionNumber->user->id,
+          'password' => request()->password,
+        ];
+        if (Auth::attempt($credentials)) {
+          $validAuth = true;
+        }
+      }
+    }
+
+
+    if ($validAuth) {
+      $user = auth()->user();
+
+      $tokenResult = $user->createToken('Personal Access Token');
+      $token = $tokenResult->token;
+      if (request()->remember_me)
+        $token->expires_at = Carbon::now()->addWeeks(1);
+      $token->save();
       return response()->json([
-        'message' => 'Unauthorized'
-      ], 401);
-    $user = auth()->user();
-    $tokenResult = $user->createToken('Personal Access Token');
-    $token = $tokenResult->token;
-    if ($request->remember_me)
-      $token->expires_at = Carbon::now()->addWeeks(1);
-    $token->save();
+        'access_token' => $tokenResult->accessToken,
+        'token_type' => 'Bearer',
+        'expires_in' => Carbon::parse(
+          $tokenResult->token->expires_at
+        )->toDateTimeString(),
+        'expires_at' => Carbon::parse(
+          $tokenResult->token->expires_at
+        )->toDateTimeString()
+      ]);
+    }
+
     return response()->json([
-      'access_token' => $tokenResult->accessToken,
-      'token_type' => 'Bearer',
-      'expires_at' => Carbon::parse(
-        $tokenResult->token->expires_at
-      )->toDateTimeString()
-    ]);
+      'message' => 'Invalid username or password'
+    ], 401);
   }
 
   /**

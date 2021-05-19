@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Route;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,12 @@ class AuthServiceProvider extends ServiceProvider
     });
 
     Passport::routes(null, ['prefix' => 'api/oauth']);
+
+    Route::post('/api/oauth/token', [
+      'uses' => '\App\Http\Controllers\Auth\AuthController@login',
+      'as' => 'passport.token',
+      'middleware' => 'throttle',
+    ]);
 
 
   }

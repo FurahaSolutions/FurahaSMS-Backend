@@ -3,12 +3,12 @@
 namespace Okotieno\LMS\Models;
 
 
-use Okotieno\LMS\Database\Factories\LibraryBookFactory;
-use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Okotieno\LMS\Database\Factories\LibraryBookFactory;
 
 class LibraryBook extends Model
 {
@@ -23,16 +23,32 @@ class LibraryBook extends Model
 
   public static function filter($request)
   {
-    $query = DB::table('library_books AS lb')
-      ->leftJoin('library_book_library_book_author AS lb_lba', 'lb.id', '=', 'lb_lba.library_book_id')
-      ->leftJoin('library_book_library_book_publisher AS lb_lbp', 'lb.id', '=', 'lb_lbp.library_book_id')
-      ->leftJoin('library_book_authors as lba', 'lba.id', '=', 'lb_lba.library_book_author_id')
-      ->leftJoin('library_book_publishers AS lbp', 'lbp.id', '=', 'lb_lbp.library_book_publisher_id')
-      ->leftJoin('library_book_library_book_tag AS lb_lbt', 'lb.id', '=', 'lb_lbt.library_book_id')
-      ->leftJoin('library_book_tags AS lbt', 'lbt.id', '=', 'lb_lbt.library_book_tag_id')
-      ->where('lb.title', 'LIKE', '%' . $request->title . '%')
-      ->where('lba.name', 'LIKE', '%' . $request->author . '%')
-      ->where('lbp.name', 'LIKE', '%' . $request->publisher . '%');
+    $query = DB::table('library_books AS lb');
+    if ($request->author !== null) {
+      $query = $query->leftJoin('library_book_library_book_author AS lb_lba', 'lb.id', '=', 'lb_lba.library_book_id');
+    }
+    if ($request->publisher !== null) {
+      $query = $query->leftJoin('library_book_library_book_publisher AS lb_lbp', 'lb.id', '=', 'lb_lbp.library_book_id');
+    }
+    if ($request->author !== null) {
+      $query = $query->leftJoin('library_book_authors as lba', 'lba.id', '=', 'lb_lba.library_book_author_id');
+    }
+    if ($request->publisher !== null) {
+      $query = $query->leftJoin('library_book_publishers AS lbp', 'lbp.id', '=', 'lb_lbp.library_book_publisher_id');
+    }
+    if ($request->tag !== null) {
+      $query = $query->leftJoin('library_book_library_book_tag AS lb_lbt', 'lb.id', '=', 'lb_lbt.library_book_id')->leftJoin('library_book_tags AS lbt', 'lbt.id', '=', 'lb_lbt.library_book_tag_id');
+    }
+    if ($request->title !== null) {
+      $query = $query->where('lb.title', 'LIKE', '%' . $request->title . '%');
+    }
+    if ($request->author !== null) {
+      $query = $query->where('lba.name', 'LIKE', '%' . $request->author . '%');
+    }
+    if ($request->publisher !== null) {
+      $query = $query->where('lbp.name', 'LIKE', '%' . $request->publisher . '%');
+    }
+
 
     if ($request->tag != null) {
       $query = $query->where('lbt.name', 'LIKE', '%' . $request->tag . '%');

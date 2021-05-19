@@ -10,15 +10,6 @@ use Okotieno\Procurement\Requests\ProcurementRequestUpdateRequest;
 
 class ProcurementRequestController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return JsonResponse
-   */
-  public function index()
-  {
-
-  }
 
   /**
    * Store a newly created resource in storage.

@@ -13,6 +13,7 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     Route::get('/academic-years/archivable-items', [AcademicYearArchivesController::class, 'archivableItems']);
     Route::post('/academic-years/{academicYear}/archive', [AcademicYearArchivesController::class, 'archive']);
     Route::post('/academic-years/{academicYear}/unarchive', [AcademicYearArchivesController::class, 'unarchive']);
+    Route::post('/academic-years/{academicYear}/restore', [AcademicYearController::class, 'restore']);
     Route::apiResources([
       'academic-years/holidays' => HolidayController::class,
       'academic-years' => AcademicYearController::class,

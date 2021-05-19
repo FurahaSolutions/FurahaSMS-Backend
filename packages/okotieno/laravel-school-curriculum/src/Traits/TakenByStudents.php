@@ -2,7 +2,7 @@
 
 namespace Okotieno\SchoolCurriculum\Traits;
 
-use Okotieno\StudentAdmissions\Models\Student;
+use Okotieno\Students\Models\Student;
 
 trait TakenByStudents
 {

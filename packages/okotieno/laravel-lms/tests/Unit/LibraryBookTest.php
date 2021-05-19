@@ -2,8 +2,10 @@
 
 namespace Okotieno\LMS\Tests\Unit;
 
+use Carbon\Carbon;
 use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryBookAuthor;
+use Okotieno\LMS\Models\LibraryBookItem;
 use Okotieno\LMS\Models\LibraryBookPublisher;
 use Okotieno\LMS\Models\LibraryBookTag;
 use Okotieno\LMS\Models\LibraryClass;
@@ -38,7 +40,7 @@ class LibraryBookTest extends TestCase
    */
   public function unauthenticated_users_cannot_retrieve_books()
   {
-    $this->getJson('/api/library-books', $this->book)
+    $this->getJson('/api/library-books')
       ->assertStatus(401);
 
   }
@@ -54,9 +56,105 @@ class LibraryBookTest extends TestCase
   public function authenticated_users_can_retrieve_books()
   {
     LibraryBook::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/library-books', $this->book)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books')
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'title']]);
+
+  }
+
+  /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_book_by_book_id()
+  {
+    $libraryBooks = LibraryBook::factory()->count(3)->create();
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?book_id='.$libraryBooks[2]->id)
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'title'])
+      ->assertJsonFragment(['title' => $libraryBooks[2]->title ]);
+
+  }
+
+  /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_book_by_book_title()
+  {
+    $libraryBooks = LibraryBook::factory()->count(3)->create();
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?title='.$libraryBooks[2]->title)
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'title']])
+      ->assertJsonFragment(['id' => $libraryBooks[2]->id ]);
+
+  }
+
+  /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_book_by_book_author()
+  {
+    $libraryBook = LibraryBook::factory()->create();
+    $libraryBookAuthor = LibraryBookAuthor::factory()->create();
+    $libraryBook->libraryBookAuthors()->save($libraryBookAuthor);
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?author='.$libraryBookAuthor->name)
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'title']])
+      ->assertJsonFragment(['id' => $libraryBook->id ]);
+
+  }
+  /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_book_by_book_publisher()
+  {
+    $libraryBook = LibraryBook::factory()->create();
+    $libraryBookPublisher = LibraryBookPublisher::factory()->create();
+    $libraryBook->libraryBookPublishers()->save($libraryBookPublisher);
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?publisher='.$libraryBookPublisher->name)
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'title']])
+      ->assertJsonFragment(['id' => $libraryBook->id ]);
+
+  }
+
+  /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_all_their_borrowed_books()
+  {
+    $libraryBookItem = LibraryBookItem::factory()->create();
+    $this->user->libraryBookItems()->save($libraryBookItem, ['issue_date' => Carbon::now()]);
+
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?my-account=1')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'title']])
+      ->assertJsonCount(1)
+      ->assertJsonFragment(['id' => $libraryBookItem->libraryBook->id ]);
 
   }
 

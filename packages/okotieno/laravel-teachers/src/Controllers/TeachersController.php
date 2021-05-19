@@ -79,28 +79,5 @@ class TeachersController extends Controller
       // 'student_id' => $user->student->student_school_id_number
     ]);
   }
-
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function update()
-  {
-
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @return void
-   * @throws \Exception
-   */
-  public function destroy()
-  {
-
-  }
 }
 

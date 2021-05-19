@@ -25,10 +25,15 @@ class UserFactory extends Factory
     return [
       'first_name' => $this->faker->firstName,
       'last_name' => $this->faker->lastName,
+      'middle_name' => $this->faker->lastName,
+      'other_names' => $this->faker->lastName,
       'email' => $this->faker->unique()->safeEmail,
+      'phone' => $this->faker->phoneNumber,
+      'date_of_birth' => $this->faker->date('Y-m-d'),
       'email_verified_at' => now(),
       'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
       'remember_token' => Str::random(10),
+      'religion_id' =>rand(1,5),
       'gender_id' => rand(1,2),
     ];
   }

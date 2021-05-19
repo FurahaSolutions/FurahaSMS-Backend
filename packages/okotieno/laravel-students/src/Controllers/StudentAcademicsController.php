@@ -11,10 +11,8 @@ namespace Okotieno\Students\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 
@@ -167,14 +165,4 @@ class StudentAcademicsController extends Controller
 
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @return void
-   * @throws Exception
-   */
-  public function destroy()
-  {
-
-  }
 }

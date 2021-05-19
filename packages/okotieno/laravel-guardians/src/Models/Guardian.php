@@ -12,7 +12,7 @@ namespace Okotieno\Guardians\Models;
 use App\Traits\AppUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Okotieno\StudentAdmissions\Models\Student;
+use Okotieno\Students\Models\Student;
 use Okotieno\Guardians\Database\Factories\GuardianFactory;
 
 class Guardian extends Model

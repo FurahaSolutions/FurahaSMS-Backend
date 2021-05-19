@@ -23,4 +23,13 @@ class AcademicYearFactory extends Factory
       'end_date' => $endDate->format('Y-m-d'),
     ];
   }
+
+  public function deleted()
+  {
+    return $this->state(function (array $attributes) {
+      return [
+        'deleted_at' => Carbon::now(),
+      ];
+    });
+  }
 }

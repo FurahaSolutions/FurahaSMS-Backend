@@ -32,17 +32,6 @@ class LibraryClassificationController extends Controller
     return response()->json(['saved' => true]);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show($id)
-  {
-    //
-  }
-
 
   /**
    * Update the specified resource in storage.
