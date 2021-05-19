@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Okotieno\Gender\Traits\hasGender;
 use Okotieno\GuardianAdmissions\Traits\canBeAGuardian;
+use Okotieno\LMS\Traits\CanBorrowBook;
 use Okotieno\LMS\Traits\HasLibraryUser;
 use Okotieno\NamePrefix\Traits\hasNamePrefix;
 use Okotieno\Procurement\Traits\canProcure;
@@ -40,7 +41,8 @@ class User extends Authenticatable
     canSaveFileDocument,
     HasPasswordToken,
     HasLibraryUser,
-    HasFactory;
+    HasFactory,
+    CanBorrowBook;
 
   /**
    * The attributes that are mass assignable.

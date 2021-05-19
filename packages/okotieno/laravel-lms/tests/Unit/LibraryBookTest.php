@@ -2,8 +2,10 @@
 
 namespace Okotieno\LMS\Tests\Unit;
 
+use Carbon\Carbon;
 use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryBookAuthor;
+use Okotieno\LMS\Models\LibraryBookItem;
 use Okotieno\LMS\Models\LibraryBookPublisher;
 use Okotieno\LMS\Models\LibraryBookTag;
 use Okotieno\LMS\Models\LibraryClass;
@@ -132,6 +134,27 @@ class LibraryBookTest extends TestCase
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'title']])
       ->assertJsonFragment(['id' => $libraryBook->id ]);
+
+  }
+
+  /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_all_their_borrowed_books()
+  {
+    $libraryBookItem = LibraryBookItem::factory()->create();
+    $this->user->libraryBookItems()->save($libraryBookItem, ['issue_date' => Carbon::now()]);
+
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?my-account=1')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'title']])
+      ->assertJsonCount(1)
+      ->assertJsonFragment(['id' => $libraryBookItem->libraryBook->id ]);
 
   }
 

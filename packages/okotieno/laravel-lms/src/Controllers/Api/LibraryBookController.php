@@ -10,12 +10,6 @@ use Okotieno\LMS\Models\LibraryClassification;
 class LibraryBookController extends Controller
 {
 
-  public function getMyAccount()
-  {
-    return auth()->user()->allBorrowedBooks();
-  }
-
-
   public function getClasses(Request $request)
   {
     $response = [];

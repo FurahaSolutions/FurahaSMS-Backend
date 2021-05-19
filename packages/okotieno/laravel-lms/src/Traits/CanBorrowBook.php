@@ -5,7 +5,7 @@ namespace Okotieno\LMS\Traits;
 use Carbon\Carbon;
 use Okotieno\LMS\Models\LibraryBookItem;
 
-trait canBorrowBook
+trait CanBorrowBook
 {
 
   public function allBorrowedBooks()
@@ -14,6 +14,7 @@ trait canBorrowBook
     foreach ($this->libraryBookItems as $libraryBookItem) {
       $libraryBook = $libraryBookItem->libraryBook;
       $response[] = [
+        'id' => $libraryBook['id'],
         'title' => $libraryBook['title'],
         'publisher' => $libraryBook['publisher'],
         'publication_date' => $libraryBook['publication_date'],
@@ -21,7 +22,7 @@ trait canBorrowBook
         'borrowed_date' => $libraryBookItem->pivot->issue_date,
         'due_date' => $libraryBookItem->pivot->due_date,
         'returned_date' => $libraryBookItem->pivot->returned_date,
-        'category' => $libraryBook->libraryClass->name
+        'categories' => $libraryBook->libraryClasses
       ];
 
     }
