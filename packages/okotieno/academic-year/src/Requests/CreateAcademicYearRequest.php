@@ -45,7 +45,8 @@ class CreateAcademicYearRequest extends FormRequest
       'end_date.required' => 'The start date field required',
       'name.unique' => 'Academic year already exists',
       'start_date.date_format' => 'Incorrect date format provided',
-      'start_date.before_or_equal' => 'Start date must be less than end date'
+      'start_date.before_or_equal' => 'Start date must be less than end date',
+      'end_date.date_format' => 'Incorrect date format provided',
     ];
   }
 
