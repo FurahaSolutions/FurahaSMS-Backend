@@ -35,6 +35,9 @@ class LibraryBookController extends Controller
         ->unique();
       return response()->json(LibraryBook::collectionDetails(LibraryBook::find($books)));
     }
+    if ($request->boolean('my-account')) {
+      return response()->json( auth()->user()->allBorrowedBooks());
+    }
 
     $libraryBooks = LibraryBook::all();
     return response()->json(LibraryBook::collectionDetails($libraryBooks));

@@ -25,7 +25,6 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
       'library-books/users' => LibraryUserController::class,
     ]);
 
-    Route::get('library-books/my-account', [ApiLibraryBookController::class, 'getMyAccount']);
     Route::get('library-classes', [ApiLibraryBookController::class, 'getClasses']);
     Route::apiResources([
       'library-books/issue' => LibraryBookIssueController::class,

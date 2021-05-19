@@ -2,8 +2,6 @@
 
 namespace Okotieno\AcademicYear\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\AcademicYear\Models\Holiday;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Tests\TestCase;

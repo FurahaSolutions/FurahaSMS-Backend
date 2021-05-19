@@ -3,12 +3,18 @@
 namespace Okotieno\LMS\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Okotieno\LMS\Database\Factories\LibraryBookItemFactory;
 
 class LibraryBookItem extends Model
 {
-  use SoftDeletes;
+  use SoftDeletes, HasFactory;
+  protected static function newFactory()
+  {
+    return LibraryBookItemFactory::new();
+  }
 
   protected $fillable = ['ref', 'procurement_date', 'reserved'];
 
