@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\canSaveFileDocument;
+use App\Traits\CanSaveFileDocument;
 use App\Traits\HasPasswordToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +10,6 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Okotieno\Gender\Traits\hasGender;
 use Okotieno\GuardianAdmissions\Traits\canBeAGuardian;
-use Okotieno\LMS\Traits\CanBorrowBook;
 use Okotieno\LMS\Traits\HasLibraryUser;
 use Okotieno\NamePrefix\Traits\hasNamePrefix;
 use Okotieno\Procurement\Traits\canProcure;
@@ -38,7 +37,7 @@ class User extends Authenticatable
     canProcure,
     hasSchoolExams,
     canUploadStudyMaterials,
-    canSaveFileDocument,
+    CanSaveFileDocument,
     HasPasswordToken,
     HasLibraryUser,
     HasFactory;

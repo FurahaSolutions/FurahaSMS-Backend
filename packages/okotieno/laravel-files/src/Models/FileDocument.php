@@ -2,9 +2,8 @@
 
 namespace Okotieno\Files\Models;
 
-use App\Models\ProfilePic;
 use Illuminate\Database\Eloquent\Model;
-use Okotieno\LMS\Traits\hasFileDocuments;
+
 
 class FileDocument extends Model
 {
@@ -17,10 +16,5 @@ class FileDocument extends Model
     'size',
     'file_path'
   ];
-
-  public function profilePics()
-  {
-    return $this->belongsToMany(ProfilePic::class);
-  }
 
 }

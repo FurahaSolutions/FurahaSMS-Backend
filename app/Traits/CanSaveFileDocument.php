@@ -8,11 +8,10 @@
 
 namespace App\Traits;
 
+use Okotieno\Files\Models\FileDocument;
+use Okotieno\Files\Models\ProfilePic;
 
-use App\Models\FileDocument;
-use App\Models\ProfilePic;
-
-trait canSaveFileDocument
+trait CanSaveFileDocument
 {
   public function uploadFileDocument()
   {
