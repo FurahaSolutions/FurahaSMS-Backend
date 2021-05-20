@@ -3,6 +3,7 @@
 namespace Okotieno\LMS\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\LibraryClassification;
 
@@ -11,7 +12,7 @@ class LibraryClassificationController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function index()
   {
@@ -22,8 +23,8 @@ class LibraryClassificationController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
+   * @param Request $request
+   * @return JsonResponse
    */
   public function store(Request $request)
   {
@@ -36,9 +37,9 @@ class LibraryClassificationController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param \Illuminate\Http\Request $request
+   * @param Request $request
    * @param int $id
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function update(Request $request, $id)
   {
@@ -48,14 +49,4 @@ class LibraryClassificationController extends Controller
     return response()->json(['saved' => true]);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function destroy($id)
-  {
-    //
-  }
 }
