@@ -9,7 +9,7 @@
 namespace App\Traits;
 
 
-use App\Models\ProfilePic;
+use Okotieno\Files\Models\ProfilePic;
 
 trait hasProfilePics
 {

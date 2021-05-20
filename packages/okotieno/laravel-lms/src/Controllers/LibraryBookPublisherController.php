@@ -3,12 +3,11 @@
 namespace Okotieno\LMS\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProfilePic;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Okotieno\Files\Models\ProfilePic;
 use Okotieno\LMS\Models\LibraryBookPublisher;
 use Okotieno\LMS\Requests\DeleteLibraryBookPublisherRequest;
 use Okotieno\LMS\Requests\StoreLibraryBookPublisherRequest;
