@@ -25,16 +25,18 @@ class StoreLibraryBookIssueRequest extends FormRequest
   public function rules()
   {
     return [
-      'id_number' => 'required',
-      'ref' => 'required',
+      'book_item_id' => 'required|exists:library_book_items,id',
+      'user_id' => 'required|exists:users,id|exists:library_users,user_id',
     ];
   }
 
   public function messages()
   {
     return [
-      'id_number.required' => 'User School Id Number is required',
-      'ref.required' => 'The book Unique Reference is required',
+      'book_item_id.required' => 'Library Reference Number is Required',
+      'user_id.required' => 'Library User is required',
+      'user_id.exists:users' => 'Invalid User',
+      'user_id.exists:library_users' => 'Invalid Library User',
     ];
   }
 

@@ -41,8 +41,7 @@ class User extends Authenticatable
     canSaveFileDocument,
     HasPasswordToken,
     HasLibraryUser,
-    HasFactory,
-    CanBorrowBook;
+    HasFactory;
 
   /**
    * The attributes that are mass assignable.

@@ -76,19 +76,19 @@ class LibraryUserTest extends TestCase
    * @group library
    * @group library-users
    */
-  public function authenticated_users_with_permission_can_block_library_user()
+  public function authenticated_users_with_permission_can_suspend_library_user()
   {
-    Permission::factory()->state(['name' => 'block library user'])->create();
-    $this->user->givePermissionTo('block library user');
+    Permission::factory()->state(['name' => 'suspend library user'])->create();
+    $this->user->givePermissionTo('suspend library user');
     $user = User::factory()->create();
     $libraryUser = LibraryUser::factory([
       'user_id' => $user->id
     ])->create();
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/library-books/users/' . $libraryUser->user_id, ['blocked' => true])
+      ->patchJson('api/library-books/users/' . $libraryUser->user_id, ['suspended' => true])
       ->assertStatus(200);
 
-    $this->assertTrue(User::find($user->id)->library_blocked);
+    $this->assertTrue(User::find($user->id)->library_suspended);
   }
 
   /**
@@ -97,18 +97,18 @@ class LibraryUserTest extends TestCase
    * @group library
    * @group library-users
    */
-  public function authenticated_users_with_permission_can_unblock_library_user()
+  public function authenticated_users_with_permission_can_unsuspend_library_user()
   {
-    Permission::factory()->state(['name' => 'unblock library user'])->create();
-    $this->user->givePermissionTo('unblock library user');
+    Permission::factory()->state(['name' => 'unsuspend library user'])->create();
+    $this->user->givePermissionTo('unsuspend library user');
     $user = User::factory()->create();
     $libraryUser = LibraryUser::factory([
       'user_id' => $user->id
     ])->create();
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/library-books/users/' . $libraryUser->user_id, ['blocked' => false])
+      ->patchJson('api/library-books/users/' . $libraryUser->user_id, ['suspended' => false])
       ->assertStatus(200);
 
-    $this->assertFalse(User::find($user->id)->library_blocked);
+    $this->assertFalse(User::find($user->id)->library_suspended);
   }
 }
