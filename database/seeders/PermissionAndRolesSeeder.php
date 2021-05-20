@@ -90,11 +90,11 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'librarian', 'maker admissions']
       ],
       [
-        'permission' => 'block library user',
+        'permission' => 'suspend library user',
         'roles' => ['admin', 'librarian']
       ],
       [
-        'permission' => 'unblock library user',
+        'permission' => 'unsuspend library user',
         'roles' => ['admin', 'librarian']
       ],
       [

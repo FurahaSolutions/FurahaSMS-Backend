@@ -50,24 +50,12 @@ class LibraryBookIssueController extends Controller
    */
   public function store(StoreLibraryBookIssueRequest $request)
   {
-    $user = User::withIdNumber($request->id_number);
-    $book = LibraryBookItem::withRef($request->ref);
-
-    $error_messages = [];
-    if ($user == null) {
-      $error_messages['id_number'] = ['The School Id Number is Invalid'];
+    $user = User::find($request->user_id);
+    if($user->library_suspended) {
+      abort(403,'User is currently suspended from using the library');
     }
-    if ($book == null) {
-      $error_messages['ref'] = ['The Book Reference is Invalid'];
-    }
-    if (sizeof($error_messages) > 0) {
-      $error = \Illuminate\Validation\ValidationException::withMessages($error_messages);
-      throw $error;
-    }
-
-    $user->hasBorrowedBook($book);
-
-//        return $book;
+    $book = LibraryBookItem::find($request->book_item_id);
+    $user->libraryUser->hasBorrowedBook($book);
 
     return response()->json([
       'saved' => true,

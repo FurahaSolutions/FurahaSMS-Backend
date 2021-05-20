@@ -42,7 +42,7 @@ class LibraryUserController extends Controller
 
   public function update(LibraryUserUpdateRequest $request, User $user)
   {
-    $user->libraryUser->blocked = $request->blocked;
+    $user->libraryUser->suspended = $request->suspended;
     $user->libraryUser->save();
     return response()->json([
       'saved' => true,

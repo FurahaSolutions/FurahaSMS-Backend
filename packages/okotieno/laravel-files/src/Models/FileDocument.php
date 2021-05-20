@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace Okotieno\Files\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Okotieno\LMS\Traits\hasFileDocuments;
+
 
 class FileDocument extends Model
 {
-  use hasFileDocuments;
 
   protected $fillable = [
     'name',

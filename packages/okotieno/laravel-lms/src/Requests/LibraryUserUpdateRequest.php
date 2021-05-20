@@ -15,10 +15,10 @@ class LibraryUserUpdateRequest extends FormRequest
    */
   public function authorize()
   {
-    if (request()->get('blocked') == true && auth()->user()->can('block library user')) {
+    if (request()->get('suspended') == true && auth()->user()->can('suspend library user')) {
       return true;
     }
-    if (request()->get('blocked') == false && auth()->user()->can('unblock library user')) {
+    if (request()->get('suspended') == false && auth()->user()->can('unsuspend library user')) {
       return true;
     }
     return false;
@@ -31,8 +31,7 @@ class LibraryUserUpdateRequest extends FormRequest
    */
   public function rules()
   {
-    return [
-    ];
+    return [];
   }
 
 

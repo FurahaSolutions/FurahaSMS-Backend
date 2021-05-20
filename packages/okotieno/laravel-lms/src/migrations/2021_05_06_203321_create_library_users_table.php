@@ -18,7 +18,7 @@ class CreateLibraryUsersTable extends Migration
             $table->foreignId('user_id');
             $table->foreign('user_id')->on('users')->references('id');
             $table->boolean('can_borrow_book')->default(true);
-            $table->boolean('blocked')->default(false);
+            $table->boolean('suspended')->default(false);
             $table->timestamps();
         });
     }

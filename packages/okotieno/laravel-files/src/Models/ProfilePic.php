@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Okotieno\Files\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

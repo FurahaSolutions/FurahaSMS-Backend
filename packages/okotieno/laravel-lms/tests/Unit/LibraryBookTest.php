@@ -73,10 +73,10 @@ class LibraryBookTest extends TestCase
   public function authenticated_users_can_retrieve_book_by_book_id()
   {
     $libraryBooks = LibraryBook::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/library-books?book_id='.$libraryBooks[2]->id)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?book_id=' . $libraryBooks[2]->id)
       ->assertStatus(200)
       ->assertJsonStructure(['id', 'title'])
-      ->assertJsonFragment(['title' => $libraryBooks[2]->title ]);
+      ->assertJsonFragment(['title' => $libraryBooks[2]->title]);
 
   }
 
@@ -91,10 +91,10 @@ class LibraryBookTest extends TestCase
   public function authenticated_users_can_retrieve_book_by_book_title()
   {
     $libraryBooks = LibraryBook::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/library-books?title='.$libraryBooks[2]->title)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?title=' . $libraryBooks[2]->title)
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'title']])
-      ->assertJsonFragment(['id' => $libraryBooks[2]->id ]);
+      ->assertJsonFragment(['id' => $libraryBooks[2]->id]);
 
   }
 
@@ -111,12 +111,13 @@ class LibraryBookTest extends TestCase
     $libraryBook = LibraryBook::factory()->create();
     $libraryBookAuthor = LibraryBookAuthor::factory()->create();
     $libraryBook->libraryBookAuthors()->save($libraryBookAuthor);
-    $this->actingAs($this->user, 'api')->getJson('/api/library-books?author='.$libraryBookAuthor->name)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?author=' . $libraryBookAuthor->name)
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'title']])
-      ->assertJsonFragment(['id' => $libraryBook->id ]);
+      ->assertJsonFragment(['id' => $libraryBook->id]);
 
   }
+
   /**
    * GET /api/library-books
    * @group library
@@ -130,10 +131,10 @@ class LibraryBookTest extends TestCase
     $libraryBook = LibraryBook::factory()->create();
     $libraryBookPublisher = LibraryBookPublisher::factory()->create();
     $libraryBook->libraryBookPublishers()->save($libraryBookPublisher);
-    $this->actingAs($this->user, 'api')->getJson('/api/library-books?publisher='.$libraryBookPublisher->name)
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books?publisher=' . $libraryBookPublisher->name)
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'title']])
-      ->assertJsonFragment(['id' => $libraryBook->id ]);
+      ->assertJsonFragment(['id' => $libraryBook->id]);
 
   }
 
@@ -148,13 +149,17 @@ class LibraryBookTest extends TestCase
   public function authenticated_users_can_retrieve_all_their_borrowed_books()
   {
     $libraryBookItem = LibraryBookItem::factory()->create();
-    $this->user->libraryBookItems()->save($libraryBookItem, ['issue_date' => Carbon::now()]);
-
-    $this->actingAs($this->user, 'api')->getJson('/api/library-books?my-account=1')
+    $this->user->libraryUser()->create();
+    $this->user
+      ->libraryUser
+      ->libraryBookItems()
+      ->save($libraryBookItem, ['issue_date' => Carbon::now()]);
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/library-books?my-account=1')
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'title']])
       ->assertJsonCount(1)
-      ->assertJsonFragment(['id' => $libraryBookItem->libraryBook->id ]);
+      ->assertJsonFragment(['id' => $libraryBookItem->libraryBook->id]);
 
   }
 

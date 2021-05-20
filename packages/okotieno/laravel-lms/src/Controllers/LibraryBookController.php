@@ -36,7 +36,7 @@ class LibraryBookController extends Controller
       return response()->json(LibraryBook::collectionDetails(LibraryBook::find($books)));
     }
     if ($request->boolean('my-account')) {
-      return response()->json( auth()->user()->allBorrowedBooks());
+      return response()->json( auth()->user()->libraryUser->allBorrowedBooks());
     }
 
     $libraryBooks = LibraryBook::all();
