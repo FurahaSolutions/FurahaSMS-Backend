@@ -20,8 +20,8 @@ trait HasLibraryUser
   {
     return $this->libraryUser ? $this->libraryUser->can_borrow_book : null;
   }
-  public function getLibraryBlockedAttribute()
+  public function getLibrarySuspendedAttribute()
   {
-    return $this->libraryUser ? $this->libraryUser->blocked : null;
+    return $this->libraryUser ? $this->libraryUser->suspended : null;
   }
 }

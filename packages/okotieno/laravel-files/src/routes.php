@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\Files\Controllers\FilesController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
