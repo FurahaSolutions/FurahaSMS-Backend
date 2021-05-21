@@ -36,6 +36,9 @@ class LibraryBookController extends Controller
       return response()->json(LibraryBook::collectionDetails(LibraryBook::find($books)));
     }
     if ($request->boolean('my-account')) {
+      if (!auth()->user()->libraryUser){
+        abort(403, 'You have not been registered as a library user');
+      }
       return response()->json( auth()->user()->libraryUser->allBorrowedBooks());
     }
 

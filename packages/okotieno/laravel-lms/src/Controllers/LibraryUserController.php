@@ -21,8 +21,8 @@ class LibraryUserController extends Controller
     foreach ($users as $user) {
       $response[] = [
         'id' => $user->id,
-        'first_name' => $user->first_name,
-        'last_name' => $user->last_name,
+        'firstName' => $user->first_name,
+        'lastName' => $user->last_name,
         'suspended' => $user->libraryUser->suspended
       ];
     }

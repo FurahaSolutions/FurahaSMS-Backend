@@ -186,6 +186,23 @@ class LibraryBookTest extends TestCase
   }
 
   /**
+   * GET /api/library-books
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function non_library_users_cannot_retrieve_books()
+  {
+    LibraryBookItem::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/library-books?my-account=1')
+      ->assertStatus(403);
+
+  }
+
+  /**
    * GET /api/library-books/:id
    * @group library
    * @group library-book
