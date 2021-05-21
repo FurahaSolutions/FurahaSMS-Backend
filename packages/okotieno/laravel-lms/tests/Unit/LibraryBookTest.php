@@ -139,6 +139,28 @@ class LibraryBookTest extends TestCase
   }
 
   /**
+   * GET /api/library-books?title=:title
+   * @group library
+   * @group library-book
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_book_with()
+  {
+    $libraryBook = LibraryBook::factory()->create();
+    $libraryBookItems = LibraryBookItem::factory()
+      ->count(3)->state(['library_book_id' => $libraryBook])->create();
+    $this->actingAs($this->user, 'api')->getJson('/api/library-books')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'title', 'book_items']])
+      ->assertJsonFragment(['id' => $libraryBook->id])
+      ->assertJsonFragment(['ref' => $libraryBookItems[0]->ref])
+      ->assertJsonFragment(['title' => $libraryBook->title]);
+
+  }
+
+  /**
    * GET /api/library-books
    * @group library
    * @group library-book

@@ -11,6 +11,25 @@ use Okotieno\LMS\Requests\LibraryUserUpdateRequest;
 
 class LibraryUserController extends Controller
 {
+  public function index()
+  {
+    $response = [];
+    $limit = 15;
+    $users = User::whereHas('libraryUser', function ($q) {
+      return $q->where('suspended', false);
+    })->limit($limit)->get();
+    foreach ($users as $user) {
+      $response[] = [
+        'id' => $user->id,
+        'first_name' => $user->first_name,
+        'last_name' => $user->last_name,
+        'suspended' => $user->libraryUser->suspended
+      ];
+    }
+    return response()->json(
+      $response
+    );
+  }
 
   /**
    * Store a newly created resource in storage.
