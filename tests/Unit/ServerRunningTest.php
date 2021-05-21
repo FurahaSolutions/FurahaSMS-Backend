@@ -140,10 +140,10 @@ class ServerRunningTest extends TestCase
     $token = $this->user->createToken('Token Name')->accessToken;
     $this->withHeaders([
       'Authorization' => 'Bearer ' . $token
-    ])->get('/api/users/auth')
+    ])->get('/api/users?auth=1')
       ->assertStatus(200);
 
-    $response = $this->actingAs($this->user, 'api')->get('/api/users/auth');
+    $response = $this->actingAs($this->user, 'api')->get('/api/users?auth=1');
     $response->assertStatus(200);
   }
 
@@ -162,7 +162,7 @@ class ServerRunningTest extends TestCase
     $token = $this->user->createToken('Token Name')->accessToken;
     $this->withHeaders([
       'Authorization' => 'Bearer ' . $token
-    ])->get('/api/users/auth')
+    ])->get('/api/users?auth=1')
       ->assertStatus(200);
   }
 
@@ -181,7 +181,7 @@ class ServerRunningTest extends TestCase
     $this->withHeaders([
       'Authorization' => 'Bearer Invalid token',
       'Accept' => 'application/json'
-    ])->get('/api/users/auth')
+    ])->get('/api/users?auth=1')
       ->assertStatus(401);
   }
 }

@@ -36,7 +36,7 @@ class StoreLibraryBookIssueRequest extends FormRequest
       'book_item_id.required' => 'Library Reference Number is Required',
       'user_id.required' => 'Library User is required',
       'user_id.exists:users' => 'Invalid User',
-      'user_id.exists:library_users' => 'Invalid Library User',
+      'user_id.exists:library_users' => 'Invalid Library User'
     ];
   }
 

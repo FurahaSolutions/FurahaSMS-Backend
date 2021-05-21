@@ -4,6 +4,7 @@ namespace Okotieno\LMS\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\BookIssue;
 use Okotieno\LMS\Models\LibraryBookItem;
@@ -14,7 +15,7 @@ class LibraryBookIssueController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function index()
   {
@@ -46,7 +47,7 @@ class LibraryBookIssueController extends Controller
    * Store a newly created resource in storage.
    *
    * @param StoreLibraryBookIssueRequest $request
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function store(StoreLibraryBookIssueRequest $request)
   {
