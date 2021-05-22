@@ -15,7 +15,7 @@ class LibraryBookItemFactory extends Factory
   public function definition()
   {
     return [
-      'ref' => $this->faker->slug,
+      'ref' => $this->faker->slug(3),
       'library_book_id' => LibraryBook::factory()->create()->id,
       'procurement_date' => $this->faker->date()
     ];

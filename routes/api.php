@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['cors', 'preflight'])->group(function () {
-  Route::options('{id}', function () {
-  });
-});
+//Route::middleware(['cors', 'preflight'])->group(function () {
+//  Route::options('{id}', function () {
+//  });
+//});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
