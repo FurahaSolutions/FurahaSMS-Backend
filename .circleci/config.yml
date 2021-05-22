@@ -69,9 +69,9 @@ jobs:
           command: composer run test:coverage
       - run: ./vendor/bin/php-coveralls -v
 
-      - store_test_results:
-          path: tests/coverage
       - store_artifacts:
+          path: tests/coverage/cloverl.xml
+      - store_test_results:
           path: tests/coverage
 
 workflows:
