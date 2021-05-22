@@ -9,7 +9,7 @@
 namespace App\Traits;
 
 
-trait hasActiveProperty
+trait HasActiveProperty
 {
   public static function scopeActive($query)
   {
