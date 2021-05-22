@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\Teachers\Controllers\TeachersController;
 use Okotieno\Teachers\Controllers\TeacherSubjectsController;
 

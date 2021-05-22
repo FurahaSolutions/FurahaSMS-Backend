@@ -184,6 +184,24 @@ class ServerRunningTest extends TestCase
     ])->get('/api/users?auth=1')
       ->assertStatus(401);
   }
+
+  /**
+   * Test get '/api/users/auth'
+   *
+   * @return void
+   * @group app
+   * @group get-request
+   * @group authentication-1
+   * @test
+   *
+   */
+
+  public function preflight_request_passes_successfully()
+  {
+    $this->actingAs($this->user)->options('/api/users?auth=1')
+      ->assertStatus(200)
+      ->assertHeader('Access-Control-Allow-Origin');
+  }
 }
 
 

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\CanSaveFileDocument;
+
 use App\Traits\HasPasswordToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Okotieno\Files\Traits\CanSaveFileDocument;
+use Okotieno\Files\Traits\HasProfilePics;
 use Okotieno\Gender\Traits\hasGender;
 use Okotieno\GuardianAdmissions\Traits\canBeAGuardian;
 use Okotieno\LMS\Traits\HasLibraryUser;
@@ -15,9 +17,9 @@ use Okotieno\NamePrefix\Traits\hasNamePrefix;
 use Okotieno\Procurement\Traits\canProcure;
 use Okotieno\Religion\Traits\hasReligion;
 use Okotieno\SchoolExams\Traits\hasSchoolExams;
-use Okotieno\StudentAdmissions\Traits\canBeAStudent;
+use Okotieno\Students\Traits\CanBeAStudent;
 use Okotieno\StudyMaterials\Traits\canUploadStudyMaterials;
-use Okotieno\TeacherAdmissions\Traits\canBeATeacher;
+use Okotieno\Teachers\Traits\CanBeATeacher;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -28,8 +30,8 @@ class User extends Authenticatable
   use HasApiTokens,
     Notifiable,
     HasRoles,
-    canBeAStudent,
-    canBeATeacher,
+    CanBeAStudent,
+    CanBeATeacher,
     canBeAGuardian,
     hasNamePrefix,
     hasGender,
@@ -40,6 +42,7 @@ class User extends Authenticatable
     CanSaveFileDocument,
     HasPasswordToken,
     HasLibraryUser,
+    HasProfilePics,
     HasFactory;
 
   /**

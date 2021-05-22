@@ -10,7 +10,6 @@ namespace Okotieno\SchoolAccounts\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\Traits\hasActiveProperty;
 use Illuminate\Http\Request;
 use Okotieno\SchoolAccounts\Models\PaymentMethod;
 
@@ -26,13 +25,4 @@ class PaymentMethodsController extends Controller
         return PaymentMethod::all();
     }
 
-    public function store()
-    {
-
-    }
-
-    public function show()
-    {
-
-    }
 }

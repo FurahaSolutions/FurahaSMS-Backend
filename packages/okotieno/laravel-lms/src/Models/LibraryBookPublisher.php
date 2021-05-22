@@ -2,14 +2,14 @@
 
 namespace Okotieno\LMS\Models;
 
-use App\Traits\hasProfilePics;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Okotieno\Files\Traits\HasProfilePics;
 use Okotieno\LMS\Database\Factories\LibraryBookPublisherFactory;
 
 class LibraryBookPublisher extends Model
 {
-  use hasProfilePics, HasFactory;
+  use HasProfilePics, HasFactory;
 
   protected $fillable = ['name', 'biography'];
 

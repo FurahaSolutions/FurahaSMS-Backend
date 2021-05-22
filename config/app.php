@@ -178,7 +178,6 @@ return [
         Okotieno\SchoolCurriculum\SchoolCurriculumServiceProvider::class,
         Okotieno\Students\StudentsServiceProvider::class,
         Okotieno\Procurement\ProcurementServiceProvider::class,
-        Okotieno\TeacherAdmissions\TeacherAdmissionsServiceProvider::class,
         Okotieno\Teachers\TeachersServiceProvider::class,
         Okotieno\Guardians\GuardiansServiceProvider::class,
         Okotieno\SchoolAccounts\SchoolAccountsServiceProvider::class,

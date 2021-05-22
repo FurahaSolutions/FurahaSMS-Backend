@@ -5,12 +5,11 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
-use App\Http\Middleware\PreflightResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
-use Barryvdh\Cors\HandleCors;
+use Fruitcake\Cors\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -41,7 +40,7 @@ class Kernel extends HttpKernel
     TrimStrings::class,
     ConvertEmptyStringsToNull::class,
     TrustProxies::class,
-    \Fruitcake\Cors\HandleCors::class
+    HandleCors::class
   ];
 
   /**
@@ -54,7 +53,6 @@ class Kernel extends HttpKernel
       EncryptCookies::class,
       AddQueuedCookiesToResponse::class,
       StartSession::class,
-      // \Illuminate\Session\Middleware\AuthenticateSession::class,
       ShareErrorsFromSession::class,
       VerifyCsrfToken::class,
       SubstituteBindings::class,
@@ -83,7 +81,6 @@ class Kernel extends HttpKernel
     'signed' => ValidateSignature::class,
     'throttle' => ThrottleRequests::class,
     'verified' => EnsureEmailIsVerified::class,
-    'preflight' => PreflightResponse::class,
   ];
 
   /**
