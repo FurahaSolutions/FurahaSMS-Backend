@@ -1,10 +1,10 @@
 <?php
 
-namespace Okotieno\TeacherAdmissions\Requests;
+namespace Okotieno\Teachers\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTeacherRequest extends FormRequest
+class TeacherStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

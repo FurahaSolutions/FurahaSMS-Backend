@@ -6,14 +6,14 @@
  * Time: 10:13 PM
  */
 
-namespace Okotieno\StudentAdmissions\Traits;
+namespace Okotieno\Students\Traits;
 
 
 use App\Models\User;
 use Carbon\Carbon;
 use Okotieno\Students\Models\Student;
 
-trait canBeAStudent
+trait CanBeAStudent
 {
   public static function updateStudent($user, $request)
   {

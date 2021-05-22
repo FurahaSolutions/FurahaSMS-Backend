@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
   public function handle($request, Closure $next, $guard = null)
   {
     if (Auth::guard($guard)->check()) {
-      return redirect('/home');
+      abort(403, 'You are already authenticated');
     }
 
     return $next($request);
