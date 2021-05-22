@@ -17,9 +17,9 @@ use Okotieno\NamePrefix\Traits\hasNamePrefix;
 use Okotieno\Procurement\Traits\canProcure;
 use Okotieno\Religion\Traits\hasReligion;
 use Okotieno\SchoolExams\Traits\hasSchoolExams;
-use Okotieno\StudentAdmissions\Traits\canBeAStudent;
+use Okotieno\Students\Traits\CanBeAStudent;
 use Okotieno\StudyMaterials\Traits\canUploadStudyMaterials;
-use Okotieno\TeacherAdmissions\Traits\canBeATeacher;
+use Okotieno\Teachers\Traits\CanBeATeacher;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -30,8 +30,8 @@ class User extends Authenticatable
   use HasApiTokens,
     Notifiable,
     HasRoles,
-    canBeAStudent,
-    canBeATeacher,
+    CanBeAStudent,
+    CanBeATeacher,
     canBeAGuardian,
     hasNamePrefix,
     hasGender,

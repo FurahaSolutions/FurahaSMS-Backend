@@ -29,6 +29,6 @@ class SupportStaffAdmissionsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('Okotieno\\TeacherAdmissions\\Controllers\\TeacherAdmissionsController');
+
     }
 }
