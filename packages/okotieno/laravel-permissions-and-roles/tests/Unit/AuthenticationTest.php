@@ -40,7 +40,7 @@ class AuthenticationTest extends TestCase
     $role->permissions()->save($permission);
     $this->user->assignRole('some role');
     $this->actingAs($this->user, 'api')
-      ->get('/api/users/auth')
+      ->get('/api/users?auth=1')
       ->assertJsonFragment(['some role'])
       ->assertJsonFragment(['some permission'])
       ->assertJsonMissing(['another permission']);

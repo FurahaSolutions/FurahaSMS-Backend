@@ -67,7 +67,7 @@ class LibraryUserTest extends TestCase
     $this->actingAs($this->user, 'api')
       ->getJson('api/library-books/users/' . $libraryUser->user_id)
       ->assertStatus(200)
-      ->assertJsonStructure(['id', 'firstName','lastName', 'libraryUserId']);
+      ->assertJsonStructure(['id', 'firstName', 'lastName', 'libraryUserId']);
   }
 
   /**
@@ -111,4 +111,36 @@ class LibraryUserTest extends TestCase
 
     $this->assertFalse(User::find($user->id)->library_suspended);
   }
+
+  /**
+   * GET /api/library-books/users
+   * @test
+   * @group library
+   * @group library-users-1
+   */
+
+  public function unauthenticated_users_cannot_retrieve_library_books()
+  {
+    $this->getJson('api/library-books/users')->assertStatus(401);
+  }
+
+  /**
+   * GET /api/library-books/users
+   * @test
+   * @group library
+   * @group library-users-1
+   */
+
+  public function authenticated_users_can_retrieve_library_books()
+  {
+    $libraryUser = LibraryUser::factory()->create();
+    LibraryUser::factory()->suspended()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('api/library-books/users?q=' . $libraryUser->user->firstname)
+      ->assertStatus(200)
+      ->assertJsonFragment(['id' => $libraryUser->user->id])
+      ->assertJsonFragment(['suspended' => false])
+      ->assertJsonMissing(['suspended' => true]);
+  }
+
 }

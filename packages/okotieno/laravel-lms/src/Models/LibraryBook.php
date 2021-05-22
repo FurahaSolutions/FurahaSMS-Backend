@@ -21,7 +21,7 @@ class LibraryBook extends Model
 
   protected $fillable = ['title', 'publication_date', 'ISBN'];
 
-  public static function filter($request)
+  public static function filter($request, $limit = 10)
   {
     $query = DB::table('library_books AS lb');
     if ($request->author !== null) {
@@ -53,8 +53,7 @@ class LibraryBook extends Model
     if ($request->tag != null) {
       $query = $query->where('lbt.name', 'LIKE', '%' . $request->tag . '%');
     }
-    return $query
-      ->select('lb.id AS id');
+    return $query->limit($limit)->select('lb.id AS id');
   }
 
   public static function collectionDetails(Collection $books)
@@ -88,7 +87,7 @@ class LibraryBook extends Model
       "max_borrowing_hours" => $book->max_borrowing_hours,
       "overdue_charge_per_hour" => $book->overdue_charge_per_hour,
       "count" => $count,
-      "checked_out_count" => $checked_out,
+      "checked_out_count" => $checked_out
     ];
   }
 

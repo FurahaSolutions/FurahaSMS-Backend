@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Okotieno\LMS\Models\LibraryUser;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Tests\TestCase;
 
@@ -94,6 +95,7 @@ class UserTest extends TestCase
     $this->patchJson('api/users/' . $user->id, ['first_name' => $this->faker->firstName])
       ->assertStatus(401);
   }
+
   /**
    * PATCH api/user/:user
    * @group users
@@ -103,9 +105,10 @@ class UserTest extends TestCase
   {
     $user = User::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/users/' . $user->id , ['first_name' => $this->faker->firstName])
+      ->patchJson('api/users/' . $user->id, ['first_name' => $this->faker->firstName])
       ->assertStatus(403);
   }
+
   /**
    * PATCH api/user/:user
    * @group users
@@ -132,6 +135,7 @@ class UserTest extends TestCase
     $this->assertEquals($updatedUser->phone, $updateUser['phone']);
     $this->assertEquals($updatedUser->date_of_birth, $updateUser['date_of_birth']);
   }
+
   /**
    * PATCH api/user/:user
    * @group users
@@ -162,6 +166,7 @@ class UserTest extends TestCase
       ->patchJson('api/users/' . $user->id, [])
       ->assertStatus(422);
   }
+
   /**
    * PATCH api/user/:user
    * @group users
@@ -203,7 +208,7 @@ class UserTest extends TestCase
     Permission::factory()->state(['name' => 'update user profile'])->create();
     $this->user->givePermissionTo('update user profile');
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/users/' . $user->id, ['last_name' => '','middle_name' => $this->faker->firstName])
+      ->patchJson('api/users/' . $user->id, ['last_name' => '', 'middle_name' => $this->faker->firstName])
       ->assertStatus(422);
   }
 
@@ -222,6 +227,46 @@ class UserTest extends TestCase
       ->assertStatus(422);
   }
 
+  /**
+   * GET api/user?auth=1
+   * @group users
+   * @test
+   */
+  public function authenticated_user_can_retrieve_own_profile()
+  {
+    $this->actingAs($this->user, 'api')
+      ->get('api/users?auth=1')
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'first_name', 'last_name', 'permissions', 'roles']);
+  }
+
+  /**
+   * GET api/user?auth=1
+   * @group users
+   * @test
+   */
+  public function authenticated_users_with_library_access_should_have_permission_to_access_library()
+  {
+    LibraryUser::factory()->state(['user_id' => $this->user->id])->create();
+    $this->actingAs($this->user, 'api')
+      ->get('api/users?auth=1')
+      ->assertSeeText(['access library']);
+  }
+
+  /**
+   * GET api/user?email=:email
+   * @group users
+   * @test
+   */
+  public function user_details_can_be_retried_by_email()
+  {
+    $user = User::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->get('api/users?email='.$user->email)
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'first_name', 'last_name', 'email'])
+      ->assertJsonFragment(['email' => $user->email]);
+  }
 }
 
 

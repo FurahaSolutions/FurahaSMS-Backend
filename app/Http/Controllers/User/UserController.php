@@ -12,6 +12,22 @@ class UserController extends Controller
 {
   public function index(Request $request)
   {
+    if ($request->email) {
+      $request->validate(['email' => 'required']);
+      return response()->json(User::where('email', $request->email)->first());
+    }
+    if ($request->boolean('auth')) {
+      $user = User::find(auth()->id());
+      $response = $user->toArray();
+      $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+      if($user->libraryUser){
+        $permissions = [...$permissions, 'access library'];
+      }
+
+      $response['permissions'] = $permissions;
+      $response['roles'] = $user->roles->pluck('name')->toArray();
+      return response()->json($response);
+    }
     $queryName = $request->name ? $request->name : '';
     $queryLimit = $request->limit ? $request->limit : 20;
     $users = User::where('first_name', 'like', '%' . $queryName . '%')
@@ -30,12 +46,12 @@ class UserController extends Controller
     $allRequestField = $request->all();
     foreach ($user->getFillable() as $field) {
       if (key_exists($field, $allRequestField)) {
-        if($field === 'first_name' || $field === 'last_name'){
+        if ($field === 'first_name' || $field === 'last_name') {
           $validation = [];
           $validation[$field] = 'required';
           $request->validate($validation);
         }
-        $user[$field] =  $allRequestField[$field];
+        $user[$field] = $allRequestField[$field];
         $user->save();
       }
     }
