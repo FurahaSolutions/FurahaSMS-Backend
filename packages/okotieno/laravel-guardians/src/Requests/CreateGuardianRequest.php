@@ -1,7 +1,8 @@
 <?php
 
-namespace Okotieno\GuardianAdmissions\Requests\User;
+namespace Okotieno\Guardians\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateGuardianRequest extends FormRequest
@@ -28,7 +29,13 @@ class CreateGuardianRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
-            'relation' => 'required'
+            'relationship' => 'required'
         ];
     }
+  protected function failedAuthorization()
+  {
+    throw new AuthorizationException(
+      'You are not authorised to create guardian'
+    );
+  }
 }

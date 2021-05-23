@@ -6,12 +6,12 @@
  * Time: 10:13 PM
  */
 
-namespace Okotieno\GuardianAdmissions\Traits;
+namespace Okotieno\Guardians\Traits;
 
 
 use Okotieno\Guardians\Models\Guardian;
 
-trait canBeAGuardian
+trait CanBeAGuardian
 {
   public function guardian()
   {

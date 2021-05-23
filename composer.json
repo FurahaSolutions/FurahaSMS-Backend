@@ -33,7 +33,6 @@
       "Database\\Seeders\\": "database/seeders/",
       "Okotieno\\StudentAdmissions\\": "packages/okotieno/laravel-student-admissions/src/",
       "Okotieno\\TeacherAdmissions\\": "packages/okotieno/laravel-teacher-admissions/src/",
-      "Okotieno\\GuardianAdmissions\\": "packages/okotieno/laravel-guardian-admissions/src/",
       "Okotieno\\DataSync\\": "packages/okotieno/laravel-data-sync/src/",
       "Okotieno\\LMS\\": "packages/okotieno/laravel-lms/src/",
       "Okotieno\\NamePrefix\\": "packages/okotieno/name-prefix/src/",

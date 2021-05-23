@@ -6,14 +6,14 @@
  * Time: 10:13 PM
  */
 
-namespace Okotieno\GuardianAdmissions\Traits;
+namespace Okotieno\Guardians\Traits;
 
 
 use App\Models\User;
 use Carbon\Carbon;
 use Okotieno\Guardians\Models\Guardian;
 
-trait hasGuardians
+trait HasGuardians
 {
   public function updateGuardian($student, $request)
   {
@@ -46,9 +46,9 @@ trait hasGuardians
 
   /**
    * @param $request
-   * @return \Illuminate\Http\JsonResponse
+   * @return array
    */
-  public function createGuardian($request)
+  public function createGuardian($request): array
   {
     if (($user = User::where('email', $request->email)) && $user->exists()) {
       $user = $user->first();
@@ -64,7 +64,7 @@ trait hasGuardians
 
       }
       $this->guardians()->detach($guardian->id);
-      $this->guardians()->save($guardian, ['relationship' => $request->relation]);
+      $this->guardians()->save($guardian, ['relationship' => $request->relationship]);
 
     } else {
       $user = User::create([
@@ -90,7 +90,7 @@ trait hasGuardians
       ]);
       $this->guardians()->save($guardian, ['relationship' => $request->relation]);
     }
-    return response()->json([
+    return [
       'id' => $user->id,
       'first_name' => $user->first_name,
       'last_name' => $user->last_name,
@@ -104,7 +104,7 @@ trait hasGuardians
       'gender_id' => $user->gender_id,
       'religion_id' => $user->religion_id,
       'guardian_id' => $user->guardian->guardian_id_number
-    ]);
+    ];
   }
 
 //    public function guardian()
