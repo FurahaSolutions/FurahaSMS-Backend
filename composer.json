@@ -23,7 +23,6 @@
     "facade/ignition": "^2.8.3",
     "laravel/sail": "^1.4.12",
     "mockery/mockery": "^1.4.3",
-    "nunomaduro/collision": "^5.4.0",
     "phpunit/phpunit": "^9.5.4"
   },
   "autoload": {
@@ -33,7 +32,6 @@
       "Database\\Seeders\\": "database/seeders/",
       "Okotieno\\StudentAdmissions\\": "packages/okotieno/laravel-student-admissions/src/",
       "Okotieno\\TeacherAdmissions\\": "packages/okotieno/laravel-teacher-admissions/src/",
-      "Okotieno\\GuardianAdmissions\\": "packages/okotieno/laravel-guardian-admissions/src/",
       "Okotieno\\DataSync\\": "packages/okotieno/laravel-data-sync/src/",
       "Okotieno\\LMS\\": "packages/okotieno/laravel-lms/src/",
       "Okotieno\\NamePrefix\\": "packages/okotieno/name-prefix/src/",
