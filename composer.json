@@ -47,7 +47,7 @@
       "Okotieno\\SchoolExams\\": "packages/okotieno/laravel-school-exams/src/",
       "Okotieno\\StudyMaterials\\": "packages/okotieno/laravel-study-materials/src/",
       "Okotieno\\PermissionsAndRoles\\": "packages/okotieno/laravel-permissions-and-roles/src/",
-      "Okotieno\\SupportStaffAdmissions\\": "packages/okotieno/laravel-support-staff-admissions/src/",
+      "Okotieno\\SupportStaff\\": "packages/okotieno/laravel-support-staff/src/",
       "Okotieno\\ELearning\\": "packages/okotieno/laravel-elearning/src/",
       "Okotieno\\Files\\": "packages/okotieno/laravel-files/src/",
       "Okotieno\\TimeTable\\": "packages/okotieno/laravel-school-timetable/src/",
