@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\Guardians\Requests\CreateGuardianRequest;
+use Okotieno\Guardians\Requests\GuardianUpdateRequest;
 
 class GuardiansController extends Controller
 {
@@ -86,7 +87,7 @@ class GuardiansController extends Controller
    * Store a newly created resource in storage.
    * @param CreateGuardianRequest $request
    * @param User $studentUser
-   * @return mixed
+   * @return mixed | void
    */
   public function store(CreateGuardianRequest $request, User $studentUser)
   {
@@ -97,9 +98,26 @@ class GuardiansController extends Controller
         'message' => 'Successfully saved guardian',
         'data' => $user
       ]);
-    } else {
-      abort(422, 'Trying to assign a guardian to a non student');
     }
+    abort(422, 'Trying to assign a guardian to a non student');
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param GuardianUpdateRequest $request
+   * @param User $user
+   * @return JsonResponse
+   */
+  public function update(GuardianUpdateRequest $request, User $user)
+  {
+
+    $user = User::updateGuardian($user, $request);
+    return response()->json([
+      'saved' => true,
+      'message' => 'Teacher Successfully updated',
+      'data' => $user
+    ]);
   }
 
 }

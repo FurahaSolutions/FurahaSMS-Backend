@@ -50,9 +50,9 @@ class GuardianTest extends TestCase
   {
     $guardian = Guardian::factory()->create();
     $students = Student::factory()->count(2)->create();
-    $guardian->students()->attach($students->pluck('id'),['relationship' => 'Parent']);
+    $guardian->students()->attach($students->pluck('id'), ['relationship' => 'Parent']);
     $this->actingAs($this->user, 'api')
-      ->getJson('api/guardians/' . $guardian->user->id.'?with-students=1')->assertStatus(200)
+      ->getJson('api/guardians/' . $guardian->user->id . '?with-students=1')->assertStatus(200)
       ->assertJsonStructure(['id', 'firstName', 'lastName', 'genderName', 'religionName']);
   }
 
@@ -66,9 +66,9 @@ class GuardianTest extends TestCase
   {
     $guardians = Guardian::factory()->count(2)->create();
     $student = Student::factory()->create();
-    $student->guardians()->attach($guardians->pluck('id'),['relationship' => 'Parent']);
+    $student->guardians()->attach($guardians->pluck('id'), ['relationship' => 'Parent']);
     $this->actingAs($this->user, 'api')
-      ->getJson('api/students/' . $student->user->id.'/guardians')->assertStatus(200)
+      ->getJson('api/students/' . $student->user->id . '/guardians')->assertStatus(200)
       ->assertJsonStructure([['id', 'first_name', 'last_name', 'gender_name', 'religion_name']]);
   }
 
@@ -82,7 +82,7 @@ class GuardianTest extends TestCase
   {
     $guardian = array_merge(User::factory()->make()->toArray(), ['relationship' => 'Parent']);
     $student = Student::factory()->create();
-    $this->postJson('api/students/' . $student->user->id.'/guardians', $guardian)->assertStatus(401);
+    $this->postJson('api/students/' . $student->user->id . '/guardians', $guardian)->assertStatus(401);
   }
 
   /**
@@ -96,12 +96,12 @@ class GuardianTest extends TestCase
     $guardian = array_merge(User::factory()->make()->toArray(), ['relationship' => 'Parent']);
     $student = Student::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->postJson('api/students/' . $student->user->id.'/guardians', $guardian)
+      ->postJson('api/students/' . $student->user->id . '/guardians', $guardian)
       ->assertStatus(403);
   }
 
   /**
-   * GET /api/students/:student/guardians
+   * POST /api/students/:student/guardians
    * @test
    * @group guardians
    * @group get-request
@@ -112,10 +112,8 @@ class GuardianTest extends TestCase
     $this->user->givePermissionTo('create guardian');
     $guardian = array_merge(User::factory()->make()->toArray(), ['relationship' => 'Parent']);
     $student = Student::factory()->create();
-    echo $this->actingAs($this->user, 'api')
-      ->postJson('api/students/' . $student->user->id.'/guardians', $guardian)->content();
     $this->actingAs($this->user, 'api')
-      ->postJson('api/students/' . $student->user->id.'/guardians', $guardian)
+      ->postJson('api/students/' . $student->user->id . '/guardians', $guardian)
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
   }
@@ -133,7 +131,26 @@ class GuardianTest extends TestCase
     $guardian = array_merge(User::factory()->make()->toArray(), ['relationship' => 'Parent']);
     $user = User::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->postJson('api/students/' . $user->id.'/guardians', $guardian)
+      ->postJson('api/students/' . $user->id . '/guardians', $guardian)
       ->assertStatus(422);
+  }
+
+  /**
+   * PATCH /api/guardians/:guardian
+   * @test
+   * @group guardians-1
+   * @group get-request
+   */
+  public function authenticated_users_with_permission_can_update_guardians()
+  {
+    Permission::factory()->state(['name' => 'update guardian'])->create();
+    $this->user->givePermissionTo('update guardian');
+    $guardian = Guardian::factory()->create();
+    $guardianUpdate = User::factory()->make()->toArray();
+    $student = Student::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/guardians/'.$guardian->user->id, $guardianUpdate)
+      ->assertStatus(200)
+      ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
   }
 }
