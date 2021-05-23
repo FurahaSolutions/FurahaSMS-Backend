@@ -11,7 +11,7 @@ use Laravel\Passport\HasApiTokens;
 use Okotieno\Files\Traits\CanSaveFileDocument;
 use Okotieno\Files\Traits\HasProfilePics;
 use Okotieno\Gender\Traits\hasGender;
-use Okotieno\GuardianAdmissions\Traits\canBeAGuardian;
+use Okotieno\Guardians\Traits\CanBeAGuardian;
 use Okotieno\LMS\Traits\HasLibraryUser;
 use Okotieno\NamePrefix\Traits\hasNamePrefix;
 use Okotieno\Procurement\Traits\canProcure;
@@ -32,7 +32,7 @@ class User extends Authenticatable
     HasRoles,
     CanBeAStudent,
     CanBeATeacher,
-    canBeAGuardian,
+    CanBeAGuardian,
     hasNamePrefix,
     hasGender,
     hasReligion,

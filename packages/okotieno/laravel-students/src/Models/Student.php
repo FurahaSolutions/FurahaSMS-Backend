@@ -12,7 +12,7 @@ namespace Okotieno\Students\Models;
 use App\Traits\AppUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Okotieno\GuardianAdmissions\Traits\hasGuardians;
+use Okotieno\Guardians\Traits\HasGuardians;
 use Okotieno\SchoolAccounts\Traits\paysFees;
 use Okotieno\SchoolCurriculum\Traits\TakesCourses;
 use Okotieno\SchoolStreams\Traits\BelongsToStream;
@@ -21,7 +21,7 @@ use Okotieno\Students\Traits\unitAllocated;
 
 class Student extends Model
 {
-  use AppUser, hasGuardians, TakesCourses, unitAllocated, paysFees, BelongsToStream, HasFactory;
+  use AppUser, HasGuardians, TakesCourses, unitAllocated, paysFees, BelongsToStream, HasFactory;
   protected static function newFactory()
   {
     return StudentFactory::new();

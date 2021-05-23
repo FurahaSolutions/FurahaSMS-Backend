@@ -7,8 +7,6 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use Okotieno\GuardianAdmissions\Controllers\StudentGuardianController;
-use Okotieno\StudentAdmissions\Controllers\StudentAdmissionIdentificationController;
 use Okotieno\StudentAdmissions\Controllers\StudentIdNumberController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
@@ -16,7 +14,7 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     Route::prefix('admissions')->group(function () {
       Route::prefix('students')->group(function () {
         Route::apiResources([
-          'guardians' => StudentGuardianController::class
+          'guardians' => \Okotieno\Guardians\Controllers\StudentGuardiansController::class
         ]);
       });
     });
