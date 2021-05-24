@@ -52,7 +52,7 @@ class GuardiansController extends Controller
     $response['middleName'] = $user->middle_name;
     $response['otherNames'] = $user->other_names;
     $response['students'] = $students;
-    $response['namePrefix'] = $student->name_prefix_prefix;
+    $response['namePrefix'] = $user->name_prefix_prefix;
     return response()->json($user);
   }
 

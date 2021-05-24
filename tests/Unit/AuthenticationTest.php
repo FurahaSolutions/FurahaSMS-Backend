@@ -340,4 +340,42 @@ class AuthenticationTest extends TestCase
       ->assertSeeText(['access library']);
   }
 
+  /**
+   * GET api/password/email
+   * @group auth-1
+   * @group post-request
+   * @test
+   */
+  public function error_422_if_user_tries_to_reset_password_without_email()
+  {
+    $this->postJson('api/password/email',[])
+      ->assertStatus(422);
+  }
+
+  /**
+   * GET api/password/email
+   * @group auth-1
+   * @group post-request
+   * @test
+   */
+  public function user_can_receive_reset_password_email()
+  {
+    $user = User::factory()->create();
+    $this->postJson('api/password/email',['email' => $user->email])
+      ->assertStatus(200);
+  }
+
+  /**
+   * GET api/password/email
+   * @group auth-1
+   * @group post-request
+   * @test
+   */
+  public function error_403_if_unknown_email_while_requesting_for_a_password_reset()
+  {
+    $user = User::factory()->make();
+    $this->postJson('api/password/email',['email' => $user->email])
+      ->assertStatus(403);
+  }
+
 }
