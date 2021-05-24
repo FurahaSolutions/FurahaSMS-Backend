@@ -28,7 +28,7 @@ class GuardianTest extends TestCase
   /**
    * GET /api/guardians/:guardian
    * @test
-   * @group guardians
+   * @group guardians-1
    * @get-request
    */
   public function authenticated_users_can_access_guardian_details()
@@ -51,6 +51,8 @@ class GuardianTest extends TestCase
     $guardian = Guardian::factory()->create();
     $students = Student::factory()->count(2)->create();
     $guardian->students()->attach($students->pluck('id'), ['relationship' => 'Parent']);
+    echo $this->actingAs($this->user, 'api')
+      ->getJson('api/guardians/' . $guardian->user->id . '?with-students=1')->content();
     $this->actingAs($this->user, 'api')
       ->getJson('api/guardians/' . $guardian->user->id . '?with-students=1')->assertStatus(200)
       ->assertJsonStructure(['id', 'firstName', 'lastName', 'genderName', 'religionName']);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Okotieno\StudentAdmissions\Controllers;
+namespace Okotieno\Students\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
