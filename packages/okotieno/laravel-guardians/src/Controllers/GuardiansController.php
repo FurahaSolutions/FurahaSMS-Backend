@@ -34,7 +34,8 @@ class GuardiansController extends Controller
             'date_of_birth' => $student->date_of_birth,
             'email' => $student->email,
             'phone' => $student->phone,
-            'name_prefix_id' => $student->name_prefix_id,
+            'name_title_id' => $student->name_prefix_id,
+            'name_title' => $student->name_prefix_prefix,
             'gender_id' => $student->gender_id,
             'religion_id' => $student->religion_id,
             'student_id' => $student->student_school_id_number
@@ -51,6 +52,7 @@ class GuardiansController extends Controller
     $response['middleName'] = $user->middle_name;
     $response['otherNames'] = $user->other_names;
     $response['students'] = $students;
+    $response['namePrefix'] = $student->name_prefix_prefix;
     return response()->json($user);
   }
 
