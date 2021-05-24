@@ -20,11 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth:api')->group(function () {
-//  Route::get('/user', function (Request $request) {
-//    return $request->user();
-//  });
-  Route::post('/users/{user}/password-reset', [ResetPasswordController::class, 'adminPasswordReset']);
-  Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
+  Route::post('users/{user}/password-reset', [ResetPasswordController::class, 'adminPasswordReset']);
+  Route::post('password/reset', [ResetPasswordController::class, 'reset']);
+  Route::get('users/auth', [AuthController::class, 'user']);
   Route::get('users/auth/logout', [AuthController::class, 'logout']);
   Route::get('users', [UserController::class, 'index']);
   Route::patch('users/{user}', [UserController::class, 'update']);

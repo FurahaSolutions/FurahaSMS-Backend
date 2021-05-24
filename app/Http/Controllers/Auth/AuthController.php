@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Exceptions\OAuthServerException;
 use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
 use League\OAuth2\Server\AuthorizationServer;
@@ -105,8 +107,19 @@ class AuthController extends Controller
    */
   public function logout(Request $request)
   {
-    $request->user()->token()->revoke();
+    auth('web')->logout();
+    if ($request->user()->token()) {
+      $accessToken = $request->user()->token();
+      $request->user()->token()->revoke();
+      DB::table('oauth_refresh_tokens')
+        ->where('access_token_id', $accessToken->id)
+        ->update([
+          'revoked' => true
+        ]);
+
+    }
     return response()->json([
+      'saved' => true,
       'message' => 'Successfully logged out'
     ]);
   }
@@ -119,6 +132,15 @@ class AuthController extends Controller
    */
   public function user(Request $request)
   {
-    return response()->json($request->user());
+    $user = $request->user();
+    $response = $user->toArray();
+    $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+    if($user->libraryUser){
+      $permissions = [...$permissions, 'access library'];
+    }
+
+    $response['permissions'] = $permissions;
+    $response['roles'] = $user->roles->pluck('name')->toArray();
+    return response()->json($response);
   }
 }

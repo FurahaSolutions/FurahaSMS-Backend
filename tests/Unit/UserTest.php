@@ -228,32 +228,6 @@ class UserTest extends TestCase
   }
 
   /**
-   * GET api/user?auth=1
-   * @group users
-   * @test
-   */
-  public function authenticated_user_can_retrieve_own_profile()
-  {
-    $this->actingAs($this->user, 'api')
-      ->get('api/users?auth=1')
-      ->assertStatus(200)
-      ->assertJsonStructure(['id', 'first_name', 'last_name', 'permissions', 'roles']);
-  }
-
-  /**
-   * GET api/user?auth=1
-   * @group users
-   * @test
-   */
-  public function authenticated_users_with_library_access_should_have_permission_to_access_library()
-  {
-    LibraryUser::factory()->state(['user_id' => $this->user->id])->create();
-    $this->actingAs($this->user, 'api')
-      ->get('api/users?auth=1')
-      ->assertSeeText(['access library']);
-  }
-
-  /**
    * GET api/user?email=:email
    * @group users
    * @test
