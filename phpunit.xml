@@ -25,6 +25,8 @@
     </include>
     <exclude>
       <directory suffix=".php">./packages/*/*/src/migrations</directory>
+      <directory suffix=".php">./packages/*/*/src/Database/Seeders</directory>
+      <directory suffix=".php">./packages/*/*/Tests</directory>
     </exclude>
     <report>
       <clover outputFile="tests/coverage/clover.xml"/>

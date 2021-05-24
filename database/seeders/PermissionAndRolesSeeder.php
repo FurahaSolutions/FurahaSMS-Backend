@@ -567,7 +567,7 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
-        'permission' => 'assign subject to teacher',
+        'permission' => 'assign unit to teacher',
         'roles' => [
           'admin',
           'head teacher',

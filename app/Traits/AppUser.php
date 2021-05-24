@@ -73,6 +73,9 @@ trait AppUser
 
   public function getNamePrefixPrefixAttribute()
   {
+    if ($this->user->namePrefix == null) {
+      return null;
+    }
     return $this->user->namePrefix->prefix;
   }
 

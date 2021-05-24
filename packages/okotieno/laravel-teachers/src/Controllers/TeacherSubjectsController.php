@@ -11,8 +11,10 @@ namespace Okotieno\Teachers\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
+use Okotieno\Teachers\Requests\TeacherSubjectStoreRequest;
 
 class TeacherSubjectsController extends Controller
 {
@@ -21,7 +23,7 @@ class TeacherSubjectsController extends Controller
    *
    * @param Request $request
    * @param User $user
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
   public function index(Request $request, User $user)
   {
@@ -42,9 +44,9 @@ class TeacherSubjectsController extends Controller
    * Store a newly created resource in storage.
    * @param Request $request
    * @param User $user
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function store(Request $request, User $user)
+  public function store(TeacherSubjectStoreRequest $request, User $user)
   {
     $unassignedUnits = array_diff($user->teacher->teaches->pluck('id')->toArray(), $request->units);
     $user->teacher->teaches()->detach($unassignedUnits);
@@ -57,6 +59,6 @@ class TeacherSubjectsController extends Controller
       'saved' => true,
       'message' => 'Successfully allocated units to the teacher',
       'data' => $request->all()
-    ]);
+    ])->setStatusCode(201);
   }
 }

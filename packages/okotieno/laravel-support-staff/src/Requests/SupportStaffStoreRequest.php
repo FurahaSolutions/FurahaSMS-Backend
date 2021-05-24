@@ -1,10 +1,10 @@
 <?php
 
-namespace Okotieno\SupportStaffAdmissions\Requests;
+namespace Okotieno\SupportStaff\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSupportStaffRequest extends FormRequest
+class SupportStaffStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -1,10 +1,10 @@
 <?php
 
-namespace Okotieno\SupportStaffAdmissions;
+namespace Okotieno\SupportStaff;
 
 use Illuminate\Support\ServiceProvider;
 
-class SupportStaffAdmissionsServiceProvider extends ServiceProvider
+class SupportStaffServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.

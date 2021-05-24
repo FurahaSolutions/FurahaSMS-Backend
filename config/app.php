@@ -166,7 +166,6 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
-        Okotieno\StudentAdmissions\StudentAdmissionsServiceProvider::class,
         Okotieno\LMS\LMSServiceProvider::class,
         Okotieno\DataSync\DataSyncProvider::class,
         Okotieno\NamePrefix\NamePrefixServiceProvider::class,
@@ -183,7 +182,7 @@ return [
         Okotieno\SchoolExams\SchoolExamsServiceProvider::class,
         Okotieno\StudyMaterials\StudyMaterialServiceProvider::class,
         Okotieno\PermissionsAndRoles\PermissionsAndRolesServiceProvider::class,
-        Okotieno\SupportStaffAdmissions\SupportStaffAdmissionsServiceProvider::class,
+        Okotieno\SupportStaff\SupportStaffServiceProvider::class,
         Okotieno\ELearning\ELearningServiceProvider::class,
         Okotieno\Files\FilesServiceProvider::class,
         Okotieno\TimeTable\TimeTableServiceProvider::class,

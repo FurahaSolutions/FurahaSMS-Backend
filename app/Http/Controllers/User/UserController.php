@@ -16,18 +16,6 @@ class UserController extends Controller
       $request->validate(['email' => 'required']);
       return response()->json(User::where('email', $request->email)->first());
     }
-    if ($request->boolean('auth')) {
-      $user = User::find(auth()->id());
-      $response = $user->toArray();
-      $permissions = $user->getAllPermissions()->pluck('name')->toArray();
-      if($user->libraryUser){
-        $permissions = [...$permissions, 'access library'];
-      }
-
-      $response['permissions'] = $permissions;
-      $response['roles'] = $user->roles->pluck('name')->toArray();
-      return response()->json($response);
-    }
     $queryName = $request->name ? $request->name : '';
     $queryLimit = $request->limit ? $request->limit : 20;
     $users = User::where('first_name', 'like', '%' . $queryName . '%')
@@ -35,10 +23,8 @@ class UserController extends Controller
       ->orWhere('middle_name', 'like', '%' . $queryName . '%')
       ->limit($queryLimit)
       ->get();
+    return response()->json($users);
 
-    if ($request->name) {
-      return response()->json($users);
-    }
   }
 
   public function update(UserProfileUpdateRequest $request, User $user): JsonResponse

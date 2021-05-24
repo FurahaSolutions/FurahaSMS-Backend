@@ -19,6 +19,7 @@ use Okotieno\Religion\Traits\hasReligion;
 use Okotieno\SchoolExams\Traits\hasSchoolExams;
 use Okotieno\Students\Traits\CanBeAStudent;
 use Okotieno\StudyMaterials\Traits\canUploadStudyMaterials;
+use Okotieno\SupportStaff\Traits\CanBeASupportStaff;
 use Okotieno\Teachers\Traits\CanBeATeacher;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -43,7 +44,9 @@ class User extends Authenticatable
     HasPasswordToken,
     HasLibraryUser,
     HasProfilePics,
-    HasFactory;
+    HasFactory,
+    CanBeASupportStaff
+    ;
 
   /**
    * The attributes that are mass assignable.

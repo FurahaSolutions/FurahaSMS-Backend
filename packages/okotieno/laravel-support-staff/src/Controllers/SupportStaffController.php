@@ -6,7 +6,7 @@
  * Time: 11:28 AM
  */
 
-namespace Okotieno\SupportStaffAdmissions\Controllers;
+namespace Okotieno\SupportStaff\Controllers;
 
 
 use App\Http\Controllers\Controller;
@@ -14,9 +14,9 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Okotieno\PermissionsAndRoles\Models\Role;
-use Okotieno\SupportStaffAdmissions\Requests\CreateSupportStaffRequest;
+use Okotieno\SupportStaff\Requests\SupportStaffStoreRequest;
 
-class SupportStaffAdmissionsController extends Controller
+class SupportStaffController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -31,11 +31,11 @@ class SupportStaffAdmissionsController extends Controller
 
   /**
    * Store a newly created resource in storage.
-   * @param CreateSupportStaffRequest $request
+   * @param SupportStaffStoreRequest $request
    * @return JsonResponse
    *
    */
-  public function store(CreateSupportStaffRequest $request)
+  public function store(SupportStaffStoreRequest $request)
   {
 
     $role = Role::find($request->staff_type);
@@ -72,11 +72,15 @@ class SupportStaffAdmissionsController extends Controller
   /**
    * Display th specified resource.
    *
-   * @return Response
+   * @param User $support_staff
+   * @return JsonResponse
    */
-  public function show($id)
+  public function show(User $support_staff)
   {
-    return User::find($id);
+    $response = $support_staff->toArray();
+    $response['gender_name'] = $support_staff->gender_name;
+    $response['religion_name'] = $support_staff->religion_name;
+    return response()->json($response);
   }
 
 }
