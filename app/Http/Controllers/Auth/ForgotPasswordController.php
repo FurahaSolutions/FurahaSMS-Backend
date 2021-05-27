@@ -15,16 +15,9 @@ class ForgotPasswordController extends Controller
   public function sendResetLinkEmail(ResetPasswordEmailRequest $request)
   {
 
-    $token = Str::random(50);
-
+    $token = bcrypt(Str::random(8));
     $user = User::where('email', $request->email)->first();
-
-    if ($user == null) {
-      abort(403, 'No account is associated with the Email provided');
-    } else {
-      $user->passwordToken()->create(['token' => $token]);
-    }
-
+    $user->passwordToken()->create(['token' => $token, 'expires_at' => now()->addDay()]);
     $message_body = [
       'reset_link' => $token,
       'school_name' => Setting::schoolName(),

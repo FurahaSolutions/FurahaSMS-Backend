@@ -24,8 +24,16 @@ class ResetPasswordEmailRequest extends FormRequest
   public function rules()
   {
     return [
-      'email' => 'required|email'
+      'email' => 'required|email:exists:user,email'
       //
+    ];
+  }
+  public function messages()
+  {
+    return [
+      'email.exists' => 'Unknown user',
+      'email.email' => 'Please provide a valid email',
+
     ];
   }
 }

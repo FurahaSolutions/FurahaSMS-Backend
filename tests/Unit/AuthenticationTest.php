@@ -367,6 +367,7 @@ class AuthenticationTest extends TestCase
     $user = User::factory()->create();
     $this->postJson('api/password/email', ['email' => $user->email])
       ->assertStatus(200);
+
   }
 
   /**
@@ -384,7 +385,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/password/reset
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
@@ -404,7 +405,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/password/reset
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
@@ -424,7 +425,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/password/reset
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
@@ -444,7 +445,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/password/reset
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
