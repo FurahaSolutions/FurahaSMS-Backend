@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
+use Okotieno\LMS\Models\BookIssue;
 use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryBookAuthor;
 use Okotieno\LMS\Models\LibraryBookItem;
@@ -31,6 +33,8 @@ class LibrarySeeder extends Seeder
 
   public function run()
   {
+    BookIssue::factory()->count(10)->create();
+    BookIssue::factory()->state(['returned_date' => Carbon::now()])->count(10)->create();
     $authors = LibraryBookAuthor::factory()->count(10)->create()->pluck('id')->toArray();
     $publishers = LibraryBookPublisher::factory()->count(5)->create()->pluck('id')->toArray();
     $tags = LibraryBookTag::factory()->count(15)->create()->pluck('id')->toArray();

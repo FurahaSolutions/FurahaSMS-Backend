@@ -5,6 +5,7 @@ namespace Okotieno\LMS\Tests\Unit;
 
 
 use App\Models\User;
+use Okotieno\LMS\Models\BookIssue;
 use Okotieno\LMS\Models\LibraryBookItem;
 use Okotieno\LMS\Models\LibraryUser;
 use Okotieno\PermissionsAndRoles\Models\Permission;
@@ -157,6 +158,46 @@ class LibraryBookIssueTest extends TestCase
       ->getJson('api/library-books/issue', [
         'user_id' => $libraryUser->user->id,
       ])
+      ->assertStatus(200);
+  }
+
+  /**
+   * DELETE /api/library-books/issue
+   * @group library
+   * @group library-book-issue
+   * @test
+   */
+  public function unauthenticated_users_cannot_mark_library_books_as_returned()
+  {
+    $libraryBookIssue = BookIssue::factory()->create();
+    $this->deleteJson('api/library-books/issue/'.$libraryBookIssue->libraryBookItem->id)
+      ->assertStatus(401);
+  }
+  /**
+   * DELETE /api/library-books/issue
+   * @group library
+   * @group library-book-issue
+   * @test
+   */
+  public function authenticated_users_without_permission_cannot_mark_library_books_as_returned()
+  {
+    $libraryBookIssue = BookIssue::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->deleteJson('api/library-books/issue/'.$libraryBookIssue->libraryBookItem->id)
+      ->assertStatus(403);
+  }  /**
+   * DELETE /api/library-books/issue
+   * @group library
+   * @group library-book-issue
+   * @test
+   */
+  public function authenticated_users_with_permission_can_mark_library_books_as_returned()
+  {
+    $libraryBookIssue = BookIssue::factory()->create();
+    Permission::factory()->state(['name' => 'mark library book returned'])->create();
+    $this->user->givePermissionTo('mark library book returned');
+    $this->actingAs($this->user, 'api')
+      ->deleteJson('api/library-books/issue/'.$libraryBookIssue->libraryBookItem->id)
       ->assertStatus(200);
   }
 

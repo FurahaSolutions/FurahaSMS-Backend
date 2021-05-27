@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Okotieno\LMS\Controllers\LibraryBookController;
 use Okotieno\LMS\Controllers\Api\LibraryBookController as ApiLibraryBookController;
 use Okotieno\LMS\Controllers\LibraryBookAuthorController;
+use Okotieno\LMS\Controllers\LibraryBookController;
 use Okotieno\LMS\Controllers\LibraryBookIssueController;
 use Okotieno\LMS\Controllers\LibraryBookItemController;
 use Okotieno\LMS\Controllers\LibraryBookPublisherController;
@@ -26,9 +26,9 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
     ]);
 
     Route::get('library-classes', [ApiLibraryBookController::class, 'getClasses']);
+    Route::get('library-books/library-book-items', [LibraryBookItemController::class,'index']);
     Route::apiResources([
       'library-books/issue' => LibraryBookIssueController::class,
-      'library-books/return' => LibraryBookReturnController::class,
       'library-books/{libraryBook}/library-book-items' => LibraryBookItemController::class,
       'library-books' => LibraryBookController::class
 

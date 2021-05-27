@@ -2,9 +2,10 @@
 
 namespace Okotieno\LMS\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLibraryBookReturnRequest extends FormRequest
+class LibraryBookIssueDeleteRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -23,21 +24,12 @@ class StoreLibraryBookReturnRequest extends FormRequest
    */
   public function rules()
   {
-    return [
-      'ref' => 'required',
-    ];
-  }
-
-  public function messages()
-  {
-    return [
-      'ref.required' => 'The book Unique Reference is required',
-    ];
+    return [];
   }
 
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
+    throw new AuthorizationException(
       'You are not authorised to mark a library book as returned'
     );
   }

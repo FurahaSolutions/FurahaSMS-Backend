@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PasswordToken extends Model
 {
-  protected $fillable = ['token'];
+  use HasFactory;
+  protected $fillable = ['token', 'expires_at'];
 
   public static function getUserForToken($token)
   {
