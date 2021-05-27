@@ -376,11 +376,11 @@ class AuthenticationTest extends TestCase
    * @group post-request
    * @test
    */
-  public function error_403_if_unknown_email_while_requesting_for_a_password_reset()
+  public function error_422_if_unknown_email_while_requesting_for_a_password_reset()
   {
     $user = User::factory()->make();
     $this->postJson('api/password/email', ['email' => $user->email])
-      ->assertStatus(403);
+      ->assertStatus(422);
   }
 
   /**

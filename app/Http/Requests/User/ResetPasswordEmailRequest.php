@@ -24,7 +24,7 @@ class ResetPasswordEmailRequest extends FormRequest
   public function rules()
   {
     return [
-      'email' => 'required|email:exists:user,email'
+      'email' => 'required|email|exists:users,email'
       //
     ];
   }
