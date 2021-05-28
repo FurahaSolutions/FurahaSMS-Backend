@@ -17,6 +17,7 @@ class CreatePasswordTokensTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('token');
+            $table->dateTime('expires_at');
             $table->timestamps();
         });
     }

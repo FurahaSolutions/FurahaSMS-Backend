@@ -29,9 +29,7 @@ class ResetPasswordController extends Controller
       'token_type' => 'Bearer',
       'expires_in' => $token->token->expires_at
         ->diffInSeconds($token->token->created_at),
-      'access_token' => $token->accessToken,
-
-
+      'access_token' => $token->accessToken
     ];
   }
 
