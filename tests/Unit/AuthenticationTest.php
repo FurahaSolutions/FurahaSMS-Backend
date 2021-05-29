@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\PasswordToken;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -250,6 +251,7 @@ class AuthenticationTest extends TestCase
         'refresh_token'
       ]);
   }
+
   /**
    * Test get '/api/users/auth'
    *
@@ -296,6 +298,7 @@ class AuthenticationTest extends TestCase
     $response = $this->actingAs($this->user, 'api')->get('/api/users/auth');
     $response->assertStatus(200);
   }
+
   /**
    * Test get '/api/users/auth' Authorization Token
    *
@@ -314,6 +317,7 @@ class AuthenticationTest extends TestCase
     ])->get('/api/users/auth')
       ->assertStatus(200);
   }
+
   /**
    * GET api/user/auth
    * @group auth
@@ -342,40 +346,122 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/password/email
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
   public function error_422_if_user_tries_to_reset_password_without_email()
   {
-    $this->postJson('api/password/email',[])
+    $this->postJson('api/password/email', [])
       ->assertStatus(422);
   }
 
   /**
    * GET api/password/email
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
   public function user_can_receive_reset_password_email()
   {
     $user = User::factory()->create();
-    $this->postJson('api/password/email',['email' => $user->email])
+    $this->postJson('api/password/email', ['email' => $user->email])
       ->assertStatus(200);
+
   }
 
   /**
    * GET api/password/email
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
-  public function error_403_if_unknown_email_while_requesting_for_a_password_reset()
+  public function error_422_if_unknown_email_while_requesting_for_a_password_reset()
   {
     $user = User::factory()->make();
-    $this->postJson('api/password/email',['email' => $user->email])
-      ->assertStatus(403);
+    $this->postJson('api/password/email', ['email' => $user->email])
+      ->assertStatus(422);
+  }
+
+  /**
+   * GET api/password/reset
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_can_reset_password_using_valid_old_password()
+  {
+    $oldPassword = $this->faker->password;
+    $newPassword = $this->faker->password;
+    $this->user->setPassword($oldPassword);
+    $this->actingAs($this->user, 'api')->postJson('api/password/reset',
+      [
+        'email' => $this->user->email,
+        'old_password' => $oldPassword,
+        'new_password' => $newPassword,
+        'new_password_confirmation' => $newPassword,
+      ])->assertStatus(200);
+  }
+
+  /**
+   * GET api/password/reset
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_cannot_reset_password_using_invalid_old_password()
+  {
+    $oldPassword = $this->faker->password;
+    $newPassword = $this->faker->password;
+    $this->user->setPassword($this->faker->password);
+    $this->actingAs($this->user, 'api')->postJson('api/password/reset',
+      [
+        'email' => $this->user->email,
+        'old_password' => $oldPassword,
+        'new_password' => $newPassword,
+        'new_password_confirmation' => $newPassword,
+      ])->assertStatus(403);
+  }
+
+  /**
+   * GET api/password/reset
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_cannot_reset_password_using_invalid_token()
+  {
+    $token = bcrypt($this->faker->password);
+    $newPassword = $this->faker->password;
+    $this->user->setPassword($this->faker->password);
+    $this->actingAs($this->user, 'api')->postJson('api/password/reset',
+      [
+        'email' => $this->user->email,
+        'token' => $token,
+        'new_password' => $newPassword,
+        'new_password_confirmation' => $newPassword,
+      ])->assertStatus(403);
+  }
+
+  /**
+   * GET api/password/reset
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_can_reset_password_using_valid_token()
+  {
+    $token = bcrypt($this->faker->password);
+    PasswordToken::factory()->state(['token' => $token, 'user_id' => $this->user->id])->create();
+    $newPassword = $this->faker->password;
+    $this->user->setPassword($this->faker->password);
+    $this->actingAs($this->user, 'api')->postJson('api/password/reset',
+      [
+        'email' => $this->user->email,
+        'token' => $token,
+        'new_password' => $newPassword,
+        'new_password_confirmation' => $newPassword,
+      ])->assertStatus(200);
   }
 
 }

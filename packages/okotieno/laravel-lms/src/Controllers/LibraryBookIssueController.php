@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\BookIssue;
 use Okotieno\LMS\Models\LibraryBookItem;
+use Okotieno\LMS\Requests\LibraryBookIssueDeleteRequest;
 use Okotieno\LMS\Requests\StoreLibraryBookIssueRequest;
 
 class LibraryBookIssueController extends Controller
@@ -61,6 +62,15 @@ class LibraryBookIssueController extends Controller
     return response()->json([
       'saved' => true,
       'message' => 'Book issued Successfully'
+    ]);
+  }
+
+  public function destroy(LibraryBookIssueDeleteRequest $request, LibraryBookItem $issue) {
+    $bookItem = $issue;
+    $bookItem->markAsReturned();
+    return response()->json([
+      'saved' => true,
+      'message' => 'Book Marked as Returned Successfully'
     ]);
   }
 }

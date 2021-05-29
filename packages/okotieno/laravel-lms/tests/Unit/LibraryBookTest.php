@@ -118,6 +118,26 @@ class LibraryBookTest extends TestCase
 
   }
 
+//  /**
+//   * GET /api/library-books
+//   * @group library
+//   * @group library-book
+//   * @group get-request
+//   * @test
+//   * @return void
+//   */
+//  public function authenticated_users_can_retrieve_book_by_book_ref()
+//  {
+//    $libraryBook = LibraryBook::factory()->create();
+//    $libraryBookAuthor = LibraryBookAuthor::factory()->create();
+//    $libraryBook->libraryBookAuthors()->save($libraryBookAuthor);
+//    $this->actingAs($this->user, 'api')->getJson('/api/library-books?ref=' . $libraryBookAuthor->name)
+//      ->assertStatus(200)
+//      ->assertJsonStructure([['id', 'title']])
+//      ->assertJsonFragment(['id' => $libraryBook->id]);
+//
+//  }
+
   /**
    * GET /api/library-books
    * @group library
