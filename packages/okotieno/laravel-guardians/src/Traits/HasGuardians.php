@@ -27,7 +27,7 @@ trait HasGuardians
       $user = $user->first();
       if (($guardian = $user->guardian) == null) {
         if ($request->guardian_id_number != null && $request->guardian_id_number != '') {
-          $idNumber = $request->religion_id_number;
+          $idNumber = $request->guardian_id_number;
         } else {
           $idNumber = Guardian::generateIdNumber();
         }
@@ -53,7 +53,7 @@ trait HasGuardians
         'email' => $request->email,
       ]);
       if ($request->guardian_id_number != null && $request->guardian_id_number != '') {
-        $idNumber = $request->religion_id_number;
+        $idNumber = $request->guardian_id_number;
       } else {
         $idNumber = Guardian::generateIdNumber();
       }

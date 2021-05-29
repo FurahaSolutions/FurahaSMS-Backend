@@ -28,7 +28,7 @@ class GuardianTest extends TestCase
   /**
    * GET /api/guardians/:guardian
    * @test
-   * @group guardians-1
+   * @group guardians
    * @get-request
    */
   public function authenticated_users_can_access_guardian_details()
@@ -138,7 +138,7 @@ class GuardianTest extends TestCase
   /**
    * PATCH /api/guardians/:guardian
    * @test
-   * @group guardians-1
+   * @group guardians
    * @group get-request
    */
   public function authenticated_users_with_permission_can_update_guardians()
@@ -149,8 +149,23 @@ class GuardianTest extends TestCase
     $guardianUpdate = User::factory()->make()->toArray();
     $student = Student::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->patchJson('api/guardians/'.$guardian->user->id, $guardianUpdate)
+      ->patchJson('api/guardians/' . $guardian->user->id, $guardianUpdate)
       ->assertStatus(200)
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
+  }
+
+  /**
+   * PATCH /api/guardians/:guardian
+   * @test
+   * @group guardians
+   * @group get-request
+   */
+  public function authenticated_users_without_permission_cannot_update_guardians()
+  {
+    $guardian = Guardian::factory()->create();
+    $guardianUpdate = User::factory()->make()->toArray();
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/guardians/' . $guardian->user->id, $guardianUpdate)
+      ->assertStatus(403);
   }
 }

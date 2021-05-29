@@ -18,7 +18,7 @@ class LibraryBookItem extends Model
     return LibraryBookItemFactory::new();
   }
 
-  protected $fillable = ['ref', 'procurement_date', 'reserved'];
+  protected $fillable = ['ref', 'procurement_date', 'reserved', 'library_book_id'];
 
   public function markAsReturned()
   {

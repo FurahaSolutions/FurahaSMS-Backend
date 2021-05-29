@@ -26,6 +26,7 @@ class LibraryBookTest extends TestCase
       'authors' => LibraryBookAuthor::factory()->count(2)->create()->pluck('id'),
       'publishers' => LibraryBookPublisher::factory()->count(2)->create()->pluck('id'),
       'tags' => LibraryBookTag::factory()->count(2)->create()->pluck('id'),
+      'book_items' => LibraryBookItem::factory()->count(2)->state(['library_book_id' => null])->make()
     ])
       ->make()->toArray();
   }
@@ -339,6 +340,25 @@ class LibraryBookTest extends TestCase
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'title']]);
     $book = LibraryBook::where('title', $this->book['title'])->first();
     $this->assertNotNull($book);
+  }
+  /**
+   * POST /api/library-books
+   * @group library
+   * @group library-book
+   * @test
+   * @group post-request
+   * @return void
+   */
+  public function library_book_item_should_exist_after_successful_call()
+  {
+    Permission::factory()->state(['name' => 'create library book'])->create();
+    $this->user->givePermissionTo('create library book');
+    $this->actingAs($this->user, 'api')->postJson('/api/library-books', $this->book)
+      ->assertStatus(201)
+      ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'title']]);
+    $book = LibraryBook::where('title', $this->book['title'])->first();
+    $this->assertNotNull($book);
+    $this->assertNotEmpty($book->libraryBookItems->toArray());
   }
 
   /**

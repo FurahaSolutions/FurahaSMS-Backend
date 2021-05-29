@@ -18,20 +18,21 @@ class LibraryBookIssueController extends Controller
    *
    * @return JsonResponse
    */
-  public function index()
+  public function index(Request $request)
   {
+    $limit = 30;
+    if ($request->limit !== null) {
+      $limit = $request->limit;
+    }
     $response = [];
-    $issued_books = BookIssue::all();
-
-    foreach ($issued_books as $issued_book) {
-//            $issued_book->user;
-//            $issued_book->libraryBookItem;
+    $issued_books = BookIssue::paginate($limit);
+    foreach ($issued_books->items() as $issued_book) {
       $response[] = [
-        "name" => $issued_book->user->name,
+        "user" => $issued_book->libraryUser->user->name,
         "id" => $issued_book->id,
         "book_id" => $issued_book->libraryBookItem->libraryBook->id,
-        "category" => $issued_book->libraryBookItem->libraryBook->libraryClass->name,
-        "publisher" => $issued_book->libraryBookItem->libraryBook->publisher,
+        "category" => $issued_book->categories,
+        "publisher" => $issued_book->libraryBookItem->libraryBook->libraryBookPublishers,
         "publication_date" => $issued_book->libraryBookItem->libraryBook->publication_date,
         "title" => $issued_book->libraryBookItem->libraryBook->title,
         "ISBN" => $issued_book->libraryBookItem->libraryBook->ISBN,
@@ -41,7 +42,10 @@ class LibraryBookIssueController extends Controller
         "returned_date" => $issued_book->returned_date,
       ];
     }
-    return response()->json($response);
+    return response()->json([
+      'data' => $response,
+      'total' => $issued_books->total()
+    ]);
   }
 
   /**
@@ -53,8 +57,8 @@ class LibraryBookIssueController extends Controller
   public function store(StoreLibraryBookIssueRequest $request)
   {
     $user = User::find($request->user_id);
-    if($user->library_suspended) {
-      abort(403,'User is currently suspended from using the library');
+    if ($user->library_suspended) {
+      abort(403, 'User is currently suspended from using the library');
     }
     $book = LibraryBookItem::find($request->book_item_id);
     $user->libraryUser->hasBorrowedBook($book);
@@ -65,7 +69,8 @@ class LibraryBookIssueController extends Controller
     ]);
   }
 
-  public function destroy(LibraryBookIssueDeleteRequest $request, LibraryBookItem $issue) {
+  public function destroy(LibraryBookIssueDeleteRequest $request, LibraryBookItem $issue)
+  {
     $bookItem = $issue;
     $bookItem->markAsReturned();
     return response()->json([

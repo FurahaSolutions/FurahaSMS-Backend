@@ -45,8 +45,7 @@ class User extends Authenticatable
     HasLibraryUser,
     HasProfilePics,
     HasFactory,
-    CanBeASupportStaff
-    ;
+    CanBeASupportStaff;
 
   /**
    * The attributes that are mass assignable.
@@ -90,5 +89,10 @@ class User extends Authenticatable
     $this->password = bcrypt($password);
     $this->save();
     return $this;
+  }
+
+  public function getNameAttribute()
+  {
+    return $this->first_name . ' ' . $this->last_name;
   }
 }
