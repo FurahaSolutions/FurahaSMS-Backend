@@ -17,7 +17,8 @@ class LibraryBookItemFactory extends Factory
     return [
       'ref' => $this->faker->slug(3),
       'library_book_id' => LibraryBook::factory()->create()->id,
-      'procurement_date' => $this->faker->date()
+      'procurement_date' => $this->faker->date(),
+      'reserved' => $this->faker->boolean(0.3)
     ];
   }
 }

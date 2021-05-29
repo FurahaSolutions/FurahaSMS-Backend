@@ -3,6 +3,7 @@
 
 namespace Okotieno\LMS\Models;
 
+use App\Models\User;
 use App\Traits\AppUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,5 +23,9 @@ class LibraryUser extends Model
   public static function newFactory()
   {
     return LibraryUserFactory::new();
+  }
+  public function user()
+  {
+    return $this->belongsTo(User::class);
   }
 }

@@ -57,6 +57,7 @@ class LibraryBookIssueTest extends TestCase
       ])
       ->assertStatus(200);
   }
+
   /**
    * POST /api/library-books/issue
    * @group library
@@ -96,6 +97,7 @@ class LibraryBookIssueTest extends TestCase
       ])
       ->assertStatus(422);
   }
+
   /**
    * POST /api/library-books/issue
    * @group library
@@ -113,6 +115,7 @@ class LibraryBookIssueTest extends TestCase
       ])
       ->assertStatus(422);
   }
+
   /**
    * POST /api/library-books/issue
    * @group library
@@ -130,6 +133,7 @@ class LibraryBookIssueTest extends TestCase
       ])
       ->assertStatus(422);
   }
+
   /**
    * GET /api/library-books/issue
    * @group library
@@ -140,8 +144,8 @@ class LibraryBookIssueTest extends TestCase
   {
     $libraryUser = LibraryUser::factory()->create();
     $this->getJson('api/library-books/issue', [
-        'user_id' => $libraryUser->user->id,
-      ])
+      'user_id' => $libraryUser->user->id,
+    ])
       ->assertStatus(401);
   }
 
@@ -170,9 +174,10 @@ class LibraryBookIssueTest extends TestCase
   public function unauthenticated_users_cannot_mark_library_books_as_returned()
   {
     $libraryBookIssue = BookIssue::factory()->create();
-    $this->deleteJson('api/library-books/issue/'.$libraryBookIssue->libraryBookItem->id)
+    $this->deleteJson('api/library-books/issue/' . $libraryBookIssue->libraryBookItem->id)
       ->assertStatus(401);
   }
+
   /**
    * DELETE /api/library-books/issue
    * @group library
@@ -183,9 +188,11 @@ class LibraryBookIssueTest extends TestCase
   {
     $libraryBookIssue = BookIssue::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->deleteJson('api/library-books/issue/'.$libraryBookIssue->libraryBookItem->id)
+      ->deleteJson('api/library-books/issue/' . $libraryBookIssue->libraryBookItem->id)
       ->assertStatus(403);
-  }  /**
+  }
+
+  /**
    * DELETE /api/library-books/issue
    * @group library
    * @group library-book-issue
@@ -197,7 +204,27 @@ class LibraryBookIssueTest extends TestCase
     Permission::factory()->state(['name' => 'mark library book returned'])->create();
     $this->user->givePermissionTo('mark library book returned');
     $this->actingAs($this->user, 'api')
-      ->deleteJson('api/library-books/issue/'.$libraryBookIssue->libraryBookItem->id)
+      ->deleteJson('api/library-books/issue/' . $libraryBookIssue->libraryBookItem->id)
+      ->assertStatus(200);
+  }
+
+  /**
+   * GET /api/library-books/issue
+   * @group library
+   * @group library-book-issue-1
+   * @test
+   */
+  public function authenticated_users_can_retrieve_issued_books()
+  {
+    BookIssue::factory()->count(5)->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('api/library-books/issue?limit=3&page=1')
+      ->assertStatus(200);
+    $this->actingAs($this->user, 'api')
+      ->getJson('api/library-books/issue')
+      ->assertStatus(200);
+    $this->actingAs($this->user, 'api')
+      ->getJson('api/library-books/issue?limit=3')
       ->assertStatus(200);
   }
 

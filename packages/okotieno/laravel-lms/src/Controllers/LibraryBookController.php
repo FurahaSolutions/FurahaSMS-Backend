@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryBookAuthor;
+use Okotieno\LMS\Models\LibraryBookItem;
 use Okotieno\LMS\Models\LibraryBookPublisher;
 use Okotieno\LMS\Models\LibraryBookTag;
 use Okotieno\LMS\Models\LibraryClass;
@@ -28,7 +29,7 @@ class LibraryBookController extends Controller
       return response()->json($book->details());
     }
 
-    if($request->title != null || $request->author != null || $request->publisher != null || $request->tag != null){
+    if ($request->title != null || $request->author != null || $request->publisher != null || $request->tag != null) {
       $books = LibraryBook::filter($request)
         ->get()
         ->pluck('id')
@@ -36,10 +37,10 @@ class LibraryBookController extends Controller
       return response()->json(LibraryBook::collectionDetails(LibraryBook::find($books)));
     }
     if ($request->boolean('my-account')) {
-      if (!auth()->user()->libraryUser){
+      if (!auth()->user()->libraryUser) {
         abort(403, 'You have not been registered as a library user');
       }
-      return response()->json( auth()->user()->libraryUser->allBorrowedBooks());
+      return response()->json(auth()->user()->libraryUser->allBorrowedBooks());
     }
 
     $libraryBooks = LibraryBook::all();
@@ -70,6 +71,9 @@ class LibraryBookController extends Controller
     foreach ($request->tags as $tag) {
       $created_book->libraryBookTags()->save(LibraryBookTag::find($tag));
     }
+    foreach ($request->book_items as $bookItem) {
+      $created_book->libraryBookItems()->create($bookItem);
+    }
 
     return response()->json([
       'saved' => true,
@@ -78,11 +82,11 @@ class LibraryBookController extends Controller
         'id' => $created_book->id,
         'title' => $created_book->title,
         'ISBN' => $created_book->ISBN,
-        'publisher' => $created_book->publisher,
         'publication_date' => $created_book->publication_date,
         'category' => $created_book->library_class_id,
         'tags' => $created_book->libraryBookTags,
         'publishers' => $created_book->libraryBookPublishers,
+        'auth*ors' => $created_book->libraryBookAuthors,
         'libraryClasses' => $created_book->libraryClasses
       ]
     ])->setStatusCode(201);
