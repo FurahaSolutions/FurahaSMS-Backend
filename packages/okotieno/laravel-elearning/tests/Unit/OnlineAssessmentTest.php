@@ -2,8 +2,6 @@
 
 namespace Okotieno\ELearning\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\SchoolExams\Models\OnlineAssessment;
@@ -12,8 +10,11 @@ use Tests\TestCase;
 class OnlineAssessmentTest extends TestCase
 {
 
-  use WithFaker;
-  use DatabaseTransactions;
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->name = $this->faker->name;
+  }
 
   private $name;
 
@@ -119,10 +120,61 @@ class OnlineAssessmentTest extends TestCase
     $this->assertNotEmpty($topic->onlineAssessments->toArray());
   }
 
-  protected function setUp(): void
+  /**
+   * PATCH /api/e-learning/course-content/topics/:topic/online-assessments/:online-assessment
+   * @group patch-request
+   * @group academic
+   * @group e-learning
+   * @group online-assessment-1
+   * @test
+   * */
+
+  public function unauthenticated_users_cannot_update_online_assessment()
   {
-    parent::setUp();
-    $this->name = $this->faker->name;
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $onlineAssessmentUpdate = OnlineAssessment::factory()->make()->toArray();
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/'.$onlineAssessment->id;
+    $this->patchJson($url, $onlineAssessmentUpdate)->assertUnauthorized();
+  }
+  /**
+   * PATCH /api/e-learning/course-content/topics/:topic/online-assessments/:online-assessment
+   * @group patch-request
+   * @group academic
+   * @group e-learning
+   * @group online-assessment-1
+   * @test
+   * */
+
+  public function authenticated_users_without_permission_cannot_update_online_assessment()
+  {
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $onlineAssessmentUpdate = OnlineAssessment::factory()->make()->toArray();
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/'.$onlineAssessment->id;
+    $this->actingAs($this->user, 'api')
+      ->patchJson($url, $onlineAssessmentUpdate)
+      ->assertForbidden();
+  }
+
+  /**
+   * PATCH /api/e-learning/course-content/topics/:topic/online-assessments/:online-assessment
+   * @group patch-request
+   * @group academic
+   * @group e-learning
+   * @group online-assessment-1
+   * @test
+   * */
+
+  public function authenticated_users_with_permission_can_update_online_assessment()
+  {
+    Permission::factory()->state(['name' => 'update online assessment'])->create();
+    $this->user->givePermissionTo('update online assessment');
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $onlineAssessmentUpdate = OnlineAssessment::factory()->make()->toArray();
+    $onlineAssessmentUpdate['name'] = $onlineAssessmentUpdate['exam_paper_name'];
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/'.$onlineAssessment->id;
+    $this->actingAs($this->user, 'api')
+      ->patchJson($url, $onlineAssessmentUpdate)
+      ->assertOk();
   }
 
 }
