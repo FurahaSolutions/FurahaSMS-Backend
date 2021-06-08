@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Okotieno\Students\Models\Student;
 use Okotieno\Students\Requests\StudentStoreRequest;
 use Okotieno\Students\Requests\StudentUpdateRequest;
 
@@ -21,6 +22,24 @@ class StudentsController extends Controller
 {
   public function index(Request $request)
   {
+    if($request->school_id) {
+      $student = Student::where('student_school_id_number', $request->school_id)->get()->first();
+      if ($student == null) {
+        return response()->json()->setStatusCode(204);
+      }
+      return response()->json([
+        'id' => $student->user->id,
+        'first_name' => $student->first_name,
+        'last_name' => $student->last_name,
+        'middle_name' => $student->middle_name,
+        'other_names' => $student->other_names,
+        'date_of_birth' => $student->date_of_birth,
+        'birth_cert_number' => $student->birth_cert_number,
+        'name_prefix_id' => $student->name_prefix_id,
+        'gender_id' => $student->gender_id,
+        'religion_id' => $student->gender_id,
+      ]);
+    }
     if ($request->q) {
       return User::where(
         'first_name', 'like', '%' . $request->q . '%'

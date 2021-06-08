@@ -54,11 +54,46 @@ class StudentTest extends TestCase
   {
     $student = Student::factory()->create();
     $response = $this->actingAs($this->user, 'api')
-      ->getJson('api/students/'.$student->user->id);
+      ->getJson('api/students/' . $student->user->id);
     $response->assertStatus(200);
     $response->assertJsonStructure(['id', 'first_name', 'last_name']);
     $response->assertJsonFragment(['id' => $student->user->id]);
     $response->assertJsonFragment(['middle_name' => $student->user->middle_name]);
+
+  }
+
+  /**
+   * GET /api/students?school_id_number=:school_id
+   * @group students
+   * @group get-request
+   * @test
+   */
+  public function authenticated_users_can_query_student_by_school_id_number()
+  {
+    $schoolIdNumber = Student::generateIdNumber();
+    $student = Student::factory()->state(['student_school_id_number' => $schoolIdNumber])->create();
+    $response = $this->actingAs($this->user, 'api')
+      ->getJson('api/students?school_id=' . $schoolIdNumber);
+    $response->assertStatus(200);
+    $response->assertJsonStructure(['id', 'first_name', 'last_name']);
+    $response->assertJsonFragment(['id' => $student->user->id]);
+    $response->assertJsonFragment(['middle_name' => $student->user->middle_name]);
+
+  }
+
+  /**
+   * GET /api/students?school_id_number=:school_id_number
+   * @group students
+   * @group get-request
+   * @test
+   */
+  public function returns_empty_if_np_user_with_id_number_found()
+  {
+    $schoolIdNumber = 'some_non_existent_id';
+    Student::factory()->create();
+    $response = $this->actingAs($this->user, 'api')
+      ->getJson('api/students?school_id=' . $schoolIdNumber);
+    $response->assertNoContent();
 
   }
 
@@ -72,7 +107,7 @@ class StudentTest extends TestCase
   {
     $student = Student::factory()->create();
     $response = $this->actingAs($this->user, 'api')
-      ->getJson('api/students?q='.$student->user->first_name);
+      ->getJson('api/students?q=' . $student->user->first_name);
     $response->assertStatus(200);
     $response->assertJsonStructure([['id', 'first_name', 'last_name']]);
     $response->assertJsonFragment(['id' => $student->user->id]);
@@ -111,14 +146,14 @@ class StudentTest extends TestCase
     $response = $this->actingAs($this->user, 'api')
       ->postJson('api/students', $student->toArray());
     $response->assertStatus(201);
-    $response->assertJsonStructure(['saved', 'message', 'data'=> ['id', 'first_name', 'last_name']]);
+    $response->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
     $response->assertJsonFragment(['middle_name' => $student->middle_name]);
 
   }
 
   /**
    * POST /api/students
-   * @group students-1
+   * @group students
    * @group post-request
    * @test
    */
@@ -131,7 +166,7 @@ class StudentTest extends TestCase
     $response = $this->actingAs($this->user, 'api')
       ->postJson('api/students', $student->toArray());
     $response->assertStatus(201);
-    $response->assertJsonStructure(['saved', 'message', 'data'=> ['id', 'first_name', 'last_name']]);
+    $response->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
     $response->assertJsonFragment(['middle_name' => $student->middle_name]);
 
   }
@@ -162,7 +197,7 @@ class StudentTest extends TestCase
     $student = Student::factory()->create();
     $studentUpdate = User::factory()->make();
     $studentUpdate['student_school_id_number'] = Student::factory()->make()->student_school_id_number;
-    $response = $this->patchJson('api/students/'.$student->user->id, $studentUpdate->toArray());
+    $response = $this->patchJson('api/students/' . $student->user->id, $studentUpdate->toArray());
     $response->assertStatus(401);
 
   }
@@ -182,9 +217,9 @@ class StudentTest extends TestCase
     $this->user->givePermissionTo('update student');
 
     $response = $this->actingAs($this->user, 'api')
-      ->patchJson('api/students/'.$student->user->id, $studentUpdate->toArray());
+      ->patchJson('api/students/' . $student->user->id, $studentUpdate->toArray());
     $response->assertStatus(200);
-    $response->assertJsonStructure(['saved', 'message', 'data'=> ['id', 'first_name', 'last_name']]);
+    $response->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
     $response->assertJsonFragment(['middle_name' => $studentUpdate->middle_name]);
 
   }
@@ -201,7 +236,7 @@ class StudentTest extends TestCase
     $studentUpdate = User::factory()->make();
     $studentUpdate['student_school_id_number'] = Student::factory()->make()->student_school_id_number;
     $response = $this->actingAs($this->user, 'api')
-      ->patchJson('api/students/'.$student->user->id, $studentUpdate->toArray());
+      ->patchJson('api/students/' . $student->user->id, $studentUpdate->toArray());
     $response->assertStatus(403);
   }
 
