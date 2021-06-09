@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\ELearning\Requests\StoreTopicOnlineAssessmentRequest;
+use Okotieno\ELearning\Requests\TopicOnlineAssessmentUpdateRequest;
 use Okotieno\SchoolExams\Models\OnlineAssessment;
 
 class TopicOnlineAssessmentController extends Controller
@@ -41,6 +42,21 @@ class TopicOnlineAssessmentController extends Controller
       'data' => $eLearningTopic->saveOnlineAssessment($eLearningTopic, $request->all())
     ])->setStatusCode(201);
   }
+
+  public function update(ELearningTopic $eLearningTopic, TopicOnlineAssessmentUpdateRequest $request, OnlineAssessment $online_assessment)
+  {
+    $online_assessment->update($request->all());
+    $examPaper = $online_assessment->examPaper;
+    $examPaper->name = $request->name;
+    $examPaper->save();
+    return response()->json([
+      'saved' => true,
+      'message' => 'Successfully Created online Assessment',
+      'data' => $online_assessment
+    ]);
+  }
+
+
 
   public function destroy(ELearningTopic $eLearningTopic, OnlineAssessment $onlineAssessment)
   {

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\ELearning\Controllers\ELearningCourseContentController;
 use Okotieno\ELearning\Controllers\ELearningCourseController;
 use Okotieno\ELearning\Controllers\TopicLearningOutcomeController;

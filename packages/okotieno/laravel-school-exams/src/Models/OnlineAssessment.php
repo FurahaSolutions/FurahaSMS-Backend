@@ -12,11 +12,12 @@ namespace Okotieno\SchoolExams\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Okotieno\ELearning\Traits\HasELearningTopic;
 use Okotieno\SchoolExams\Database\Factories\OnlineAssessmentFactory;
 
 class OnlineAssessment extends Model
 {
-  use softDeletes, HasFactory;
+  use softDeletes, HasFactory, HasELearningTopic;
 
   protected static function newFactory()
   {
