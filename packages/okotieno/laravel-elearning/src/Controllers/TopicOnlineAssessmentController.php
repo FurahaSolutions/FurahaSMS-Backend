@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 12/12/2019
- * Time: 11:28 AM
- */
 
 namespace Okotieno\ELearning\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\ELearning\Requests\StoreTopicOnlineAssessmentRequest;
@@ -20,19 +13,9 @@ use Okotieno\SchoolExams\Models\OnlineAssessment;
 class TopicOnlineAssessmentController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return JsonResponse
-   */
-  public function index()
-  {
-    return response()->json();
-  }
-
   public function show(OnlineAssessment $onlineAssessment, Request $request, $topicId = null)
   {
-    if($request->boolean("withQuestions")) {
+    if ($request->boolean("withQuestions")) {
       $examPaper = $onlineAssessment->examPaper;
       return response()->json(array_merge([
         'questions' => $examPaper->questions
@@ -63,7 +46,6 @@ class TopicOnlineAssessmentController extends Controller
       'data' => $online_assessment
     ]);
   }
-
 
 
   public function destroy(ELearningTopic $eLearningTopic, OnlineAssessment $onlineAssessment)

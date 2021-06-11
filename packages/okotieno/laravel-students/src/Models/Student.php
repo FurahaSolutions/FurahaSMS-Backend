@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 9/13/2019
- * Time: 10:15 PM
- */
 
 namespace Okotieno\Students\Models;
 

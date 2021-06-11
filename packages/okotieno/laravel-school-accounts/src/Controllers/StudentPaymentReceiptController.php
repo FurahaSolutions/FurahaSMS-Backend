@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 2/10/2020
- * Time: 10:29 PM
- */
+
 
 namespace Okotieno\SchoolAccounts\Controllers;
 
