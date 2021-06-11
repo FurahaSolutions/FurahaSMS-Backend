@@ -9,6 +9,7 @@ use Okotieno\ELearning\Controllers\TopicOnlineAssessmentController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {
   Route::prefix('api/e-learning')->group(function () {
+    Route::get('online-assessments/{onlineAssessment}', [TopicOnlineAssessmentController::class, 'show']);
     Route::apiResources([
       'courses' => ELearningCourseController::class,
       'course-content' => ELearningCourseContentController::class,

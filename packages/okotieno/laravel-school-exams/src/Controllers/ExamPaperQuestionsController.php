@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Okotieno\SchoolExams\Models\ExamPaper;
 use Okotieno\SchoolExams\Models\ExamPaperQuestion;
 use Okotieno\SchoolExams\Models\ExamPaperQuestionTag;
+use Okotieno\SchoolExams\Requests\ExamPaperQuestionStoreRequest;
 
 class ExamPaperQuestionsController extends Controller
 {
@@ -43,10 +44,11 @@ class ExamPaperQuestionsController extends Controller
     return response()->json($examPaperQuestion);
   }
 
-  public function store(Request $request, ExamPaper $examPaper)
+  public function store(ExamPaperQuestionStoreRequest $request, ExamPaper $examPaper)
   {
     foreach ($request->all() as $req) {
-      if (($newPaperQuestion = $examPaper->questions()->find($req['id'])) == null) {
+      $newPaperQuestion = $examPaper->questions()->find($req['id']);
+      if ($newPaperQuestion == null) {
         $newPaperQuestion = $examPaper->questions()->create([
           'description' => $req['description'],
           'correct_answer_description' => $req['correctAnswerDescription'],
@@ -81,13 +83,14 @@ class ExamPaperQuestionsController extends Controller
         $tag = ExamPaperQuestionTag::firstOrNew(['name' => $tag]);
         $newPaperQuestion->tags()->save($tag);
       }
+      $newPaperQuestion->tags;
+      $newPaperQuestion->answers;
     }
-    $newPaperQuestion->tags;
-    $newPaperQuestion->answers;
+
     return response()->json([
       'saved' => true,
       'message' => 'Question Successfully saved',
-      'data' => $newPaperQuestion
+      'data' => $examPaper
     ])->setStatusCode(201);
   }
 

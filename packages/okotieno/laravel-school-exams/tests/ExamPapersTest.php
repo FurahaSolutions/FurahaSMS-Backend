@@ -1,6 +1,6 @@
 <?php
 
-namespace Okotieno\AcademicYear\Tests\Unit;
+namespace Okotieno\SchoolExams\Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,8 +11,6 @@ use Tests\TestCase;
 
 class ExamPapersTest extends TestCase
 {
-  use WithFaker;
-  use DatabaseTransactions;
 
   protected function setUp(): void
   {
