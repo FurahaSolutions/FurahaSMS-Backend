@@ -1423,6 +1423,43 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'create exam paper question',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'teacher',
+          'class teacher',
+          'dean of students',
+          'librarian',
+          'student'
+        ]
+      ],[
+        'permission' => 'access e-learning',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'teacher',
+          'class teacher',
+          'dean of students',
+          'librarian',
+          'student'
+        ]
+      ],
+      [
+        'permission' => 'access e-learning admin',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'teacher',
+          'class teacher',
+          'dean of students',
+          'librarian'
+        ]
+      ],
+      [
         'permission' => 'create e-learning course',
         'roles' => [
           'admin',

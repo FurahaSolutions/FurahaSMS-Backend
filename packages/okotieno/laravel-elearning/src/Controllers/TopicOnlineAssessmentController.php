@@ -11,6 +11,7 @@ namespace Okotieno\ELearning\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\ELearning\Requests\StoreTopicOnlineAssessmentRequest;
 use Okotieno\ELearning\Requests\TopicOnlineAssessmentUpdateRequest;
@@ -29,8 +30,15 @@ class TopicOnlineAssessmentController extends Controller
     return response()->json();
   }
 
-  public function show($topicId, OnlineAssessment $onlineAssessment)
+  public function show(OnlineAssessment $onlineAssessment, Request $request, $topicId = null)
   {
+    if($request->boolean("withQuestions")) {
+      $examPaper = $onlineAssessment->examPaper;
+      return response()->json(array_merge([
+        'questions' => $examPaper->questions
+      ], $onlineAssessment->toArray()));
+    }
+
     return $onlineAssessment;
   }
 
@@ -43,7 +51,7 @@ class TopicOnlineAssessmentController extends Controller
     ])->setStatusCode(201);
   }
 
-  public function update(ELearningTopic $eLearningTopic, TopicOnlineAssessmentUpdateRequest $request, OnlineAssessment $online_assessment)
+  public function update(ELearningTopic $eLearningTopic = null, TopicOnlineAssessmentUpdateRequest $request, OnlineAssessment $online_assessment)
   {
     $online_assessment->update($request->all());
     $examPaper = $online_assessment->examPaper;

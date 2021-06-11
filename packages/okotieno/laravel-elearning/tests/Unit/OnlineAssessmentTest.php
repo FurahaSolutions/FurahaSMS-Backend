@@ -4,6 +4,8 @@ namespace Okotieno\ELearning\Tests\Unit;
 
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\SchoolExams\Models\ExamPaper;
+use Okotieno\SchoolExams\Models\ExamPaperQuestion;
 use Okotieno\SchoolExams\Models\OnlineAssessment;
 use Tests\TestCase;
 
@@ -125,7 +127,7 @@ class OnlineAssessmentTest extends TestCase
    * @group patch-request
    * @group academic
    * @group e-learning
-   * @group online-assessment-1
+   * @group online-assessment
    * @test
    * */
 
@@ -133,15 +135,16 @@ class OnlineAssessmentTest extends TestCase
   {
     $onlineAssessment = OnlineAssessment::factory()->create();
     $onlineAssessmentUpdate = OnlineAssessment::factory()->make()->toArray();
-    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/'.$onlineAssessment->id;
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/' . $onlineAssessment->id;
     $this->patchJson($url, $onlineAssessmentUpdate)->assertUnauthorized();
   }
+
   /**
    * PATCH /api/e-learning/course-content/topics/:topic/online-assessments/:online-assessment
    * @group patch-request
    * @group academic
    * @group e-learning
-   * @group online-assessment-1
+   * @group online-assessment
    * @test
    * */
 
@@ -149,7 +152,7 @@ class OnlineAssessmentTest extends TestCase
   {
     $onlineAssessment = OnlineAssessment::factory()->create();
     $onlineAssessmentUpdate = OnlineAssessment::factory()->make()->toArray();
-    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/'.$onlineAssessment->id;
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/' . $onlineAssessment->id;
     $this->actingAs($this->user, 'api')
       ->patchJson($url, $onlineAssessmentUpdate)
       ->assertForbidden();
@@ -160,7 +163,7 @@ class OnlineAssessmentTest extends TestCase
    * @group patch-request
    * @group academic
    * @group e-learning
-   * @group online-assessment-1
+   * @group online-assessment
    * @test
    * */
 
@@ -171,10 +174,56 @@ class OnlineAssessmentTest extends TestCase
     $onlineAssessment = OnlineAssessment::factory()->create();
     $onlineAssessmentUpdate = OnlineAssessment::factory()->make()->toArray();
     $onlineAssessmentUpdate['name'] = $onlineAssessmentUpdate['exam_paper_name'];
-    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/'.$onlineAssessment->id;
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->eLearningTopic->id . '/online-assessments/' . $onlineAssessment->id;
     $this->actingAs($this->user, 'api')
       ->patchJson($url, $onlineAssessmentUpdate)
       ->assertOk();
+  }
+
+  /**
+   * GET /api/e-learning/online-assessment/:onlineAssessment
+   * @group get-request
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   * @test
+   * */
+
+  public function authenticated_users_can_retrieve_online_assessment()
+  {
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $url = '/api/e-learning/online-assessments/' . $onlineAssessment->id;
+    $this->actingAs($this->user, 'api')
+      ->getJson($url)
+      ->assertOk()
+      ->assertJsonFragment(['id' => $onlineAssessment->id]);
+  }
+
+  /**
+   * GET /api/e-learning/online-assessment/:onlineAssessment
+   * @group get-request
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   * @test
+   * */
+
+  public function authenticated_users_can_retrieve_online_assessment_with_questions()
+  {
+    $examPaper = ExamPaper::factory()->create();
+    ExamPaperQuestion::factory()
+      ->count(3)
+      ->state(['exam_paper_id' => $examPaper->id])
+      ->create();
+    $onlineAssessment = OnlineAssessment::factory()
+      ->state(['exam_paper_id' => $examPaper->id])
+      ->create();
+    $url = '/api/e-learning/online-assessments/' . $onlineAssessment->id . '?withQuestions=true';
+    $this->actingAs($this->user, 'api')
+      ->getJson($url)
+      ->assertOk()
+      ->assertJsonStructure(['id', 'questions' => [['id']]])
+      ->assertJsonFragment(['id' => $onlineAssessment->id]);
   }
 
 }
