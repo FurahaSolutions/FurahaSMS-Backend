@@ -59,7 +59,20 @@ class TeacherTest extends TestCase
     $response->assertJsonStructure(['id', 'first_name', 'last_name']);
     $response->assertJsonFragment(['id' => $teacher->user->id]);
     $response->assertJsonFragment(['middle_name' => $teacher->user->middle_name]);
+  }
 
+  /**
+   * GET /api/teachers/:id
+   * @group teachers
+   * @group get-request
+   * @test
+   */
+  public function error_422_if_user_not_teacher()
+  {
+    $user = User::factory()->create();
+    $response = $this->actingAs($this->user, 'api')
+      ->getJson('api/teachers/'.$user->id);
+    $response->assertStatus(422);
   }
 
   /**

@@ -59,7 +59,20 @@ class StudentTest extends TestCase
     $response->assertJsonStructure(['id', 'first_name', 'last_name']);
     $response->assertJsonFragment(['id' => $student->user->id]);
     $response->assertJsonFragment(['middle_name' => $student->user->middle_name]);
+  }
 
+  /**
+   * GET /api/students?id=:id
+   * @group students
+   * @group get-request
+   * @test
+   */
+  public function error_422_if_id_is_not_for_a_student_user()
+  {
+    $user = User::factory()->create();
+    $response = $this->actingAs($this->user, 'api')
+      ->getJson('api/students/' . $user->id);
+    $response->assertStatus(422);
   }
 
   /**
@@ -87,7 +100,7 @@ class StudentTest extends TestCase
    * @group get-request
    * @test
    */
-  public function returns_empty_if_np_user_with_id_number_found()
+  public function returns_empty_if_no_user_with_id_number_found()
   {
     $schoolIdNumber = 'some_non_existent_id';
     Student::factory()->create();

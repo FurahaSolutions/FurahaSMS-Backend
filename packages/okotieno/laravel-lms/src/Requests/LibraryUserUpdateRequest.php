@@ -31,7 +31,7 @@ class LibraryUserUpdateRequest extends FormRequest
    */
   public function rules()
   {
-    return [];
+    return ['suspended' => 'required'];
   }
 
 

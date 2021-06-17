@@ -7,7 +7,7 @@ use Okotieno\ELearning\Models\ELearningCourse;
 use Okotieno\SchoolExams\Models\ExamPaper;
 use Okotieno\SchoolExams\Models\OnlineAssessment;
 
-trait hasOnlineAssessment
+trait HasOnlineAssessment
 {
 
   public function examPaper()
@@ -22,7 +22,11 @@ trait hasOnlineAssessment
 
   public function saveOnlineAssessment($eLearningTopic, $request)
   {
-    $course = ELearningCourse::find($eLearningTopic->e_learning_course_id);
+    $courseId = $eLearningTopic->e_learning_course_id;
+    if($courseId === null) {
+      $courseId = $eLearningTopic->parentTopic->e_learning_course_id;
+    }
+    $course = ELearningCourse::find($courseId);
     $examPaper = ExamPaper::create([
       'name' => $request['name'],
       'unit_level_id' => $course->unit_level_id,

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 1/10/2020
- * Time: 7:59 PM
- */
 
 namespace Okotieno\Procurement\Requests;
 

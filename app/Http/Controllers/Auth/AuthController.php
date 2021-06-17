@@ -138,7 +138,7 @@ class AuthController extends Controller
     if($user->libraryUser){
       $permissions = [...$permissions, 'access library'];
     }
-
+    $response['library_user'] = !!$user->libraryUser;
     $response['permissions'] = $permissions;
     $response['roles'] = $user->roles->pluck('name')->toArray();
     return response()->json($response);
