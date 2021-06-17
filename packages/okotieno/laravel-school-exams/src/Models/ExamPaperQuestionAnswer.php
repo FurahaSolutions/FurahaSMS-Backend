@@ -14,4 +14,5 @@ class ExamPaperQuestionAnswer extends Model
         'description',
         'is_correct',
     ];
+    protected $hidden = ['is_correct'];
 }

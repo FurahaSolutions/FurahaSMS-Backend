@@ -9,7 +9,7 @@ use Okotieno\ELearning\Database\Factories\ELearningTopicFactory;
 use Okotieno\ELearning\Traits\hasELearningContents;
 use Okotieno\ELearning\Traits\hasELearningCourse;
 use Okotieno\ELearning\Traits\hasLearningOutcomes;
-use Okotieno\ELearning\Traits\hasOnlineAssessment;
+use Okotieno\ELearning\Traits\HasOnlineAssessment;
 use Okotieno\ELearning\Traits\hasTopicNumbers;
 
 class ELearningTopic extends Model
@@ -17,7 +17,7 @@ class ELearningTopic extends Model
   use hasTopicNumbers,
     hasLearningOutcomes,
     hasELearningContents,
-    hasOnlineAssessment,
+    HasOnlineAssessment,
     hasELearningCourse,
     HasFactory;
 
@@ -46,6 +46,12 @@ class ELearningTopic extends Model
   {
     return $this->hasMany(ELearningTopic::class);
   }
+
+  public function parentTopic()
+  {
+    return $this->belongsTo(ELearningTopic::class,'e_learning_topic_id');
+  }
+
 
   public function saveLearningOutcome($request): Model
   {

@@ -55,7 +55,7 @@ class LibraryUserController extends Controller
       'lastName' => $user->last_name,
       'libraryUserId' => $user->LibraryUserId,
       'canBorrowBook' => $user->canBorrowBook,
-      'libraryBlocked' => $user->libraryBlocked,
+      'librarySuspended' => $user->librarySuspended,
     ]);
   }
 

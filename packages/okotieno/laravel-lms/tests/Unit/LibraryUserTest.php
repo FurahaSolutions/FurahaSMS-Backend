@@ -113,10 +113,30 @@ class LibraryUserTest extends TestCase
   }
 
   /**
+   * PATCH /api/library-books/users
+   * @test
+   * @group library
+   * @group library-users
+   */
+  public function error_422_if_suspended_is_not_provided_while_changing_suspension_status()
+  {
+    Permission::factory()->state(['name' => 'unsuspend library user'])->create();
+    $this->user->givePermissionTo('unsuspend library user');
+    $user = User::factory()->create();
+    $libraryUser = LibraryUser::factory([
+      'user_id' => $user->id
+    ])->create();
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/library-books/users/' . $libraryUser->user_id, [])
+      ->assertStatus(422);
+
+  }
+
+  /**
    * GET /api/library-books/users
    * @test
    * @group library
-   * @group library-users-1
+   * @group library-users
    */
 
   public function unauthenticated_users_cannot_retrieve_library_books()
@@ -128,7 +148,7 @@ class LibraryUserTest extends TestCase
    * GET /api/library-books/users
    * @test
    * @group library
-   * @group library-users-1
+   * @group library-users
    */
 
   public function authenticated_users_can_retrieve_library_books()
