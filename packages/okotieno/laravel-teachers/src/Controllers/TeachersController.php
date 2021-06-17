@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Okotieno\Students\Requests\StudentUpdateRequest;
 use Okotieno\Teachers\Models\Teacher;
 use Okotieno\Teachers\Requests\TeacherStoreRequest;
@@ -70,12 +71,18 @@ class TeachersController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param $userId
+   * @param User $user
    * @return \Illuminate\Http\jsonResponse
+   * @throws ValidationException
    */
-  public function show($userId)
+  public function show(User $user): jsonResponse
   {
-    $user = User::find($userId);
+    if ($user->teacher === null) {
+      throw ValidationException::withMessages([
+        'user_id' => ['User provided has no teacher profile!'],
+      ]);
+
+    }
     return response()->json([
       'id' => $user->id,
       'first_name' => $user->first_name,
@@ -91,7 +98,6 @@ class TeachersController extends Controller
       'gender_name' => $user->gender_name,
       'religion_id' => $user->religion_id,
       'religion_name' => $user->religion_name,
-      // 'student_id' => $user->student->student_school_id_number
     ]);
   }
 

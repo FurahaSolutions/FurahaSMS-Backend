@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Okotieno\Students\Models\Student;
 use Okotieno\Students\Requests\StudentStoreRequest;
 use Okotieno\Students\Requests\StudentUpdateRequest;
@@ -124,7 +125,12 @@ class StudentsController extends Controller
 
   public function show(User $user)
   {
+    if ($user->student === null) {
+      throw ValidationException::withMessages([
+        'user_id' => ['User provided has no student profile!'],
+      ]);
 
+    }
     return response()->json([
       'id' => $user->id,
       'first_name' => $user->first_name,
