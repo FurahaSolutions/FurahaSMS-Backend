@@ -30,8 +30,6 @@
       "App\\": "app/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/",
-      "Okotieno\\StudentAdmissions\\": "packages/okotieno/laravel-student-admissions/src/",
-      "Okotieno\\DataSync\\": "packages/okotieno/laravel-data-sync/src/",
       "Okotieno\\LMS\\": "packages/okotieno/laravel-lms/src/",
       "Okotieno\\NamePrefix\\": "packages/okotieno/name-prefix/src/",
       "Okotieno\\Phone\\": "packages/okotieno/phone/src/",
