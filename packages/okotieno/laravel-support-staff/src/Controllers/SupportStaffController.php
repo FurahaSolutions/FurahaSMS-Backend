@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 12/12/2019
- * Time: 11:28 AM
- */
 
 namespace Okotieno\SupportStaff\Controllers;
 
@@ -18,16 +12,6 @@ use Okotieno\SupportStaff\Requests\SupportStaffStoreRequest;
 
 class SupportStaffController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return jsonResponse
-   */
-  public function index()
-  {
-    $response = [];
-    return response()->json($response);
-  }
 
   /**
    * Store a newly created resource in storage.

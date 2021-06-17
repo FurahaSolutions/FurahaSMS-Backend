@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 4/2/2020
- * Time: 5:33 PM
- */
+
 
 namespace Okotieno\Files\Traits;
 

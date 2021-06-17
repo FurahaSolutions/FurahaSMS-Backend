@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: oko
- * Date: 1/26/2020
- * Time: 6:56 PM
- */
 
 namespace Okotieno\AcademicYear\Controllers;
 
