@@ -43,7 +43,7 @@ class PermissionsRolesController extends Controller
 
     public function show(Role $role, Request $request)
     {
-        if ($request->allPermissions != null) {
+        if ($request->boolean('allPermissions') === true) {
             $permissions = [];
             foreach (Permission::all() as $permission) {
                 if ($role->hasPermissionTo($permission->name)) {
@@ -62,10 +62,10 @@ class PermissionsRolesController extends Controller
             }
             $response = $role;
             $response['permissionStatus'] = $permissions;
-            return $response;
+            return response()->json($response);
         }
         $role->permissions;
-        return $role;
+        return response()->json($role);
     }
 
     public function update(Role $role, UpdateUserRoleRequest $request)
