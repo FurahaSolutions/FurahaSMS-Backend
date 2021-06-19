@@ -124,17 +124,16 @@ class AuthenticationTest extends TestCase
       'scope' => '',
       'remember_me' => true
     ]);
-    $response->assertStatus(200);
-    $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
 
     $this->getJson('api/users/auth/logout')
       ->assertStatus(401);
     $this->actingAs($this->user, 'api')->getJson('api/users/auth/logout')
       ->assertStatus(200);
 
-    $this->withHeaders(['Authentication' => 'Bearer ' . $response->json('access_token')])
+    $this->actingAs($student->user, 'api')
       ->getJson('api/users/auth/logout')
       ->assertStatus(200);
+
     // TODO check why revoke token does not invalidate user
 //    $this->withHeaders(['Authentication' => 'Bearer '.$response->json('access_token')])
 //      ->getJson('api/users/auth/logout')
@@ -369,6 +368,20 @@ class AuthenticationTest extends TestCase
       ->assertStatus(200);
 
   }
+  /**
+   * GET api/password/email
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function authenticated_users_cannot_request_password_reset_email()
+  {
+    $user = User::factory()->create();
+    $this->actingAs($this->user,'api')
+      ->postJson('api/password/email', ['email' => $user->email])
+      ->assertStatus(403);
+
+  }
 
   /**
    * GET api/password/email
@@ -462,6 +475,62 @@ class AuthenticationTest extends TestCase
         'new_password' => $newPassword,
         'new_password_confirmation' => $newPassword,
       ])->assertStatus(200);
+  }
+
+  /**
+   * POST api/password/token
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function error_422_if_user_does_not_provide_token()
+  {
+    $this->postJson('api/password/token', [])->assertStatus(422);
+
+  }
+
+  /**
+   * POST api/password/token
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function error_unauthenticated_if_user_provides_invalid_token()
+  {
+    echo $this->postJson('api/password/token', ['token' => bcrypt($this->faker->password)])->content();
+    $this->postJson('api/password/token', ['token' => bcrypt($this->faker->password)])
+      ->assertStatus(401);
+
+  }
+
+  /**
+   * POST api/password/token
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_can_login_using_token()
+  {
+    $token = PasswordToken::factory()->create();
+    $this->postJson('api/password/token', ['token' => $token->token])
+      ->assertStatus(200)
+      ->assertJsonStructure(['access_token', 'expires_in', 'token_type']);
+
+  }
+
+  /**
+   * POST api/password/token
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_cannot_login_using_same_token_twice()
+  {
+    $token = PasswordToken::factory()->create();
+    $this->postJson('api/password/token', ['token' => $token->token]);
+    $this->postJson('api/password/token', ['token' => $token->token])
+      ->assertUnauthorized();
+
   }
 
 }

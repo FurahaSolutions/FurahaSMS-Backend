@@ -18,6 +18,7 @@ class CreatePasswordTokensTable extends Migration
             $table->foreignId('user_id');
             $table->string('token');
             $table->dateTime('expires_at');
+            $table->boolean('revoked')->default(false);
             $table->timestamps();
         });
     }
