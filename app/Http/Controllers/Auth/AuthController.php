@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -135,7 +134,7 @@ class AuthController extends Controller
     $user = $request->user();
     $response = $user->toArray();
     $permissions = $user->getAllPermissions()->pluck('name')->toArray();
-    if($user->libraryUser){
+    if ($user->libraryUser) {
       $permissions = [...$permissions, 'access library'];
     }
     $response['library_user'] = !!$user->libraryUser;
