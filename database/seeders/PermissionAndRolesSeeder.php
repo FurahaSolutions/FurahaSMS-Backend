@@ -175,6 +175,15 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'allocate student academics',
+        'roles' => [
+          'admin',
+          'maker admissions',
+          'dean of students',
+          'class teacher',
+        ]
+      ],
+      [
         'permission' => 'access synchronize data',
         'roles' => [
           'admin',
