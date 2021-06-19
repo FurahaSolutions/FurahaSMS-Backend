@@ -40,28 +40,10 @@ class SupportStaffTest extends TestCase
   }
 
 
-//  /**
-//   * PATCH /api/support-staffs/:support-staff
-//   * @test
-//   * @group support-staffs
-//   * @group get-request
-//   */
-//  public function authenticated_users_with_permission_can_update_support_staffs()
-//  {
-//    Permission::factory()->state(['name' => 'update support staff'])->create();
-//    $this->user->givePermissionTo('update support staff');
-//    $supportStaff = User::factory()->create();
-//    $supportStaffUpdate = User::factory()->make()->toArray();
-//    $this->actingAs($this->user, 'api')
-//      ->patchJson('api/support-staffs/' . $supportStaff->id, $supportStaffUpdate)
-//      ->assertStatus(200)
-//      ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'first_name', 'last_name']]);
-//  }
-
   /**
    * POST /api/support-staffs/:support-staff
    * @test
-   * @group support-staffs-1
+   * @group support-staffs
    * @group get-request
    */
   public function authenticated_users_with_permission_can_create_support_staffs()

@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\AdminPasswordResetRequest;
 use App\Http\Requests\User\PasswordChangeRequest;
+use App\Http\Requests\User\TokenLoginRequest;
 use App\Models\PasswordToken;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
@@ -21,8 +22,12 @@ class ResetPasswordController extends Controller
     ]);
   }
 
-  public function tokenLogin(Request $request)
+  public function tokenLogin(TokenLoginRequest $request)
   {
+    $user = PasswordToken::getUserForToken($request->token);
+    if ($user === null) {
+      throw new AuthenticationException('Invalid token provided');
+    }
     $token = PasswordToken::getUserForToken($request->token)
       ->createToken('PersonalAccessToken', ['*']);
     return [
