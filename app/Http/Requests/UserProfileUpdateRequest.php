@@ -24,15 +24,15 @@ class UserProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required_without_all:last_name,middle_name,other_names,date_of_birth,religion_id,gender_id,email,phone',
-            'last_name' => 'required_without_all:first_name,middle_name,other_names,date_of_birth,religion_id,gender_id,email,phone',
-            'middle_name' => 'required_without_all:first_name,last_name,other_names,date_of_birth,religion_id,gender_id,email,phone',
-            'other_names' => 'required_without_all:first_name,last_name,middle_name,date_of_birth,religion_id,gender_id,email,phone',
-            'date_of_birth' => 'date_format:Y-m-d|required_without_all:first_name,last_name,middle_name,other_names,religion_id,gender_id,email,phone',
-            'religion_id' => 'required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,,gender_id,email,phone',
-            'gender_id' => 'required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,religion_id,email,phone',
-            'email' => 'email|required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,religion_id,gender_id,phone',
-            'phone' => 'required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,religion_id,gender_id,email'
+            'first_name' => 'required_without_all:last_name,middle_name,other_names,date_of_birth,religion_id,gender_id,email,phone,profile_pic_id',
+            'last_name' => 'required_without_all:first_name,middle_name,other_names,date_of_birth,religion_id,gender_id,email,phone,profile_pic_id',
+            'middle_name' => 'required_without_all:first_name,last_name,other_names,date_of_birth,religion_id,gender_id,email,phone,profile_pic_id',
+            'other_names' => 'required_without_all:first_name,last_name,middle_name,date_of_birth,religion_id,gender_id,email,phone,profile_pic_id',
+            'date_of_birth' => 'date_format:Y-m-d|required_without_all:first_name,last_name,middle_name,other_names,religion_id,gender_id,email,phone,profile_pic_id',
+            'religion_id' => 'required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,,gender_id,email,phone,profile_pic_id',
+            'gender_id' => 'required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,religion_id,email,phone,profile_pic_id',
+            'email' => 'email|required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,religion_id,gender_id,phone,profile_pic_id',
+            'phone' => 'required_without_all:first_name,last_name,middle_name,other_names,date_of_birth,religion_id,gender_id,email,profile_pic_id'
         ];
     }
 }

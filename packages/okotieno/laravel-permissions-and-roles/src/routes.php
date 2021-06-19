@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\PermissionsAndRoles\Controllers\PermissionsRolesController;
 
 Route::middleware(['auth:api', 'bindings'])->group(function () {

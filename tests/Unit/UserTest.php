@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Okotieno\Files\Models\FileDocument;
 use Okotieno\LMS\Models\LibraryUser;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Tests\TestCase;
@@ -144,11 +145,26 @@ class UserTest extends TestCase
   public function authenticated_users_with_permission_can_update_single_user_profile_details()
   {
     $user = User::factory()->create();
-    $updateUser = User::factory()->make()->toArray();
     Permission::factory()->state(['name' => 'update user profile'])->create();
     $this->user->givePermissionTo('update user profile');
     $this->actingAs($this->user, 'api')
       ->patchJson('api/users/' . $user->id, ['middle_name' => $this->faker->firstName])
+      ->assertStatus(200);
+  }
+
+  /**
+   * PATCH api/user/:user
+   * @group users-1
+   * @test
+   */
+  public function authenticated_users_with_permission_can_update_profile_picture()
+  {
+    $fileDocument = FileDocument::factory()->state(['user_id' => $this->user->id])->create();
+    $user = User::factory()->create();
+    Permission::factory()->state(['name' => 'update user profile'])->create();
+    $this->user->givePermissionTo('update user profile');
+    $this->actingAs($this->user, 'api')
+      ->patchJson('api/users/' . $user->id, ['profile_pic_id' => $fileDocument->id])
       ->assertStatus(200);
   }
 
@@ -241,6 +257,7 @@ class UserTest extends TestCase
       ->assertJsonStructure(['id', 'first_name', 'last_name', 'email'])
       ->assertJsonFragment(['email' => $user->email]);
   }
+
 }
 
 
