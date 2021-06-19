@@ -107,7 +107,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/users/auth/logout
-   * @group auth
+   * @group auth-1
    * @test
    */
   public function authenticated_users_can_log_off()
@@ -127,7 +127,14 @@ class AuthenticationTest extends TestCase
 
     $this->getJson('api/users/auth/logout')
       ->assertStatus(401);
-    $this->actingAs($this->user, 'api')->getJson('api/users/auth/logout')
+    $this->actingAs($student->user, 'api')->getJson('api/users/auth/logout')
+      ->assertStatus(200);
+    $tokenResult = $student->user->createToken('Personal Access Token');
+    $this->withHeaders(['Authorization' => 'Bearer '.$tokenResult->accessToken])
+      ->getJson('api/users/auth/logout')
+      ->assertStatus(200);
+    $this->withHeaders(['Authorization' => 'Bearer '.$tokenResult->accessToken])
+      ->getJson('api/users/auth/logout')
       ->assertStatus(200);
 
     $this->actingAs($student->user, 'api')
@@ -135,7 +142,7 @@ class AuthenticationTest extends TestCase
       ->assertStatus(200);
 
     // TODO check why revoke token does not invalidate user
-//    $this->withHeaders(['Authentication' => 'Bearer '.$response->json('access_token')])
+//    $this->withHeaders(['Authorization' => 'Bearer '.$tokenResult->accessToken])
 //      ->getJson('api/users/auth/logout')
 //      ->assertStatus(401);
   }

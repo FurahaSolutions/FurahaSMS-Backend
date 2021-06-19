@@ -107,15 +107,9 @@ class AuthController extends Controller
   public function logout(Request $request)
   {
     auth('web')->logout();
-    if ($request->user()->token()) {
-      $accessToken = $request->user()->token();
-      $request->user()->token()->revoke();
-      DB::table('oauth_refresh_tokens')
-        ->where('access_token_id', $accessToken->id)
-        ->update([
-          'revoked' => true
-        ]);
-
+    $userTokens = $request->user()->tokens()->where(['revoked' => false]);
+    if ($userTokens->count() > 0) {
+      $userTokens->update(['revoked' => true]);
     }
     return response()->json([
       'saved' => true,
