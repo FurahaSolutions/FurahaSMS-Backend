@@ -34,7 +34,6 @@ class ResetPasswordController extends Controller
     if ($loginToken->revoked) {
       throw new AuthenticationException('Token provided is no longer valid!');
     }
-
     $token = PasswordToken::getUserForToken($request->token)
       ->createToken('PersonalAccessToken', ['*']);
     $loginToken->revoke();
