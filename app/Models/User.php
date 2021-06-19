@@ -22,11 +22,12 @@ use Okotieno\StudyMaterials\Traits\canUploadStudyMaterials;
 use Okotieno\SupportStaff\Traits\CanBeASupportStaff;
 use Okotieno\Teachers\Traits\CanBeATeacher;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 /**
  * @method static find($id)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
   use HasApiTokens,
     Notifiable,
@@ -46,6 +47,7 @@ class User extends Authenticatable
     HasProfilePics,
     HasFactory,
     CanBeASupportStaff;
+
 
   /**
    * The attributes that are mass assignable.

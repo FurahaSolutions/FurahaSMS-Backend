@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,8 @@ Route::middleware('auth:api')->group(function () {
   Route::get('users/auth/logout', [AuthController::class, 'logout']);
   Route::get('users', [UserController::class, 'index']);
   Route::patch('users/{user}', [UserController::class, 'update']);
+  Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])
+    ->name('verification.verify');
 });
 
 Route::middleware('guest')->group(function() {
