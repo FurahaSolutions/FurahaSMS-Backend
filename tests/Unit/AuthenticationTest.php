@@ -464,4 +464,43 @@ class AuthenticationTest extends TestCase
       ])->assertStatus(200);
   }
 
+  /**
+   * POST api/password/token
+   * @group auth-1
+   * @group post-request
+   * @test
+   */
+  public function error_422_if_user_does_not_provide_token()
+  {
+    $this->postJson('api/password/token', [])->assertStatus(422);
+
+  }
+
+  /**
+   * POST api/password/token
+   * @group auth-1
+   * @group post-request
+   * @test
+   */
+  public function error_unauthenticated_if_user_provides_invalid_token()
+  {
+    $this->postJson('api/password/token', ['token' => bcrypt($this->faker->password)])
+      ->assertStatus(401);
+
+  }
+  /**
+   * POST api/password/token
+   * @group auth-1
+   * @group post-request
+   * @test
+   */
+  public function user_can_login_using_token()
+  {
+    $token = PasswordToken::factory()->create();
+    $this->postJson('api/password/token', ['token' => $token->token])
+      ->assertStatus(200)
+      ->assertJsonStructure(['access_token', 'expires_in', 'token_type']);
+
+  }
+
 }
