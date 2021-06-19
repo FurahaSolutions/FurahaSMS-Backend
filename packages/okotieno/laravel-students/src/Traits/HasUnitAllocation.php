@@ -7,7 +7,7 @@ use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
 
-trait unitAllocated
+trait HasUnitAllocation
 {
   public function unitAllocation()
   {

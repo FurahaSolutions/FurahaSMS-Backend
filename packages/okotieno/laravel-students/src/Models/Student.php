@@ -11,11 +11,11 @@ use Okotieno\SchoolAccounts\Traits\paysFees;
 use Okotieno\SchoolCurriculum\Traits\TakesCourses;
 use Okotieno\SchoolStreams\Traits\BelongsToStream;
 use Okotieno\Students\Database\Factories\StudentFactory;
-use Okotieno\Students\Traits\unitAllocated;
+use Okotieno\Students\Traits\HasUnitAllocation;
 
 class Student extends Model
 {
-  use AppUser, HasGuardians, TakesCourses, unitAllocated, paysFees, BelongsToStream, HasFactory;
+  use AppUser, HasGuardians, TakesCourses, HasUnitAllocation, paysFees, BelongsToStream, HasFactory;
   protected static function newFactory()
   {
     return StudentFactory::new();
