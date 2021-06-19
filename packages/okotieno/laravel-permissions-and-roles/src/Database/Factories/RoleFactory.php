@@ -13,7 +13,25 @@ class RoleFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->realText(20)
+      'name' => $this->faker->realText(20),
+      'is_staff' => $this->faker->boolean
     ];
+  }
+
+  public function staff()
+  {
+    return $this->state(function (array $attributes) {
+      return [
+        'is_staff' => true,
+      ];
+    });
+  }
+  public function nonStaff()
+  {
+    return $this->state(function (array $attributes) {
+      return [
+        'is_staff' => false,
+      ];
+    });
   }
 }

@@ -61,7 +61,7 @@ class SupportStaffTest extends TestCase
   /**
    * POST /api/support-staffs/:support-staff
    * @test
-   * @group support-staffs
+   * @group support-staffs-1
    * @group get-request
    */
   public function authenticated_users_with_permission_can_create_support_staffs()
@@ -69,7 +69,7 @@ class SupportStaffTest extends TestCase
     Permission::factory()->state(['name' => 'create support staff'])->create();
     $this->user->givePermissionTo('create support staff');
     $supportStaff = User::factory()->make();
-    $supportStaff['staff_type'] = Role::factory()->create()->id;
+    $supportStaff['staff_type'] = Role::factory()->staff()->create()->id;
     $this->actingAs($this->user, 'api')
       ->postJson('api/support-staffs', $supportStaff->toArray())
       ->assertStatus(200)
