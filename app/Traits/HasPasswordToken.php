@@ -8,6 +8,6 @@ trait HasPasswordToken
 {
   public function passwordToken()
   {
-    return $this->hasOne(PasswordToken::class);
+    return $this->hasMany(PasswordToken::class);
   }
 }

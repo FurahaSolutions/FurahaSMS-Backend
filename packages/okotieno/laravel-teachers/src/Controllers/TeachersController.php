@@ -12,6 +12,7 @@ use Okotieno\Students\Requests\StudentUpdateRequest;
 use Okotieno\Teachers\Models\Teacher;
 use Okotieno\Teachers\Requests\TeacherStoreRequest;
 use Okotieno\Teachers\Requests\TeacherUpdateRequest;
+use Illuminate\Auth\Events\Registered;
 
 class TeachersController extends Controller
 {
@@ -44,6 +45,7 @@ class TeachersController extends Controller
     $user = User::where('email', $request->email)->first();
     if ($user == null) {
       $user = User::create($request->all());
+      event(new Registered($user));
     }
     $user->makeTeacher();
     $user = User::find($user->id);

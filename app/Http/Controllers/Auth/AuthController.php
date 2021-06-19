@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -108,15 +107,9 @@ class AuthController extends Controller
   public function logout(Request $request)
   {
     auth('web')->logout();
-    if ($request->user()->token()) {
-      $accessToken = $request->user()->token();
-      $request->user()->token()->revoke();
-      DB::table('oauth_refresh_tokens')
-        ->where('access_token_id', $accessToken->id)
-        ->update([
-          'revoked' => true
-        ]);
-
+    $userTokens = $request->user()->tokens()->where(['revoked' => false]);
+    if ($userTokens->count() > 0) {
+      $userTokens->update(['revoked' => true]);
     }
     return response()->json([
       'saved' => true,
@@ -135,7 +128,7 @@ class AuthController extends Controller
     $user = $request->user();
     $response = $user->toArray();
     $permissions = $user->getAllPermissions()->pluck('name')->toArray();
-    if($user->libraryUser){
+    if ($user->libraryUser) {
       $permissions = [...$permissions, 'access library'];
     }
     $response['library_user'] = !!$user->libraryUser;

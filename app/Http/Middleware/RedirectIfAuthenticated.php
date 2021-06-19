@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class RedirectIfAuthenticated
   public function handle($request, Closure $next, $guard = null)
   {
     if (Auth::guard($guard)->check()) {
-      abort(403, 'You are already authenticated');
+      throw new AuthorizationException('You are already authenticated');
     }
 
     return $next($request);

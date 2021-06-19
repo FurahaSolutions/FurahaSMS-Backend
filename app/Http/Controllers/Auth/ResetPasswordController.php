@@ -8,7 +8,9 @@ use App\Http\Requests\User\PasswordChangeRequest;
 use App\Http\Requests\User\TokenLoginRequest;
 use App\Models\PasswordToken;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
@@ -24,12 +26,17 @@ class ResetPasswordController extends Controller
 
   public function tokenLogin(TokenLoginRequest $request)
   {
+    $loginToken = PasswordToken::withToken($request->token)->first();
     $user = PasswordToken::getUserForToken($request->token);
-    if ($user === null) {
+    if ($loginToken === null || $user === null) {
       throw new AuthenticationException('Invalid token provided');
+    }
+    if ($loginToken->revoked) {
+      throw new AuthenticationException('Token provided is no longer valid!');
     }
     $token = PasswordToken::getUserForToken($request->token)
       ->createToken('PersonalAccessToken', ['*']);
+    $loginToken->revoke();
     return [
       'token_type' => 'Bearer',
       'expires_in' => $token->token->expires_at
@@ -38,7 +45,12 @@ class ResetPasswordController extends Controller
     ];
   }
 
-  public function reset(PasswordChangeRequest $request)
+  /**
+   * @param PasswordChangeRequest $request
+   * @return JsonResponse
+   * @throws AuthorizationException
+   */
+  public function reset(PasswordChangeRequest $request): JsonResponse
   {
     $message = 'Invalid Old Password';
     if ($request->token) {
@@ -60,8 +72,7 @@ class ResetPasswordController extends Controller
         'saved' => true,
         'message' => 'Successfully Changed user password'
       ]);
-    } else {
-      abort('403', $message);
     }
+    throw new AuthorizationException($message);
   }
 }

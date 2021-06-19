@@ -107,7 +107,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * GET api/users/auth/logout
-   * @group auth
+   * @group auth-1
    * @test
    */
   public function authenticated_users_can_log_off()
@@ -124,19 +124,25 @@ class AuthenticationTest extends TestCase
       'scope' => '',
       'remember_me' => true
     ]);
-    $response->assertStatus(200);
-    $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
 
     $this->getJson('api/users/auth/logout')
       ->assertStatus(401);
-    $this->actingAs($this->user, 'api')->getJson('api/users/auth/logout')
+    $this->actingAs($student->user, 'api')->getJson('api/users/auth/logout')
       ->assertStatus(200);
-
-    $this->withHeaders(['Authentication' => 'Bearer ' . $response->json('access_token')])
+    $tokenResult = $student->user->createToken('Personal Access Token');
+    $this->withHeaders(['Authorization' => 'Bearer '.$tokenResult->accessToken])
       ->getJson('api/users/auth/logout')
       ->assertStatus(200);
+    $this->withHeaders(['Authorization' => 'Bearer '.$tokenResult->accessToken])
+      ->getJson('api/users/auth/logout')
+      ->assertStatus(200);
+
+    $this->actingAs($student->user, 'api')
+      ->getJson('api/users/auth/logout')
+      ->assertStatus(200);
+
     // TODO check why revoke token does not invalidate user
-//    $this->withHeaders(['Authentication' => 'Bearer '.$response->json('access_token')])
+//    $this->withHeaders(['Authorization' => 'Bearer '.$tokenResult->accessToken])
 //      ->getJson('api/users/auth/logout')
 //      ->assertStatus(401);
   }
@@ -369,6 +375,20 @@ class AuthenticationTest extends TestCase
       ->assertStatus(200);
 
   }
+  /**
+   * GET api/password/email
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function authenticated_users_cannot_request_password_reset_email()
+  {
+    $user = User::factory()->create();
+    $this->actingAs($this->user,'api')
+      ->postJson('api/password/email', ['email' => $user->email])
+      ->assertStatus(403);
+
+  }
 
   /**
    * GET api/password/email
@@ -466,7 +486,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * POST api/password/token
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
@@ -478,7 +498,7 @@ class AuthenticationTest extends TestCase
 
   /**
    * POST api/password/token
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
@@ -488,9 +508,10 @@ class AuthenticationTest extends TestCase
       ->assertStatus(401);
 
   }
+
   /**
    * POST api/password/token
-   * @group auth-1
+   * @group auth
    * @group post-request
    * @test
    */
@@ -503,4 +524,18 @@ class AuthenticationTest extends TestCase
 
   }
 
+  /**
+   * POST api/password/token
+   * @group auth
+   * @group post-request
+   * @test
+   */
+  public function user_cannot_login_using_same_token_twice()
+  {
+    $token = PasswordToken::factory()->create();
+    $this->postJson('api/password/token', ['token' => $token->token]);
+    $this->postJson('api/password/token', ['token' => $token->token])
+      ->assertUnauthorized();
+
+  }
 }
