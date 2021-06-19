@@ -6,12 +6,11 @@ namespace Okotieno\AcademicYear\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Okotieno\AcademicYear\Database\Factories\AcademicYearUnitAllocationFactory;
-use Okotieno\SchoolCurriculum\Models\UnitLevel;
-use Okotieno\Students\Traits\unitAllocated;
+use Okotieno\Students\Traits\HasUnitAllocation;
 
 class AcademicYearUnitAllocation extends Model
 {
-  use unitAllocated, HasFactory;
+  use HasUnitAllocation, HasFactory;
 
   protected $fillable = [
     'academic_year_id',
@@ -31,10 +30,5 @@ class AcademicYearUnitAllocation extends Model
       'class_level_id' => $classLevelId,
       'unit_level_id' => $unitLevelId,
     ]);
-  }
-
-  public function unitLevel()
-  {
-    return $this->belongsTo(UnitLevel::class);
   }
 }

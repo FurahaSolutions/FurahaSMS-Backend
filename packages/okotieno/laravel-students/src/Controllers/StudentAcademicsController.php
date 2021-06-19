@@ -10,6 +10,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
+use Okotieno\Students\Requests\StudentAcademicsStoreRequest;
+use Okotieno\Students\Requests\StudentAcademicsUpdateRequest;
 
 
 class StudentAcademicsController extends Controller
@@ -48,7 +50,6 @@ class StudentAcademicsController extends Controller
         'academic_year_id' => $unitAllocation[0]->academicYear->id,
         'academic_year_name' => $unitAllocation[0]->academicYear->name,
         'class_levels' => $classLevels,
-//                'raw' => $unitAllocation
       ];
     }
     return response()->json($response);
@@ -57,11 +58,11 @@ class StudentAcademicsController extends Controller
 
   /**
    * Store a newly created resource in storage.
-   * @param Request $request
+   * @param StudentAcademicsStoreRequest $request
    * @param User $user
    * @return JsonResponse
    */
-  public function store(Request $request, User $user)
+  public function store(StudentAcademicsStoreRequest $request, User $user)
   {
     $user->student->updateStream($user, $request->stream_id, $request->academic_year_id, $request->class_level_id);
 
@@ -76,7 +77,7 @@ class StudentAcademicsController extends Controller
       'saves' => true,
       'message' => 'Successfully allocated units to the student',
       'data' => $user->student->unitAllocation
-    ]);
+    ])->setStatusCode(201);
   }
 
   /**
@@ -128,10 +129,12 @@ class StudentAcademicsController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param Request $request
+   * @param User $user
+   * @param $academicYearId
+   * @param StudentAcademicsUpdateRequest $request
    * @return JsonResponse
    */
-  public function update(User $user, $academicYearId, Request $request)
+  public function update(User $user, $academicYearId, StudentAcademicsUpdateRequest $request): JsonResponse
   {
     $user->student->updateStream($user, $request->stream, $academicYearId, $request->classLevelId);
 

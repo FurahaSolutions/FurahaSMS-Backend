@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class StudentStreamsController extends Controller
 {
-  public function get(User $user, Request $request)
+  public function index(User $user, Request $request)
   {
     return response()->json(
       $user->student->streams()
