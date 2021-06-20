@@ -173,7 +173,7 @@ class StudentAcademicsTest extends TestCase
     $student->unitAllocation()->save($allocations[1]);
 
     $url = 'api/students/' . $student->user->id . '/academics/' . $allocations[0]->academic_year_id
-      . '?=class_level_id' . $allocations[0]->class_level_id;
+      . '?class_level_id=' . $allocations[0]->class_level_id;
     $this->actingAs($this->user, 'api')
       ->getJson($url)
       ->assertOk();
@@ -213,6 +213,11 @@ class StudentAcademicsTest extends TestCase
     $allocation = AcademicYearUnitAllocation::factory()->create();
     $student->unitAllocation()->save($allocation);
     $unitLevels = [['id' => $allocation->id, 'value' => false]];
+    $stream = Stream::factory()->create();
+    $student->streams()->save($stream, [
+      'academic_year_id' => $allocation->academic_year_id,
+      'class_level_id' => $allocation->class_level_id
+    ]);
     $this->actingAs($this->user, 'api')
       ->patchJson('api/students/' . $student->user->id . '/academics/' . $allocation->academic_year_id, [
         'stream' => Stream::factory()->create()->id,
