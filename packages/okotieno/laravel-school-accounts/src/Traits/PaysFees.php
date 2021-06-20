@@ -4,7 +4,7 @@
 namespace Okotieno\SchoolAccounts\Traits;
 use Okotieno\SchoolAccounts\Models\FeePayment;
 
-trait paysFees
+trait PaysFees
 {
     public function feePayments()
     {

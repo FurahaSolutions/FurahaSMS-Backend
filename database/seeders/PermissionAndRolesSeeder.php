@@ -184,6 +184,15 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'update student academics allocation',
+        'roles' => [
+          'admin',
+          'maker admissions',
+          'dean of students',
+          'class teacher',
+        ]
+      ],
+      [
         'permission' => 'access synchronize data',
         'roles' => [
           'admin',
@@ -484,6 +493,34 @@ class PermissionAndRolesSeeder extends Seeder
           'accountant',
           'head accountant',
           'finance officer',
+          'head of finance',
+        ]
+      ],
+      [
+        'permission' => 'create financial cost',
+        'roles' => [
+          'admin',
+          'accountant',
+          'head accountant',
+          'finance officer',
+          'head of finance',
+        ]
+      ],
+      [
+        'permission' => 'update financial cost',
+        'roles' => [
+          'admin',
+          'accountant',
+          'head accountant',
+          'finance officer',
+          'head of finance',
+        ]
+      ],
+      [
+        'permission' => 'update financial cost',
+        'roles' => [
+          'admin',
+          'head accountant',
           'head of finance',
         ]
       ],
