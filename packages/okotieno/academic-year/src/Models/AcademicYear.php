@@ -11,7 +11,7 @@ use Okotieno\AcademicYear\Database\Factories\AcademicYearFactory;
 use Okotieno\AcademicYear\Requests\CreateAcademicYearRequest;
 use Okotieno\AcademicYear\Traits\Archivable;
 use Okotieno\AcademicYear\Traits\HasHoliday;
-use Okotieno\SchoolAccounts\Traits\hasFinancialYearPlans;
+use Okotieno\SchoolAccounts\Traits\HasFinancialYearPlans;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\TimeTable\Traits\HasTimeTables;
 
@@ -20,7 +20,7 @@ use Okotieno\TimeTable\Traits\HasTimeTables;
  */
 class AcademicYear extends Model
 {
-  use hasFinancialYearPlans, HasTimeTables, HasHoliday, HasFactory, Archivable;
+  use HasFinancialYearPlans, HasTimeTables, HasHoliday, HasFactory, Archivable;
 
   use SoftDeletes;
   public $timestamps = false;

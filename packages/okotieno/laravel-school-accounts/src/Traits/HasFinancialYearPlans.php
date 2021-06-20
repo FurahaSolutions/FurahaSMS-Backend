@@ -6,7 +6,7 @@ use Okotieno\SchoolAccounts\Models\TuitionFeeFinancialPlan;
 use Okotieno\SchoolAccounts\Models\OtherFeesFinancialPlan;
 use Okotieno\SchoolCurriculum\Models\Semester;
 
-trait hasFinancialYearPlans
+trait HasFinancialYearPlans
 {
   public function tuitionFeeFinancialPlans()
   {

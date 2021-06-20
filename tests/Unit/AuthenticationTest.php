@@ -504,7 +504,6 @@ class AuthenticationTest extends TestCase
    */
   public function error_unauthenticated_if_user_provides_invalid_token()
   {
-    echo $this->postJson('api/password/token', ['token' => bcrypt($this->faker->password)])->content();
     $this->postJson('api/password/token', ['token' => bcrypt($this->faker->password)])
       ->assertStatus(401);
 
