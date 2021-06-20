@@ -2,13 +2,19 @@
 
 namespace Okotieno\SchoolAccounts\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
+use Okotieno\SchoolAccounts\Database\Factories\FinancialCostFactory;
 
 class FinancialCost extends Model
 {
-  use SoftDeletes;
+  use SoftDeletes, HasFactory;
+
+  protected static function newFactory()
+  {
+    return FinancialCostFactory::new();
+  }
 
   public $timestamps = false;
   protected $fillable = [
@@ -67,9 +73,7 @@ class FinancialCost extends Model
             }
           }
         }
-      }
-
-      else {
+      } else {
 
         $savedCost = self::create([
           'name' => $cost['name']
