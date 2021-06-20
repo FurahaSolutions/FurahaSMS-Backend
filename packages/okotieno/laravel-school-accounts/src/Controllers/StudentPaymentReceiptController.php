@@ -12,11 +12,6 @@ use Okotieno\SchoolAccounts\Requests\StoreFeePaymentRequest;
 class StudentPaymentReceiptController extends Controller
 {
 
-  public function index(Request $request)
-  {
-
-  }
-
   public function store(StoreFeePaymentRequest $request, User $user)
   {
 
@@ -31,10 +26,5 @@ class StudentPaymentReceiptController extends Controller
       'message' => 'Payment Successfully saved',
       'data' => $receipt
     ];
-  }
-
-  public function show()
-  {
-
   }
 }

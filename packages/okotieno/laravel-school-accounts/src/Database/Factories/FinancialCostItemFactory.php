@@ -5,6 +5,7 @@ namespace Okotieno\SchoolAccounts\Database\Factories;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Okotieno\SchoolAccounts\Models\FinancialCost;
 use Okotieno\SchoolAccounts\Models\FinancialCostItem;
 
 class FinancialCostItemFactory extends Factory
@@ -16,6 +17,7 @@ class FinancialCostItemFactory extends Factory
     return [
       'name' => $this->faker->state,
       'active' => $this->faker->boolean,
+      'financial_cost_id' => FinancialCost::factory()->create()->id
     ];
   }
 }

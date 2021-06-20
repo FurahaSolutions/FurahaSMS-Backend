@@ -4,13 +4,14 @@
 namespace Okotieno\SchoolAccounts\Database\Factories;
 
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Okotieno\AcademicYear\Models\AcademicYear;
 use Okotieno\SchoolAccounts\Models\TuitionFeeFinancialPlan;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\Semester;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
 
-class TuitionFeeFinancialPlanFactory extends \Illuminate\Database\Eloquent\Factories\Factory
+class TuitionFeeFinancialPlanFactory extends Factory
 {
 
     protected $model = TuitionFeeFinancialPlan::class;
