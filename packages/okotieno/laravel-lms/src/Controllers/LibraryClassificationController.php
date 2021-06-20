@@ -14,8 +14,23 @@ class LibraryClassificationController extends Controller
    *
    * @return JsonResponse
    */
-  public function index()
+  public function index(Request $request)
   {
+    if ($request->classification !== null) {
+      $response = [];
+      $classes = LibraryClassification::ofType($request->classification)
+        ->libraryClasses
+        ->where('library_class_id', null);
+      foreach ($classes as $key => $item) {
+        $response[] = [
+          'id' => $item['id'],
+          'class' => $item['class'],
+          'name' => $item['name'],
+          'classes' => $item['classes'],
+        ];
+      }
+      return response()->json($response);
+    }
     return response()->json(LibraryClassification::all());
   }
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\SchoolStreams\Controllers\SchoolStreamsController;
 use Okotieno\SchoolStreams\Controllers\StudentStreamsController;
 
