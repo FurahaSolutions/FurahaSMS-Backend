@@ -31,6 +31,5 @@ class LMSServiceProvider extends ServiceProvider
   {
     $this->app->make('Okotieno\\LMS\\Controllers\\LibraryClassificationController');
     $this->app->make('Okotieno\\LMS\\Controllers\\LibraryBookController');
-    $this->app->make('Okotieno\\LMS\\Controllers\\Api\\LibraryBookController');
   }
 }
