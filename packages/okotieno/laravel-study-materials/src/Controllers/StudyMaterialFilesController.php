@@ -12,7 +12,8 @@ class StudyMaterialFilesController extends Controller
 {
     public function index(Request $request)
     {
-      $name = 'file-'. rand(100000, 999999);
+      $request->validate(['file_path' => 'required']);
+      $name = 'file-'. time(). '-'. rand(100, 999);
       $headers = [
         'Accept' => 'application/octet-stream'
 
