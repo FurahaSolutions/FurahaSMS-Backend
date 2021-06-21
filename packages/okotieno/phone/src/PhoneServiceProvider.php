@@ -30,6 +30,6 @@ class PhoneServiceProvider extends ServiceProvider
    */
   public function register()
   {
-    $this->app->make('Okotieno\\Phone\\Controllers\\PhoneController');
+   
   }
 }
