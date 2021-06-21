@@ -11,8 +11,6 @@ use Tests\TestCase;
 
 class StreamTest extends TestCase
 {
-  use WithFaker;
-  use DatabaseTransactions;
 
   private $stream;
 
