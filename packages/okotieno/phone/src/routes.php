@@ -1,8 +1,8 @@
 <?php
 
-Route::middleware(['auth:api', 'bindings'])->group(function () {
+use Illuminate\Support\Facades\Route;
 
-  Route::get('/api/phones/allowed-countries', 'Okotieno\\Phone\\Controllers\\PhoneApiController@getAllowedCountries');
+Route::middleware(['auth:api', 'bindings'])->group(function () {
 
 });
 
