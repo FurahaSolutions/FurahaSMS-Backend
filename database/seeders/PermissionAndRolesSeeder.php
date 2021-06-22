@@ -1541,6 +1541,17 @@ class PermissionAndRolesSeeder extends Seeder
         ]
       ],
       [
+        'permission' => 'delete e-learning course content',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'class teacher',
+          'dean of students',
+          'librarian',
+        ]
+      ],
+      [
         'permission' => 'view my dependants',
         'roles' => [
           'admin',

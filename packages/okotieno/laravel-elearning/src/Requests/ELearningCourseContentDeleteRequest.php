@@ -5,16 +5,16 @@ namespace Okotieno\ELearning\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TopicOnlineAssessmentDeleteRequest extends FormRequest
+class ELearningCourseContentDeleteRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
    *
    * @return bool
    */
-  public function authorize(): bool
+  public function authorize()
   {
-    return auth()->user()->can('delete online assessment');
+    return auth()->user()->can('delete e-learning course content');
   }
 
   /**
@@ -25,13 +25,14 @@ class TopicOnlineAssessmentDeleteRequest extends FormRequest
   public function rules()
   {
     return [
+
     ];
   }
 
   protected function failedAuthorization()
   {
     throw new AuthorizationException(
-      'You are not authorised to delete an assessment'
+      'You are not authorised to delete a an E - Learning Course content'
     );
   }
 }
