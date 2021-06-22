@@ -3,11 +3,20 @@
 namespace Okotieno\ELearning\Tests\Unit;
 
 use Okotieno\ELearning\Models\ELearningCourse;
+use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Tests\TestCase;
 
 class ELearningCourseTest extends TestCase
 {
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $this->eLearningCourse = ELearningCourse::factory()
+      ->state(['numbering' => $this->faker->name, 'topics' => []])
+      ->make()
+      ->toArray();
+  }
 
   private array $eLearningCourse;
 
@@ -249,13 +258,65 @@ class ELearningCourseTest extends TestCase
     $this->assertNull(ELearningCourse::find($eLearningId));
   }
 
-  protected function setUp(): void
+  /**
+   * GET /api/e-learning/courses
+   * @group post-request
+   * @group course
+   * @group e-learning
+   * @test
+   * */
+  public function unauthenticated_user_cannot_retrieve_courses()
   {
-    parent::setUp();
-    $this->eLearningCourse = ELearningCourse::factory()
-      ->state(['numbering' => $this->faker->name, 'topics' => []])
-      ->make()
-      ->toArray();
+    $this->getJson('/api/e-learning/courses')
+      ->assertUnauthorized();
+
+  }
+
+  /**
+   * GET /api/e-learning/courses
+   * @group post-request
+   * @group course
+   * @group e-learning
+   * @test
+   * */
+  public function authenticated_user_can_retrieve_courses()
+  {
+    ELearningCourse::factory()->count(2)->create();
+    $this->actingAs($this->user, 'api')->getJson('/api/e-learning/courses')
+      ->assertOk();
+
+  }
+
+  /**
+   * GET /api/e-learning/courses
+   * @group post-request
+   * @group course
+   * @group e-learning
+   * @test
+   * */
+  public function unauthenticated_user_cannot_retrieve_course()
+  {
+    $eLearningCourseId = ELearningCourse::factory()->create()->id;
+    $this->getJson('/api/e-learning/courses/' . $eLearningCourseId)
+      ->assertUnauthorized();
+
+  }
+
+  /**
+   * GET /api/e-learning/courses
+   * @group post-request
+   * @group course
+   * @group e-learning
+   * @test
+   * */
+  public function authenticated_user_can_retrieve_course()
+  {
+    $eLearningCourseId = ELearningCourse::factory()->create()->id;
+    ELearningTopic::factory()->state(['e_learning_course_id' => $eLearningCourseId])->create();
+    ELearningCourse::factory()->count(2)->create();
+    $this->actingAs($this->user, 'api')->getJson('/api/e-learning/courses/' . $eLearningCourseId)
+      ->assertOk();
+
   }
 
 }

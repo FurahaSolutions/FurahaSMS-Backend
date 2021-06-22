@@ -5,9 +5,11 @@ namespace Okotieno\ELearning\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Okotieno\ELearning\Models\ELearningCourseContent;
+use Okotieno\ELearning\Requests\ELearningCourseContentDeleteRequest;
 use Okotieno\ELearning\Requests\StoreELearningCourseContentRequest;
+use Okotieno\ELearning\Requests\ELearningCourseContentUpdateRequest;
 use Okotieno\StudyMaterials\Models\StudyMaterial;
 
 class ELearningCourseContentController extends Controller
@@ -24,30 +26,29 @@ class ELearningCourseContentController extends Controller
   }
 
   /**
-   * @param Request $request
-   * @return \Illuminate\Http\JsonResponse
+   * @param ELearningCourseContentDeleteRequest $request
+   * @param ELearningCourseContent $course_content
+   * @return JsonResponse
    */
-  public function destroy(Request $request, $eLearningCourseContentId)
+  public function destroy(ELearningCourseContentDeleteRequest $request, ELearningCourseContent $course_content): JsonResponse
   {
 
-    $eLearningCourseContent = ELearningCourseContent::find($eLearningCourseContentId);
-    $eLearningCourseContent->deleteStudyMaterial($request->all());
+    $course_content->deleteStudyMaterial($request->all());
     return response()->json([
       'saved' => true,
       'message' => 'Successfully deleted Course Content',
-      'data' => []
     ]);
   }
 
   /**
-   * @param Request $request
-   * @param $eLearningCourseContentId
-   * @return array|\Illuminate\Http\JsonResponse
+   * @param ELearningCourseContentUpdateRequest $request
+   * @param ELearningCourseContent $course_content
+   * @return array|JsonResponse
    */
-  public function update(Request $request, $eLearningCourseContentId)
+  public function update(ELearningCourseContentUpdateRequest $request, ELearningCourseContent $course_content)
   {
-    $eLearningCourseContent = ELearningCourseContent::find($eLearningCourseContentId);
-    $studyMaterial = StudyMaterial::find($eLearningCourseContent->study_material_id);
+
+    $studyMaterial = StudyMaterial::find($course_content->study_material_id);
     $studyMaterial->update([
       'title' => $request->title
     ]);
