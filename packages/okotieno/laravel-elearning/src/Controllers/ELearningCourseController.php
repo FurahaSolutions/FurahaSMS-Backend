@@ -20,7 +20,6 @@ class ELearningCourseController extends Controller
    * Display a listing of the resource.
    *
    * @param Request $request
-   * @param User $user
    * @return JsonResponse
    */
   public function index(Request $request)
@@ -50,8 +49,7 @@ class ELearningCourseController extends Controller
 
   /**
    * Store a newly created resource in storage.
-   * @param Request $request
-   * @param User $user
+   * @param StoreELearningCourseRequest $request
    * @return JsonResponse
    */
   public function store(StoreELearningCourseRequest $request)
@@ -82,7 +80,7 @@ class ELearningCourseController extends Controller
    * @param ELearningCourse $eLearningCourse
    * @return JsonResponse
    */
-  public function show($eLearningCourse)
+  public function show($eLearningCourse): JsonResponse
   {
 
     $eLearningCourse = ELearningCourse::find($eLearningCourse);

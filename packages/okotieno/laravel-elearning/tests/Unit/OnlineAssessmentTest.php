@@ -2,6 +2,7 @@
 
 namespace Okotieno\ELearning\Tests\Unit;
 
+use Carbon\Carbon;
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\SchoolExams\Models\ExamPaper;
@@ -225,5 +226,95 @@ class OnlineAssessmentTest extends TestCase
       ->assertJsonStructure(['id', 'questions' => [['id']]])
       ->assertJsonFragment(['id' => $onlineAssessment->id]);
   }
+
+  /**
+   * DELETE /api/course-content/topics/:eLearningTopicId/online-assessments
+   * @test
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   */
+  public function unauthenticated_users_cannot_delete_online_assessment()
+  {
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->e_learning_topic_id . '/online-assessments/' . $onlineAssessment->id;
+    $this->deleteJson($url)->assertUnauthorized();
+
+  }
+
+  /**
+   * DELETE /api/course-content/topics/:eLearningTopicId/online-assessments
+   * @test
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   */
+
+  public function authenticated_users_without_permission_cannot_delete_online_assessment()
+  {
+
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->e_learning_topic_id . '/online-assessments/' . $onlineAssessment->id;
+    $this->actingAs($this->user, 'api')
+      ->deleteJson($url)
+      ->assertForbidden();
+
+  }
+
+  /**
+   * DELETE /api/course-content/topics/:eLearningTopicId/online-assessments
+   * @test
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   */
+
+  public function authenticated_users_with_permission_can_delete_online_assessment()
+  {
+    Permission::factory()->state(['name' => 'delete online assessment'])->create();
+    $this->user->givePermissionTo('delete online assessment');
+    $onlineAssessment = OnlineAssessment::factory()->create();
+    $url = 'api/e-learning/course-content/topics/' . $onlineAssessment->e_learning_topic_id . '/online-assessments/' . $onlineAssessment->id;
+    $this->actingAs($this->user, 'api')
+      ->deleteJson($url)
+      ->assertOk()
+      ->assertJsonStructure(['saved', 'message']);
+
+  }
+
+  /**
+   * DELETE /api/course-content/topics/:eLearningTopicId/online-assessments
+   * @test
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   */
+  public function user_cannot_start_exams_before_available_time()
+  {
+    $availableAt = Carbon::tomorrow();
+    $onlineAssessment = OnlineAssessment::factory()->state(['available_at' => $availableAt])->create();
+    $url = 'api/e-learning/online-assessments/' . $onlineAssessment->id.'?withQuestions=true';
+    $this->actingAs($this->user, 'api')->getJson($url)->assertForbidden();
+
+  }
+
+  /**
+   * DELETE /api/course-content/topics/:eLearningTopicId/online-assessments
+   * @test
+   * @group academic
+   * @group e-learning
+   * @group online-assessment
+   */
+  public function user_with_permission_to_update_online_assessment_can_retrieve()
+  {
+    Permission::factory()->state(['name' => 'update online assessment'])->create();
+    $this->user->givePermissionTo('update online assessment');
+    $availableAt = Carbon::tomorrow();
+    $onlineAssessment = OnlineAssessment::factory()->state(['available_at' => $availableAt])->create();
+    $url = 'api/e-learning/online-assessments/' . $onlineAssessment->id.'?withQuestions=true';
+    $this->actingAs($this->user, 'api')->getJson($url)->assertOk();
+
+  }
+
 
 }
