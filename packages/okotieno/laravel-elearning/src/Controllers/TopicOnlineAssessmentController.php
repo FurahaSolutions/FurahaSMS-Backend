@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Okotieno\ELearning\Models\ELearningTopic;
 use Okotieno\ELearning\Requests\StoreTopicOnlineAssessmentRequest;
 use Okotieno\ELearning\Requests\TopicOnlineAssessmentUpdateRequest;
+use Okotieno\ELearning\Requests\TopicOnlineAssessmentDeleteRequest;
 use Okotieno\SchoolExams\Models\OnlineAssessment;
 
 class TopicOnlineAssessmentController extends Controller
@@ -49,6 +50,12 @@ class TopicOnlineAssessmentController extends Controller
     ])->setStatusCode(201);
   }
 
+  /**
+   * @param ELearningTopic|null $eLearningTopic
+   * @param TopicOnlineAssessmentUpdateRequest $request
+   * @param OnlineAssessment $online_assessment
+   * @return JsonResponse
+   */
   public function update(ELearningTopic $eLearningTopic = null, TopicOnlineAssessmentUpdateRequest $request, OnlineAssessment $online_assessment)
   {
     $online_assessment->update($request->all());
@@ -63,7 +70,7 @@ class TopicOnlineAssessmentController extends Controller
   }
 
 
-  public function destroy(ELearningTopic $eLearningTopic, OnlineAssessment $onlineAssessment)
+  public function destroy(ELearningTopic $eLearningTopic, OnlineAssessment $onlineAssessment, TopicOnlineAssessmentDeleteRequest $request)
   {
     $eLearningTopic->onlineAssessments()->find($onlineAssessment->id)->delete();
     return response()->json([
