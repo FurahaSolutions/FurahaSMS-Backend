@@ -2,8 +2,6 @@
 
 namespace Okotieno\Procurement\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\Procurement\Models\ProcurementItemsCategory;
 use Okotieno\Procurement\Models\ProcurementVendor;
@@ -12,8 +10,6 @@ use Tests\TestCase;
 
 class ProcurementVendorTest extends TestCase
 {
-  use WithFaker;
-  use DatabaseTransactions;
 
   private $procurementVendor;
 
@@ -34,10 +30,42 @@ class ProcurementVendorTest extends TestCase
    * @test
    * @return void
    */
-  public function unauthenticated_users_cannot_retrieve_procurement_vendor()
+  public function unauthenticated_users_cannot_retrieve_procurement_vendors()
   {
     $this->getJson('/api/procurements/vendors')
       ->assertStatus(401);
+  }
+
+  /**
+   * GET /api/procurements/vendors
+   * @group procurement
+   * @group procurement-vendor
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_retrieve_procurement_vendor()
+  {
+    $procurementVendor = ProcurementVendor::factory()->create();
+    $this->getJson("/api/procurements/vendors{$procurementVendor->id}")
+      ->assertStatus(401);
+  }
+
+  /**
+   * GET /api/procurements/vendors
+   * @group procurement
+   * @group procurement-vendor
+   * @group post-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_procurement_vendors()
+  {
+    ProcurementVendor::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/procurements/vendors')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name', 'physical_address']]);
   }
 
   /**
@@ -50,11 +78,12 @@ class ProcurementVendorTest extends TestCase
    */
   public function authenticated_users_can_retrieve_procurement_vendor()
   {
+    $procurementVendor = ProcurementVendor::factory()->create();
     ProcurementVendor::factory()->create();
     $this->actingAs($this->user, 'api')
-      ->getJson('/api/procurements/vendors')
+      ->getJson("api/procurements/vendors/{$procurementVendor->id}")
       ->assertStatus(200)
-      ->assertJsonStructure([['id', 'name', 'physical_address']]);
+      ->assertJsonStructure(['id', 'name', 'physical_address']);
   }
 
   /**
@@ -151,6 +180,31 @@ class ProcurementVendorTest extends TestCase
     Permission::factory()->state(['name' => 'create procurement vendor'])->create();
     $this->user->givePermissionTo('create procurement vendor');
     $this->actingAs($this->user, 'api')->postJson('/api/procurements/vendors', $this->procurementVendor)
+      ->assertStatus(201)
+      ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'name']]);
+    $procurementVendor = ProcurementVendor::where('name', $this->procurementVendor['name'])
+      ->where('name', $this->procurementVendor['name'])->first();
+    $this->assertNotNull($procurementVendor);
+  }
+
+  /**
+   * POST /api/procurements/vendors
+   * @group procurement
+   * @group procurement-vendor
+   * @test
+   * @group post-request
+   * @return void
+   */
+  public function procurement_vendor_contacts_can_be_created()
+  {
+    Permission::factory()->state(['name' => 'create procurement vendor'])->create();
+    $this->user->givePermissionTo('create procurement vendor');
+    $data = array_merge($this->procurementVendor, [
+      'contactInfo' => [
+        'phones' => [['name' => $this->faker->name, 'value' => $this->faker->phoneNumber]],
+        'emails' => [['name' => $this->faker->name, 'value' => $this->faker->email]]]
+    ]);
+    $this->actingAs($this->user, 'api')->postJson('/api/procurements/vendors', $data)
       ->assertStatus(201)
       ->assertJsonStructure(['saved', 'message', 'data' => ['id', 'name']]);
     $procurementVendor = ProcurementVendor::where('name', $this->procurementVendor['name'])
