@@ -2,6 +2,7 @@
 
 namespace Okotieno\SchoolExams\Requests;
 
+use App\Rules\ValidateArrayElementRule;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,6 +26,16 @@ class ExamPaperQuestionStoreRequest extends FormRequest
   public function rules()
   {
     return [
+      '' => [new ValidateArrayElementRule() ],
+      '*.description' => 'required'
+    ];
+  }
+
+  public function messages()
+  {
+    return [
+      '0.description' => 'required',
+      '*.description.required' => 'Each question must have a description'
     ];
   }
 

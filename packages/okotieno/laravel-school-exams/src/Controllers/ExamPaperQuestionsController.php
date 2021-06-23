@@ -14,22 +14,10 @@ use Okotieno\SchoolExams\Requests\ExamPaperQuestionStoreRequest;
 
 class ExamPaperQuestionsController extends Controller
 {
-  /**
-   * @param Request $request
-   * @param ExamPaper $examPaper
-   * @return JsonResponse
-   */
-  public function index(Request $request, ExamPaper $examPaper)
-  {
-    $response = [];
-
-    return response()->json(
-      $response
-    );
-  }
 
   /**
    * @param ExamPaper $examPaper
+   * @param ExamPaperQuestion $examPaperQuestion
    * @return JsonResponse
    */
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\Procurement\Controllers\ProcurementItemsCategoryController;
 use Okotieno\Procurement\Controllers\ProcurementRequestApiController;
 use Okotieno\Procurement\Controllers\ProcurementRequestApprovalController;
