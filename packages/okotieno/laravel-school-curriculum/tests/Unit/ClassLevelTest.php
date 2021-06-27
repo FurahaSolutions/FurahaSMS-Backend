@@ -2,6 +2,7 @@
 
 namespace Okotieno\SchoolCurriculum\Tests\Unit;
 
+use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Tests\TestCase;
@@ -27,7 +28,7 @@ class ClassLevelTest extends TestCase
    */
   public function unauthenticated_users_cannot_retrieve_class_levels()
   {
-    $this->getJson('/api/curriculum/class-levels', $this->classLevel)
+    $this->getJson('/api/curriculum/class-levels')
       ->assertStatus(401);
 
   }
@@ -42,10 +43,23 @@ class ClassLevelTest extends TestCase
    */
   public function authenticated_users_can_retrieve_class_levels()
   {
+    $allocations = AcademicYearUnitAllocation::factory()->count(2)->create();
     ClassLevel::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/class-levels', $this->classLevel)
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/curriculum/class-levels')
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'name']]);
+
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/curriculum/class-levels?include_levels=true')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name']]);
+
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/class-levels?include_levels=true&academic_year_id={$allocations[0]->academic_year_id}")
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name']]);
+
 
   }
 

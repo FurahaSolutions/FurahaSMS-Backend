@@ -34,6 +34,9 @@ class ClassLevelUnitLevelTest extends TestCase
    */
   public function authenticated_users_can_retrieve_unit_allocations()
   {
+    ClassLevel::factory()->create()->taughtUnits()->save(
+      UnitLevel::factory()->create()
+    );
     $this->actingAs($this->user, 'api')
       ->getJson('/api/curriculum/class-levels/unit-levels')
       ->assertOk();

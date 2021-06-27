@@ -22,11 +22,6 @@ class ClassLevelController extends Controller
   public function index(Request $request)
   {
     $classLevels = ClassLevel::all();
-    if ($request->units) {
-      foreach ($classLevels as $classLevel) {
-        $classLevel->units;
-      }
-    }
     if ($request->include_levels) {
       foreach ($classLevels as $key => $classLevel) {
         if ($request->academic_year_id) {
@@ -38,7 +33,10 @@ class ClassLevelController extends Controller
         } else {
 
           foreach ($classLevel->unitLevels as $key1 => $unitLevel) {
-            $classLevel->unitLevels['unit_levels'][$key1]->semesters;
+            if(key_exists('unit_levels', $classLevel->unitLevels->toArray())) {
+              $classLevel->unitLevels['unit_levels'][$key1]->semesters;
+            }
+
           }
         }
 
