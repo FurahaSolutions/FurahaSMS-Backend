@@ -26,15 +26,22 @@ class ExamPaperQuestionStoreRequest extends FormRequest
   public function rules()
   {
     return [
-      '' => [new ValidateArrayElementRule() ],
-      '*.description' => 'required'
+      'questions' => ["required","array","min:1"],
+      'questions.*.description' => 'required',
+      'questions.*.correctAnswerDescription' => 'required',
+      'questions.*.multipleAnswers' => 'required',
+      'questions.*.multipleChoices' => 'required',
+      'questions.*.points' => 'required',
+      'questions.*.answers' => 'array',
+      'questions.*.answers.*.description' => 'required',
+      'questions.*.answers.*.isCorrect' => 'required',
+      'questions.*.tags' => 'required',
     ];
   }
 
   public function messages()
   {
     return [
-      '0.description' => 'required',
       '*.description.required' => 'Each question must have a description'
     ];
   }

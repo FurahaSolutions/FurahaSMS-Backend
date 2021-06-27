@@ -5,6 +5,7 @@ namespace Okotieno\SchoolExams\Tests\Unit;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\SchoolExams\Models\ExamInstruction;
 use Okotieno\SchoolExams\Models\ExamPaper;
 use Tests\TestCase;
 
@@ -19,6 +20,65 @@ class ExamPapersTest extends TestCase
   }
 
   private array $examPaper;
+
+  /**
+   * GET /api/exam-papers/:exam-paper
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_retrieve_exam_paper()
+  {
+    $examPaper = ExamPaper::factory()->create();
+    $this->getJson("api/exam-papers/{$examPaper->id}")
+      ->assertUnauthorized();
+
+  }
+
+  /**
+   * GET /api/exam-papers/:exam-paper
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_exam_paper()
+  {
+    $examPaper = ExamPaper::factory()->create();
+    $this->actingAs($this->user, 'api')->getJson("api/exam-papers/{$examPaper->id}")
+      ->assertOk();
+
+  }
+
+  /**
+   * GET /api/exam-papers/:exam-paper
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_retrieve_exam_papers()
+  {
+    $this->getJson("api/exam-papers")
+      ->assertUnauthorized();
+
+  }
+
+  /**
+   * GET /api/exam-papers/:exam-paper
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_self_exam_papers()
+  {
+    ExamPaper::factory()->state(['created_by' => $this->user->id])->count(4)->create();
+    $this->actingAs($this->user, 'api')->getJson('api/exam-papers?self=true&latest=10')
+      ->assertOk();
+
+  }
 
   /**
    * POST /api/exam-papers
@@ -59,7 +119,9 @@ class ExamPapersTest extends TestCase
   {
     Permission::factory()->state(['name' => 'create exam paper'])->create();
     $this->user->givePermissionTo('create exam paper');
-    $response = $this->actingAs($this->user, 'api')->postJson('/api/exam-papers', $this->examPaper);
+    $instructions = ExamInstruction::factory()->count(3)->make();
+    $data = array_merge($this->examPaper, ['instructions' => $instructions]);
+    $response = $this->actingAs($this->user, 'api')->postJson('/api/exam-papers', $data);
     $response->assertStatus(201);
   }
 
