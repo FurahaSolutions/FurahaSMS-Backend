@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Okotieno\SchoolCurriculum\Controllers\ClassLevelCategoryController;
 use Okotieno\SchoolCurriculum\Controllers\ClassLevelController;
 use Okotieno\SchoolCurriculum\Controllers\ClassLevelUnitLevelsController;

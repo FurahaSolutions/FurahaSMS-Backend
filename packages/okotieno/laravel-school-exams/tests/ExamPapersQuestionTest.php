@@ -108,6 +108,7 @@ class ExamPapersQuestionTest extends TestCase
 
   public function authorised_users_can_create_exam_paper_questions()
   {
+    $question = ExamPaperQuestion::factory()->state(['exam_paper_id' => $this->examPaper->id])->create();
     $questions = [
       'questions' => [
         [
@@ -120,22 +121,23 @@ class ExamPapersQuestionTest extends TestCase
             ['description' => $this->faker->sentence(5), 'isCorrect' => $this->faker->boolean]
           ],
           'tags' => ExamPaperQuestionTag::factory()->count(3)->create()->toArray()
-        ]
-      ],
-      [
-        'id' => ExamPaperQuestion::factory()->create()->id,
-        'description' => $this->faker->sentence(5),
-        'correctAnswerDescription' => $this->faker->sentence(5),
-        'multipleAnswers' => $this->faker->boolean,
-        'multipleChoices' => $this->faker->boolean,
-        'points' => $this->faker->numberBetween(2, 10),
-        'answers' => [
-          ['id' => ExamPaperQuestionAnswer::factory()->create()->id,'description' => $this->faker->sentence(5), 'isCorrect' => $this->faker->boolean],
-          ['description' => $this->faker->sentence(5), 'isCorrect' => $this->faker->boolean]
         ],
-        'tags' => ExamPaperQuestionTag::factory()->count(3)->create()->toArray()
+        [
+          'id' => $question->id,
+          'description' => $this->faker->sentence(5),
+          'correctAnswerDescription' => $this->faker->sentence(5),
+          'multipleAnswers' => $this->faker->boolean,
+          'multipleChoices' => $this->faker->boolean,
+          'points' => $this->faker->numberBetween(2, 10),
+          'answers' => [
+            ['id' => ExamPaperQuestionAnswer::factory()->state(['exam_paper_question_id' => $question->id])->create()->id, 'description' => $this->faker->sentence(5), 'isCorrect' => $this->faker->boolean],
+            ['description' => $this->faker->sentence(5), 'isCorrect' => $this->faker->boolean]
+          ],
+          'tags' => ExamPaperQuestionTag::factory()->count(3)->create()->toArray()
+        ]
       ]
     ];
+
     Permission::factory()->state(['name' => 'create exam paper question'])->create();
     $this->user->givePermissionTo('create exam paper question');
 

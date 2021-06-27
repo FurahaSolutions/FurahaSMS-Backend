@@ -6,12 +6,11 @@ namespace Okotieno\SchoolExams\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Okotieno\SchoolExams\Models\ExamPaper;
 use Okotieno\SchoolExams\Models\ExamPaperQuestion;
 use Okotieno\SchoolExams\Models\ExamPaperQuestionTag;
-use Okotieno\SchoolExams\Requests\ExamPaperQuestionStoreRequest;
 use Okotieno\SchoolExams\Requests\ExamPaperQuestionDeleteRequest;
+use Okotieno\SchoolExams\Requests\ExamPaperQuestionStoreRequest;
 
 class ExamPaperQuestionsController extends Controller
 {

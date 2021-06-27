@@ -1480,7 +1480,7 @@ class PermissionAndRolesSeeder extends Seeder
           'librarian',
           'student'
         ]
-      ],[
+      ], [
         'permission' => 'access e-learning',
         'roles' => [
           'admin',
@@ -1549,6 +1549,16 @@ class PermissionAndRolesSeeder extends Seeder
           'class teacher',
           'dean of students',
           'librarian',
+        ]
+      ],
+      [
+        'permission' => 'allocate unit levels to class levels',
+        'roles' => [
+          'admin',
+          'head teacher',
+          'deputy head teacher',
+          'class teacher',
+          'dean of students'
         ]
       ],
       [

@@ -11,8 +11,6 @@ use Tests\TestCase;
 
 class SemesterTest extends TestCase
 {
-  use WithFaker;
-  use DatabaseTransactions;
 
   private $semester;
 
