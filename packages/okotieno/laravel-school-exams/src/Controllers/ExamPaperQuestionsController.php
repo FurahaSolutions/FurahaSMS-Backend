@@ -11,25 +11,14 @@ use Okotieno\SchoolExams\Models\ExamPaper;
 use Okotieno\SchoolExams\Models\ExamPaperQuestion;
 use Okotieno\SchoolExams\Models\ExamPaperQuestionTag;
 use Okotieno\SchoolExams\Requests\ExamPaperQuestionStoreRequest;
+use Okotieno\SchoolExams\Requests\ExamPaperQuestionDeleteRequest;
 
 class ExamPaperQuestionsController extends Controller
 {
-  /**
-   * @param Request $request
-   * @param ExamPaper $examPaper
-   * @return JsonResponse
-   */
-  public function index(Request $request, ExamPaper $examPaper)
-  {
-    $response = [];
-
-    return response()->json(
-      $response
-    );
-  }
 
   /**
    * @param ExamPaper $examPaper
+   * @param ExamPaperQuestion $examPaperQuestion
    * @return JsonResponse
    */
 
@@ -41,8 +30,9 @@ class ExamPaperQuestionsController extends Controller
 
   public function store(ExamPaperQuestionStoreRequest $request, ExamPaper $examPaper)
   {
-    foreach ($request->all() as $req) {
-      $newPaperQuestion = $examPaper->questions()->find($req['id']);
+    foreach ($request->questions as $req) {
+      $id = key_exists('id', $req) ? $req['id'] : null;
+      $newPaperQuestion = $examPaper->questions()->find($id);
       if ($newPaperQuestion == null) {
         $newPaperQuestion = $examPaper->questions()->create([
           'description' => $req['description'],
@@ -91,9 +81,10 @@ class ExamPaperQuestionsController extends Controller
 
   /**
    * @param ExamPaperQuestion $examPaperQuestion
+   * @param ExamPaperQuestionDeleteRequest $request
    * @return array
    */
-  public function destroy(ExamPaperQuestion $examPaperQuestion)
+  public function destroy(ExamPaperQuestion $examPaperQuestion, ExamPaperQuestionDeleteRequest $request)
   {
     $examPaperQuestion->delete();
     return [

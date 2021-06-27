@@ -76,25 +76,24 @@ class ProcurementVendorsController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param int $id
-   * @return Response
+   * @param ProcurementVendor $vendor
+   * @return JsonResponse
    */
-  public function show($id)
+  public function show(ProcurementVendor $vendor)
   {
-    $procurementRequest = ProcurementVendor::find($id);
-    return $procurementRequest;
+    return response()->json($vendor);
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param ProcurementVendorUpdateRequest $request
-   * @param ProcurementVendor $procurementVendor
+   * @param ProcurementVendor $vendor
    * @return JsonResponse
    */
-  public function update(ProcurementVendorUpdateRequest $request, ProcurementVendor $procurementVendor)
+  public function update(ProcurementVendorUpdateRequest $request, ProcurementVendor $vendor)
   {
-    $procurementVendor->update([
+    $vendor->update([
       'name' => $request->name,
       'description' => $request->description,
       'physical_address' => $request->physical_address,
@@ -106,11 +105,11 @@ class ProcurementVendorsController extends Controller
       'saved' => true,
       'message' => 'Procurement Vendor saved Successfully',
       'data' => [
-        'id' => $procurementVendor->id,
-        'name' => $procurementVendor->name,
-        'description' => $procurementVendor->description,
-        'physical_address' => $procurementVendor->physical_address,
-        'contacts' => $procurementVendor->contacts
+        'id' => $vendor->id,
+        'name' => $vendor->name,
+        'description' => $vendor->description,
+        'physical_address' => $vendor->physical_address,
+        'contacts' => $vendor->contacts
       ]
     ])->setStatusCode(200);
   }
@@ -119,12 +118,12 @@ class ProcurementVendorsController extends Controller
    * Remove the specified resource from storage.
    *
    * @param ProcurementVendorDeleteRequest $request
-   * @param $id
+   * @param ProcurementVendor $vendor
    * @return JsonResponse
    */
-  public function destroy(ProcurementVendorDeleteRequest $request, $id)
+  public function destroy(ProcurementVendorDeleteRequest $request,  ProcurementVendor $vendor)
   {
-    ProcurementVendor::destroy($id);
+    $vendor->delete();
     return response()->json([
       'saved' => true,
       'message' => 'Procurement Vendor deleted successfully'
