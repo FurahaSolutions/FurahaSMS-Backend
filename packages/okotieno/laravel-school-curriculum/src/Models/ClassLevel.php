@@ -13,7 +13,7 @@ use Okotieno\SchoolCurriculum\Traits\TaughtUnitLevels;
 
 class ClassLevel extends Model
 {
-    use softDeletes, TaughtUnitLevels, HasFactory;
+    use softDeletes,  TaughtUnitLevels, HasFactory;
     protected $fillable = ['name', 'abbreviation', 'active'];
     public $timestamps = false;
     protected $hidden = ['deleted_at'];
@@ -44,11 +44,5 @@ class ClassLevel extends Model
             'abbreviation' => $request->abbreviation
         ]);
         return $classLevel;
-    }
-
-
-  public function unitLevels() {
-        return $this->belongsToMany(UnitLevel::class, 'academic_year_unit_allocations')
-            ->withPivot('academic_year_id');
     }
 }
