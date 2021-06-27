@@ -3,8 +3,10 @@
 namespace Okotieno\SchoolCurriculum\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
+use Okotieno\SchoolCurriculum\Requests\ClassLevelUnitLevelStoreRequest;
 use Okotieno\SchoolCurriculum\Requests\CreateClassLevelRequest;
 
 
@@ -13,9 +15,10 @@ class ClassLevelUnitLevelsController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @param Request $request
+   * @return JsonResponse
    */
-  public function index(Request $request)
+  public function index(Request $request): JsonResponse
   {
     $classLevels = ClassLevel::all();
     foreach ($classLevels as $key => $classLevel) {
@@ -28,53 +31,17 @@ class ClassLevelUnitLevelsController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param CreateClassLevelRequest $request
-   * @return \Illuminate\Http\JsonResponse
+   * @param ClassLevelUnitLevelStoreRequest $request
+   * @return JsonResponse
    */
-  public function store(Request $request)
+  public function store(ClassLevelUnitLevelStoreRequest $request): JsonResponse
   {
     ClassLevel::saveUnitAllocations($request->all());
     return response()->json([
       'saved' => true,
       'message' => 'Successfully saved Allocations'
-    ]);
+    ])->setStatusCode(201);
 
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param ClassLevel $classLevel
-   * @param Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show(ClassLevel $classLevel, Request $request)
-  {
-    return response()->json($classLevel);
-  }
-
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param ClassLevel $classLevel
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function update(ClassLevel $classLevel)
-  {
-
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param ClassLevel $classLevel
-   * @return void
-   * @throws \Exception
-   */
-  public function destroy(ClassLevel $classLevel)
-  {
-
-  }
 }
