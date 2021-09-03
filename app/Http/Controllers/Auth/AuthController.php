@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Exceptions\OAuthServerException;
 use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
 use League\OAuth2\Server\AuthorizationServer;
@@ -23,9 +23,9 @@ class AuthController extends Controller
   /**
    * The authorization server.
    *
-   * @var \League\OAuth2\Server\AuthorizationServer
+   * @var AuthorizationServer
    */
-  protected $server;
+  protected AuthorizationServer $server;
 
 
   public function __construct(AuthorizationServer $server)
@@ -34,11 +34,16 @@ class AuthController extends Controller
     $this->server = $server;
   }
 
+
+  protected function guard()
+  {
+    return Auth::guard('api');
+  }
+
   /**
    * Login user and create token
    *
    * @param ServerRequestInterface $request
-   * @return JsonResponse [string] access_token
    * @throws OAuthServerException
    */
   public function login(ServerRequestInterface $request)
@@ -48,9 +53,7 @@ class AuthController extends Controller
       'email' => request()->username,
     ];
 
-    $validAuth = false;
-
-    if (Auth::attempt($credentials)) {
+    if (Auth::guard('web')->attempt($credentials)) {
       return $this->withErrorHandling(function () use ($request) {
         return $this->convertResponse(
           $this->server->respondToAccessTokenRequest($request, new Psr7Response)
@@ -58,23 +61,22 @@ class AuthController extends Controller
       });
     }
 
+    $validAuth = false;
 
-    if (!$validAuth) {
-      $loginByAdmissionNumber = Student::where('student_school_id_number', request()->username)->first();
-      if ($loginByAdmissionNumber) {
-        $credentials = [
-          'id' => $loginByAdmissionNumber->user->id,
-          'password' => request()->password,
-        ];
-        if (Auth::attempt($credentials)) {
-          $validAuth = true;
-        }
+    $loginByAdmissionNumber = Student::where('student_school_id_number', request()->username)->first();
+    if ($loginByAdmissionNumber) {
+      $credentials = [
+        'id' => $loginByAdmissionNumber->user->id,
+        'password' => request()->password,
+      ];
+      if (Auth::guard('web')->attempt($credentials)) {
+        $validAuth = true;
       }
     }
 
 
     if ($validAuth) {
-      $user = auth()->user();
+      $user = auth()->guard('web')->user();
 
       $tokenResult = $user->createToken('Personal Access Token');
       $token = $tokenResult->token;

@@ -3,6 +3,7 @@
 namespace Okotieno\PermissionsAndRoles\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\PermissionsAndRoles\Models\Role;
 use Okotieno\PermissionsAndRoles\Requests\UpdateUserRoleRequest;
@@ -13,7 +14,7 @@ class PermissionsRolesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index( Request $request)
     {

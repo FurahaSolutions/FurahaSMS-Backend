@@ -20,6 +20,6 @@ abstract class TestCase extends BaseTestCase
   {
     parent::setUp();
 //    $this->setupDatabase();
-    $this->user = User::factory()->create();
+    $this->user = User::find(User::factory()->create()->id);
   }
 }

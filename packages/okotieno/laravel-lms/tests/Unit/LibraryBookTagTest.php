@@ -122,7 +122,7 @@ class LibraryBookTagTest extends TestCase
    */
   public function authenticated_users_with_permission_can_create_book_tag()
   {
-    Permission::factory()->state(['name' => 'create library book tag'])->create();
+    Permission::factory()->state(["guard_name" => "api", 'name' => 'create library book tag'])->create();
     $this->user->givePermissionTo('create library book tag');
     $response = $this->actingAs($this->user, 'api')
       ->postJson('/api/library-books/tags', $this->bookTag)
