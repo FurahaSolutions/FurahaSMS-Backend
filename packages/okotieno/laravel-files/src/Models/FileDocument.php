@@ -21,7 +21,8 @@ class FileDocument extends Model
     'extension',
     'mme_type',
     'size',
-    'file_path'
+    'file_path',
+    'uploaded_by'
   ];
 
 }

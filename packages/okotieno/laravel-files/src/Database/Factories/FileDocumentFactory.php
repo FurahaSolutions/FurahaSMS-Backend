@@ -4,6 +4,7 @@
 namespace Okotieno\Files\Database\Factories;
 
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Okotieno\Files\Models\FileDocument;
 
@@ -20,6 +21,7 @@ class FileDocumentFactory extends Factory
       'mme_type'=> $this->faker->fileExtension,
       'size'=> $this->faker->randomNumber(3),
       'file_path'=> $this->faker->filePath(),
+      'uploaded_by' => User::factory()->create()->id
     ];
   }
 }

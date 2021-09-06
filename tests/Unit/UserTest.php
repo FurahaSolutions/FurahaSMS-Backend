@@ -159,7 +159,7 @@ class UserTest extends TestCase
    */
   public function authenticated_users_with_permission_can_update_profile_picture()
   {
-    $fileDocument = FileDocument::factory()->state(['user_id' => $this->user->id])->create();
+    $fileDocument = FileDocument::factory()->create();
     $user = User::factory()->create();
     Permission::factory()->state(['name' => 'update user profile'])->create();
     $this->user->givePermissionTo('update user profile');

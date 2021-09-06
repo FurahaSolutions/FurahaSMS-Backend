@@ -21,7 +21,8 @@ class CreateFileDocumentsTable extends Migration
             $table->string('file_path')->unique();
             $table->string('mme_type');
             $table->string('size');
-            $table->foreignId('user_id');
+            $table->foreignId('uploaded_by');
+            $table->foreign('uploaded_by')->on('users')->references('id');
             $table->timestamps();
         });
     }

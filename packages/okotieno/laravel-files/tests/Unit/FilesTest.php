@@ -3,8 +3,10 @@
 namespace Okotieno\Files\Tests\Unit;
 
 use App\Models\User;
+use Illuminate\Http\Testing\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Okotieno\Files\Models\FileDocument;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Tests\TestCase;
 
@@ -23,6 +25,53 @@ class FilesTest extends TestCase
   {
     $this->getJson('/api/files')
       ->assertStatus(401);
+  }
+
+  /**
+   * POST /api/files
+   * @group files
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_download_profile_picture()
+  {
+    Storage::fake('local');
+    $file = File::create('profile_pic' . rand(1000000, 9999999999), 100);
+    $user = User::factory()->create();
+    $user->profilePics()->create([
+      'file_document_id' => FileDocument::factory()->state([
+        'file_path' => $file->store('profile_pics', 'local')
+      ])->create()->id,
+      'model' => User::class,
+      'model_id' => $user->id
+    ]);
+    $this->actingAs($this->user, 'api')
+      ->get('/api/files?profilePicture=true&userId=' . $user->id)
+      ->assertStatus(200)
+      ->assertDownload();
+  }
+
+  /**
+   * POST /api/files
+   * @group files
+   * @group get-request
+   * @test
+   * @return void
+   */
+
+  public function authenticated_users_can_download_file_by_document_id()
+  {
+    Storage::fake('local');
+    $file = File::create('file' . rand(1000000, 9999999999), 100);
+    $fileDocument = FileDocument::factory()->state([
+      'file_path' => $file->store('profile_pics', 'local')
+    ])->create();
+
+    $this->actingAs($this->user, 'api')
+      ->get('/api/files/' . $fileDocument->id)
+      ->assertStatus(200)
+      ->assertDownload();
   }
 
   /**

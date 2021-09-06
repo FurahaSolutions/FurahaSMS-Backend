@@ -14,8 +14,8 @@ class FilesController extends Controller
 {
   public function index(Request $request)
   {
-    $userId = $request->userId;
-    $profilePicture = $request->profilePicture;
+    $userId = $request->get('userId');
+    $profilePicture = $request->boolean('profilePicture');
     if ($profilePicture && ($userId !== null)) {
       $picture = User::find($userId)->profilePics->last();
       if ($picture != null) {

@@ -8,6 +8,6 @@ trait CanSaveFileDocument
 {
   public function uploadFileDocument()
   {
-    return $this->hasMany(FileDocument::class);
+    return $this->hasMany(FileDocument::class, 'uploaded_by');
   }
 }

@@ -11,7 +11,7 @@ class ProfilePic extends Model
 
   protected $fillable = [
     'file_document_id',
-    'user_id',
+    'model_id',
     'model'
   ];
 
