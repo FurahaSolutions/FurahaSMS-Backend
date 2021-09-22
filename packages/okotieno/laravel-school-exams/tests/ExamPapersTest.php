@@ -2,9 +2,8 @@
 
 namespace Okotieno\SchoolExams\Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\SchoolExams\Models\ExamInstruction;
 use Okotieno\SchoolExams\Models\ExamPaper;
 use Tests\TestCase;
 
@@ -19,6 +18,71 @@ class ExamPapersTest extends TestCase
   }
 
   private array $examPaper;
+
+  /**
+   * GET /api/exam-papers
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_get_exam_papers()
+  {
+    $this->getJson('/api/exam-papers')
+      ->assertStatus(401);
+
+  }
+
+  /**
+   * GET /api/exam-papers
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_get_exam_paper_they_created()
+  {
+    ExamPaper::factory()->state(['created_by' => $this->user->id])->count(8)->create();
+
+    $this->actingAs($this->user, 'api')->getJson('/api/exam-papers?self=true&latest=5')
+      ->assertStatus(200)
+      ->assertJsonCount(5)
+      ->assertJsonStructure([['name', 'id']]);
+
+  }
+
+  /**
+   * GET /api/exam-papers
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function unauthenticated_users_cannot_get_exam_paper()
+  {
+    $examPaper = ExamPaper::factory()->create();
+    $this->getJson('/api/exam-papers/' . $examPaper->id)
+      ->assertStatus(401);
+
+  }
+
+  /**
+   * GET /api/exam-papers
+   * @group exam-papers
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_get_exam_paper()
+  {
+    $examPaper = ExamPaper::factory()->create();
+    $this->actingAs($this->user, 'api')->getJson('/api/exam-papers/' . $examPaper->id)
+      ->assertStatus(200)
+      ->assertJsonFragment(['id' => $examPaper->id])
+      ->assertJsonFragment(['name' => $examPaper->name])
+      ->assertJsonStructure(['instructions', 'questions']);
+
+  }
 
   /**
    * POST /api/exam-papers
@@ -70,6 +134,24 @@ class ExamPapersTest extends TestCase
    * @test
    * @return void
    */
+  public function authenticated_users_with_permission_can_create_exam_paper_with_instructions()
+  {
+    Permission::factory()->state(['name' => 'create exam paper'])->create();
+    $this->user->givePermissionTo('create exam paper');
+    $examPaper = array_merge($this->examPaper,
+      ['instructions' => ExamInstruction::factory()->count(3)->make()]
+    );
+    $response = $this->actingAs($this->user, 'api')->postJson('/api/exam-papers', $examPaper);
+    $response->assertStatus(201);
+  }
+
+  /**
+   * POST /api/exam-papers
+   * @group exam-papers
+   * @group post-request
+   * @test
+   * @return void
+   */
   public function should_return_error_422_if_name_not_provided()
   {
     $this->examPaper['name'] = '';
@@ -78,7 +160,6 @@ class ExamPapersTest extends TestCase
     $this->actingAs($this->user, 'api')->postJson('/api/exam-papers', $this->examPaper)
       ->assertStatus(422);
   }
-
 
 
   /**

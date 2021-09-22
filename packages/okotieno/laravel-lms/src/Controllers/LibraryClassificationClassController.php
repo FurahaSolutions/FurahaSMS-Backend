@@ -15,7 +15,7 @@ class LibraryClassificationClassController extends Controller
     if ($request->flat) {
       return $libraryClassification
         ->libraryClasses()
-        ->whereNull('library_class_id')->get();
+        ->whereNull('library_class_id') ->get();
     }
     if ($request->library_class) {
       return LibraryClass::find($request->library_class)

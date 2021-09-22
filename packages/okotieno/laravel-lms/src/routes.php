@@ -21,10 +21,10 @@ Route::middleware(['auth:api', 'bindings'])->group(function () {
       'library-books/authors' => LibraryBookAuthorController::class,
       'library-books/publishers' => LibraryBookPublisherController::class,
       'library-books/users' => LibraryUserController::class,
+      'library-books/library-book-items' => LibraryBookItemController::class
     ]);
 
     Route::get('library-classes', [LibraryClassificationController::class, 'index']);
-    Route::get('library-books/library-book-items', [LibraryBookItemController::class,'index']);
     Route::apiResources([
       'library-books/issue' => LibraryBookIssueController::class,
       'library-books/{libraryBook}/library-book-items' => LibraryBookItemController::class,

@@ -22,10 +22,9 @@ class ExamPaperQuestionsController extends Controller
    * @return JsonResponse
    */
 
-  public function show(ExamPaper $examPaper, ExamPaperQuestion $examPaperQuestion)
+  public function show(ExamPaper $examPaper,  ExamPaperQuestion $question)
   {
-
-    return response()->json($examPaperQuestion);
+    return response()->json($question);
   }
 
   public function store(ExamPaperQuestionStoreRequest $request, ExamPaper $examPaper)

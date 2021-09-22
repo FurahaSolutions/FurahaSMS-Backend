@@ -2,9 +2,10 @@
 
 namespace Okotieno\LMS\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLibraryBookItemRequest extends FormRequest
+class DeleteLibraryBookItemRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class UpdateLibraryBookItemRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('update library book item');
+    return auth()->user()->can('delete library book item');
   }
 
   /**
@@ -28,17 +29,11 @@ class UpdateLibraryBookItemRequest extends FormRequest
     ];
   }
 
-  public function messages()
-  {
-    return [
-      'ref.required' => 'The book Unique Reference is required',
-    ];
-  }
 
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
-      'You are not authorised to update library book item'
+    throw new AuthorizationException(
+      'You are not authorised to delete library book item'
     );
   }
 }

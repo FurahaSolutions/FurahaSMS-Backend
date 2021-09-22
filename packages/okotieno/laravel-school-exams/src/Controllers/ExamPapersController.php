@@ -21,7 +21,7 @@ class ExamPapersController extends Controller
   public function index(Request $request)
   {
     $response = [];
-    if ($request->self !== null) {
+    if ($request->boolean('self') !== null) {
       foreach (User::find(auth()->id())->createdExamPapers as $examPaper) {
         $response[] = [
           'id' => $examPaper->id,

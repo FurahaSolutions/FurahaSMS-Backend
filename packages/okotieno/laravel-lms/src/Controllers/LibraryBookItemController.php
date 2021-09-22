@@ -4,11 +4,13 @@ namespace Okotieno\LMS\Controllers;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Okotieno\LMS\Models\LibraryBook;
 use Okotieno\LMS\Models\LibraryBookItem;
 use Okotieno\LMS\Requests\StoreLibraryBookItemRequest;
 use Okotieno\LMS\Requests\UpdateLibraryBookItemRequest;
+use Okotieno\LMS\Requests\DeleteLibraryBookItemRequest;
 
 class LibraryBookItemController extends Controller
 {
@@ -34,24 +36,28 @@ class LibraryBookItemController extends Controller
    *
    * @param LibraryBook $libraryBook
    * @param StoreLibraryBookItemRequest $request
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function store(LibraryBook $libraryBook, StoreLibraryBookItemRequest $request)
+  public function store(StoreLibraryBookItemRequest $request)
   {
-    $procument_date = Carbon::now();
+    $libraryBook = LibraryBook::find($request->get('library_book_id'));
+
+    $procurement_date = Carbon::now();
     if ($request->procurement_date != null && $request->procurement_date != "") {
-      $procument_date = Carbon::createFromTimeString($request->procurement_date);
+      $procurement_date = Carbon::create($request->procurement_date);
     }
-    $libraryBook->libraryBookItems()->create([
+
+    $libraryBookItem = $libraryBook->libraryBookItems()->create([
       'ref' => $request->ref,
-      'procurement_date' => $procument_date,
+      'procurement_date' => $procurement_date,
       'reserved' => $request->reserved
     ]);
 
     return response()->json([
       'saved' => true,
       'message' => 'Book saved Successfully',
-    ]);
+      'data' => $libraryBookItem
+    ])->setStatusCode(201);
   }
 
 
@@ -62,9 +68,9 @@ class LibraryBookItemController extends Controller
    * @param UpdateLibraryBookItemRequest $request
    * @param LibraryBook $libraryBook
    * @param LibraryBookItem $libraryBookItem
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function update(UpdateLibraryBookItemRequest $request, LibraryBook $libraryBook, LibraryBookItem $libraryBookItem)
+  public function update(UpdateLibraryBookItemRequest $request, LibraryBookItem $libraryBookItem): JsonResponse
   {
     $libraryBookItem->update([
       'ref' => $request->ref,
@@ -82,11 +88,11 @@ class LibraryBookItemController extends Controller
    *
    * @param LibraryBook $libraryBook
    * @param LibraryBookItem $libraryBookItem
-   * @return \Illuminate\Http\JsonResponse
+   * @return JsonResponse
    */
-  public function destroy(LibraryBook $libraryBook, LibraryBookItem $libraryBookItem)
+  public function destroy(DeleteLibraryBookItemRequest $request, LibraryBookItem $libraryBookItem)
   {
-    LibraryBookItem::destroy($libraryBookItem->id);
+    $libraryBookItem->delete();
     return response()->json([
       'saved' => true,
       'message' => 'Book Item Deleted Successfully',

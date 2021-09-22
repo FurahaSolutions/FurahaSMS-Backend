@@ -79,6 +79,23 @@ class AcademicYearTest extends TestCase
    * @test
    * @return void
    */
+  public function authenticated_users_can_retrieve_academic_years()
+  {
+    AcademicYear::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/academic-years')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name']]);
+  }
+
+
+  /**
+   * GET /academic-year
+   * @group academic-year
+   * @group get-request
+   * @test
+   * @return void
+   */
   public function authenticated_users_without_permission_cannot_retrieve_deleted_academic_year()
   {
     $time = (new Carbon())->format('Y-m-d h:m:s');
@@ -528,7 +545,7 @@ class AcademicYearTest extends TestCase
     $this->user->givePermissionTo('restore academic year');
     $academicYear = AcademicYear::factory()->deleted()->create();
     $res = $this->actingAs($this->user, 'api')
-      ->postJson('/api/academic-years/' . $academicYear->id. '/restore');
+      ->postJson('/api/academic-years/' . $academicYear->id . '/restore');
     $res->assertStatus(200)
       ->assertJsonStructure(['saved', 'message']);
     $this->assertNotNull(AcademicYear::find($academicYear->id));

@@ -14,7 +14,7 @@ class StoreLibraryBookItemRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->user()->can('create library book');
+    return auth()->user()->can('create library book item');
   }
 
   /**

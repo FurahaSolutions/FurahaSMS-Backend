@@ -53,28 +53,4 @@ class ClassLevelUnitLevelsController extends Controller
     return response()->json($classLevel);
   }
 
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param ClassLevel $classLevel
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function update(ClassLevel $classLevel)
-  {
-
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param ClassLevel $classLevel
-   * @return void
-   * @throws \Exception
-   */
-  public function destroy(ClassLevel $classLevel)
-  {
-
-  }
 }

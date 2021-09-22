@@ -10,6 +10,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Okotieno\LMS\Database\Factories\LibraryBookFactory;
 
+/**
+ * @method static find(mixed $get)
+ */
 class LibraryBook extends Model
 {
   use SoftDeletes, HasFactory;

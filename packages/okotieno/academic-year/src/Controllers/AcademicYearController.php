@@ -39,10 +39,6 @@ class AcademicYearController extends Controller
       return response()->json(AcademicYear::whereNotNull('archived_at')->get());
     }
 
-    if ($request->archived !== null && !$request->boolean('archived')) {
-      return response()->json(AcademicYear::whereNotNull('archived_at')->get());
-    }
-
     return response()->json(AcademicYear::all());
   }
 

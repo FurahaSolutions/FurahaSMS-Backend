@@ -5,6 +5,7 @@ namespace Okotieno\AcademicYear\Tests\Unit;
 
 
 use Okotieno\AcademicYear\Models\AcademicYear;
+use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
@@ -49,9 +50,11 @@ class AcademicYearUnitLevelTest extends TestCase
    */
   public function authenticated_users_can_retrieve_academic_year_unit_levels_with_class_level()
   {
-    $academicYear = AcademicYear::factory()->create();
+//    $academicYear = AcademicYear::factory()->create();
+    $academicYearUnitAllocation = AcademicYearUnitAllocation::factory()->create();
+    $academic_year_id = $academicYearUnitAllocation->academic_year_id;
     $this->actingAs($this->user, 'api')
-      ->getJson('/api/academic-years/' . $academicYear->id . '/unit-levels?class_level=1', [])
+      ->getJson('/api/academic-years/' . $academic_year_id . '/unit-levels?class_level='. $academicYearUnitAllocation->class_level_id)
       ->assertStatus(200);
   }
 

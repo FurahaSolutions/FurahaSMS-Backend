@@ -62,6 +62,18 @@ class PermissionAndRolesSeeder extends Seeder
         'roles' => ['admin', 'librarian']
       ],
       [
+        'permission' => 'create library book item',
+        'roles' => ['admin', 'librarian']
+      ],
+      [
+        'permission' => 'update library book item',
+        'roles' => ['admin', 'librarian']
+      ],
+      [
+        'permission' => 'delete library book item',
+        'roles' => ['admin', 'librarian']
+      ],
+      [
         'permission' => 'create library book',
         'roles' => ['admin', 'librarian']
       ],
