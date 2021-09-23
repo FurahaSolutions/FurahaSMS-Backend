@@ -49,9 +49,27 @@ class UnitTest extends TestCase
   public function authenticated_users_can_retrieve_units()
   {
     Unit::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/units', $this->unit)
+    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/units')
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'name']]);
+
+  }
+
+  /**
+   * GET /api/curriculum/units
+   * @group curriculum
+   * @group unit
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_units_with_unit_levels()
+  {
+    Unit::factory()->count(3)->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/curriculum/units?include_unit_levels=true')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name', 'unit_levels']]);
 
   }
 
@@ -85,6 +103,24 @@ class UnitTest extends TestCase
     $this->actingAs($this->user, 'api')->getJson('/api/curriculum/units/' . $unit->id)
       ->assertStatus(200)
       ->assertJsonStructure(['id', 'name']);
+
+  }
+
+  /**
+   * GET /api/curriculum/units/:id
+   * @group curriculum
+   * @group unit
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_unit_with_unit_levels()
+  {
+    $unit = Unit::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/units/{$unit->id}?include_unit_levels=true")
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'name', 'unit_levels']);
 
   }
 

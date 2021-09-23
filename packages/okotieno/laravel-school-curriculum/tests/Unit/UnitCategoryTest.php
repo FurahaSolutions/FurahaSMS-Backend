@@ -32,7 +32,7 @@ class UnitCategoryTest extends TestCase
    * @test
    * @return void
    */
-  public function unauthenticated_users_cannot_retrieve_unit_categorys()
+  public function unauthenticated_users_cannot_retrieve_unit_categories()
   {
     $this->getJson('/api/curriculum/unit-categories', $this->unitCategory)
       ->assertStatus(401);
@@ -50,12 +50,29 @@ class UnitCategoryTest extends TestCase
   public function authenticated_users_can_retrieve_unit_categories()
   {
     UnitCategory::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/unit-categories', $this->unitCategory)
+    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/unit-categories')
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'name']]);
 
   }
 
+  /**
+   * GET /api/curriculum/unit-categories
+   * @group curriculum
+   * @group unit-category
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_unit_categories_with_units()
+  {
+    UnitCategory::factory()->state(['active' => true])->count(2)->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/unit-categories?only_active=true")
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name']]);
+
+  }
   /**
    * GET /api/curriculum/unit-categories/:id
    * @group curriculum
@@ -86,6 +103,24 @@ class UnitCategoryTest extends TestCase
     $this->actingAs($this->user, 'api')->getJson('/api/curriculum/unit-categories/' . $unitCategory->id)
       ->assertStatus(200)
       ->assertJsonStructure(['id', 'name']);
+
+  }
+
+  /**
+   * GET /api/curriculum/unit-categories/:id
+   * @group curriculum
+   * @group unit-category
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_unit_category_with_units()
+  {
+    $unitCategory = UnitCategory::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/unit-categories/{$unitCategory->id}?include_units=true")
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'name', 'units']);
 
   }
 

@@ -82,6 +82,24 @@ class ClassLevelCategoryTest extends TestCase
 
   }
 
+  /**
+   * GET /api/curriculum/class-level-categories/:id
+   * @group curriculum
+   * @group class-level-category
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_class_level_category_with_class_levels()
+  {
+    $classLevelCategory = ClassLevelCategory::factory()->create();
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/class-level-categories/{$classLevelCategory->id}?class_level=true")
+      ->assertStatus(200)
+      ->assertJsonStructure(['id', 'name', 'class_levels']);
+
+  }
+
 
   /**
    * POST /api/curriculum/class-level-categories

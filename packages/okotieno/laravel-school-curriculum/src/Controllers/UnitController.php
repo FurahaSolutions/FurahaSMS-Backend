@@ -21,7 +21,7 @@ class UnitController extends Controller
   public function index(Request $request)
   {
     $units = Unit::all();
-    if ($request->unit_levels) {
+    if ($request->boolean('include_unit_levels')) {
       foreach ($units as $index => $unit) {
         $units[$index]->unitLevels;
       }
@@ -55,7 +55,7 @@ class UnitController extends Controller
    */
   public function show(Unit $unit, Request $request)
   {
-    if ($request->include_unit_levels == 1) {
+    if ($request->boolean('include_unit_levels')) {
       $unit->unitLevels;
       foreach ($unit->unitLevels as $key => $unitLevel) {
         $unit->unitLevels[$key]->semesters;

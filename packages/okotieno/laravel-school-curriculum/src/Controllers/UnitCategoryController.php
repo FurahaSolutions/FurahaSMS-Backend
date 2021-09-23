@@ -20,13 +20,10 @@ class UnitCategoryController extends Controller
    */
   public function index(Request $request)
   {
-    if ($request->active == 1) {
+    if ($request->boolean('only_active')) {
       return response()->json(UnitCategory::active()->get());
     }
-    if ($request->id) {
-      $unitCategory = response()->json(UnitCategory::find($request->id));
-      return $unitCategory;
-    }
+
     return response()->json(UnitCategory::all());
   }
 
@@ -56,7 +53,7 @@ class UnitCategoryController extends Controller
    */
   public function show(UnitCategory $unitCategory, Request $request)
   {
-    if ($request->units == 1) {
+    if ($request->boolean('include_units' )) {
       $unitCategory->units;
     }
     return response()->json(

@@ -149,7 +149,6 @@ class ExamPapersQuestionTest extends TestCase
     $examPaperQuestionAnswer = ExamPaperQuestionAnswer::factory()->create();
     $examPaperQuestion = ExamPaperQuestion::find($examPaperQuestionAnswer->exam_paper_question_id);
     $examPaper = ExamPaper::find($examPaperQuestion->exam_paper_id);
-    echo "/api/exam-papers/{$examPaper->id}/questions";
     $questions = [
       'questions' => [
         [

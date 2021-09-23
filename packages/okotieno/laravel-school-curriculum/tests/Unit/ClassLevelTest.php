@@ -2,8 +2,10 @@
 
 namespace Okotieno\SchoolCurriculum\Tests\Unit;
 
+use Okotieno\AcademicYear\Models\AcademicYear;
 use Okotieno\PermissionsAndRoles\Models\Permission;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
+use Okotieno\SchoolCurriculum\Models\UnitLevel;
 use Tests\TestCase;
 
 
@@ -43,7 +45,60 @@ class ClassLevelTest extends TestCase
   public function authenticated_users_can_retrieve_class_levels()
   {
     ClassLevel::factory()->count(3)->create();
-    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/class-levels', $this->classLevel)
+    $this->actingAs($this->user, 'api')->getJson('/api/curriculum/class-levels')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name']]);
+
+  }
+
+  /**
+   * GET /api/curriculum/class-levels
+   * @group curriculum
+   * @group class-level
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_class_levels_with_levels()
+  {
+    $classLevels = ClassLevel::factory()->count(3)->create();
+    foreach ($classLevels as $classLevel) {
+      $classLevel->unitLevels()->save(UnitLevel::factory()->create(), [
+        'academic_year_id' => AcademicYear::factory()->create()->id
+      ]);
+    }
+
+    $this->actingAs($this->user, 'api')
+      ->getJson('/api/curriculum/class-levels?include_levels=true')
+      ->assertStatus(200)
+      ->assertJsonStructure([['id', 'name']]);
+
+  }
+
+
+  /**
+   * GET /api/curriculum/class-levels
+   * @group curriculum
+   * @group class-level
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_class_levels_with_levels_by_academic_year()
+  {
+    $academicYearId = AcademicYear::factory()->create()->id;
+    $classLevels = ClassLevel::factory()->count(3)->create();
+    foreach ($classLevels as $classLevel) {
+      $classLevel->unitLevels()->save(UnitLevel::factory()->create(), [
+        'academic_year_id' => $academicYearId
+      ]);
+      $classLevel->unitLevels()->save(UnitLevel::factory()->create(), [
+        'academic_year_id' => AcademicYear::factory()->create()->id
+      ]);
+    }
+
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/class-levels?include_levels=true&academic_year_id={$academicYearId}")
       ->assertStatus(200)
       ->assertJsonStructure([['id', 'name']]);
 

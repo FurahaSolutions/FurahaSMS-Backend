@@ -4,7 +4,10 @@ namespace Okotieno\SchoolCurriculum\Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Okotieno\AcademicYear\Models\AcademicYear;
+use Okotieno\AcademicYear\Models\AcademicYearUnitAllocation;
 use Okotieno\PermissionsAndRoles\Models\Permission;
+use Okotieno\SchoolCurriculum\Models\ClassLevel;
 use Okotieno\SchoolCurriculum\Models\UnitLevel;
 use Okotieno\SchoolStreams\Models\Stream;
 use Tests\TestCase;
@@ -56,6 +59,81 @@ class UnitLevelTest extends TestCase
 
   }
 
+
+  /**
+   * GET /api/curriculum/unit-levels
+   * @group curriculum
+   * @group unit-level
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_unit_levels_by_academic_year_id_and_class_level_id()
+  {
+    $classLevels = ClassLevel::factory()->count(3)->create();
+    $academicYears = AcademicYear::factory()->count(3)->create();
+
+    AcademicYearUnitAllocation::factory()->state([
+      'academic_year_id'=> $academicYears[1]->id,
+      'class_level_id'=> $classLevels[0]->id
+    ])->count(2)->create();
+
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/unit-levels?academic_year_id={$academicYears[1]->id}&class_level_id={$classLevels[0]->id}")
+      ->assertStatus(200)
+      ->assertJsonStructure([['unit_level_name']]);
+
+  }
+
+  /**
+   * GET /api/curriculum/unit-levels
+   * @group curriculum
+   * @group unit-level
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_unit_levels_by_academic_year_id()
+  {
+    $classLevels = ClassLevel::factory()->count(3)->create();
+    $academicYears = AcademicYear::factory()->count(3)->create();
+
+    AcademicYearUnitAllocation::factory()->state([
+      'academic_year_id'=> $academicYears[1]->id,
+      'class_level_id'=> $classLevels[0]->id
+    ])->count(2)->create();
+
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/unit-levels?academic_year_id={$academicYears[1]->id}")
+      ->assertStatus(200)
+      ->assertJsonStructure([['unit_level_name']]);
+
+  }
+
+  /**
+   * GET /api/curriculum/unit-levels
+   * @group curriculum
+   * @group unit-level
+   * @group get-request
+   * @test
+   * @return void
+   */
+  public function authenticated_users_can_retrieve_unit_levels_by_class_level_id()
+  {
+    $classLevels = ClassLevel::factory()->count(3)->create();
+    $academicYears = AcademicYear::factory()->count(3)->create();
+
+    AcademicYearUnitAllocation::factory()->state([
+      'academic_year_id'=> $academicYears[1]->id,
+      'class_level_id'=> $classLevels[0]->id
+    ])->count(2)->create();
+
+    $this->actingAs($this->user, 'api')
+      ->getJson("/api/curriculum/unit-levels?class_level_id={$classLevels[0]->id}")
+      ->assertStatus(200)
+      ->assertJsonStructure([['unit_level_name']]);
+
+  }
   /**
    * GET /api/curriculum/unit-levels/:id
    * @group curriculum

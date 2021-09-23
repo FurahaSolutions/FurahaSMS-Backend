@@ -47,8 +47,8 @@ class ClassLevelCategoryController extends Controller
    */
   public function show(ClassLevelCategory $classLevelCategory, Request $request)
   {
-    if ($request->class_level == 1) {
-      $classLevelCategory->classLevels;
+    if ($request->boolean('class_level')) {
+      (function () use ($classLevelCategory) { return $classLevelCategory->classLevels ;})();
     }
     return response()->json($classLevelCategory);
   }
@@ -56,11 +56,11 @@ class ClassLevelCategoryController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param Request $request
+   * @param UpdateClassLevelCategoryRequest $request
    * @param ClassLevelCategory $classLevelCategory
    * @return JsonResponse
    */
-  public function update(UpdateClassLevelCategoryRequest $request, ClassLevelCategory $classLevelCategory)
+  public function update(UpdateClassLevelCategoryRequest $request, ClassLevelCategory $classLevelCategory): JsonResponse
   {
     $classLevelCategory = ClassLevelCategory::updateClassLevelCategory($classLevelCategory, $request);
     return response()->json([
@@ -78,7 +78,7 @@ class ClassLevelCategoryController extends Controller
    * @return JsonResponse
    * @throws \Exception
    */
-  public function destroy(DeleteClassLevelCategoryRequest $request, ClassLevelCategory $classLevelCategory)
+  public function destroy(DeleteClassLevelCategoryRequest $request, ClassLevelCategory $classLevelCategory): JsonResponse
   {
     $classLevelCategory->delete();
     return response()->json([

@@ -5,7 +5,7 @@ namespace Okotieno\SchoolCurriculum\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Okotieno\SchoolCurriculum\Models\ClassLevel;
-use Okotieno\SchoolCurriculum\Requests\CreateClassLevelRequest;
+use Okotieno\SchoolCurriculum\Requests\CreateClassLevelUnitLevelRequest;
 
 
 class ClassLevelUnitLevelsController extends Controller
@@ -28,29 +28,16 @@ class ClassLevelUnitLevelsController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param CreateClassLevelRequest $request
+   * @param CreateClassLevelUnitLevelRequest $request
    * @return \Illuminate\Http\JsonResponse
    */
-  public function store(Request $request)
+  public function store(CreateClassLevelUnitLevelRequest $request)
   {
-    ClassLevel::saveUnitAllocations($request->all());
+    ClassLevel::saveUnitAllocations($request->get('allocations'));
     return response()->json([
       'saved' => true,
       'message' => 'Successfully saved Allocations'
     ]);
-
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param ClassLevel $classLevel
-   * @param Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show(ClassLevel $classLevel, Request $request)
-  {
-    return response()->json($classLevel);
   }
 
 }
